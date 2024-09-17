@@ -4,7 +4,7 @@ const User = require("./User");
 const Restaurant = require("./Restaurant");
 const MenuItem = require("./MenuItem");
 const Order = require("./Order");
-
+const Category = require("./category");
 
 
 const db = {}
@@ -22,7 +22,7 @@ db.User =  User
 db.Restaurant =  Restaurant
 db.MenuItem =  MenuItem
 db.Order =  Order
-
+db.Category =  Category
 // connection
 //   .sync({ force: true })
 //   .then(() => {
@@ -31,5 +31,5 @@ db.Order =  Order
 //   .catch((err) => {
 //     console.error("Error syncing database:", err);
 //   });
-console.log(db);
+
 module.exports = db ;
