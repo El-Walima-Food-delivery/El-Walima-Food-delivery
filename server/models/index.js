@@ -18,10 +18,10 @@ db.connection = Sequelize;
 
 
 // Initialize models
-db.User = new User(Sequelize, DataTypes);
-db.Restaurant = new Restaurant(Sequelize, DataTypes);
-db.MenuItem = new MenuItem(Sequelize, DataTypes);
-db.Order = new Order(Sequelize, DataTypes);
+db.User =  User
+db.Restaurant =  Restaurant
+db.MenuItem =  MenuItem
+db.Order =  Order
 
 // connection
 //   .sync({ force: true })
@@ -31,5 +31,5 @@ db.Order = new Order(Sequelize, DataTypes);
 //   .catch((err) => {
 //     console.error("Error syncing database:", err);
 //   });
-
+console.log(db);
 module.exports = db ;
