@@ -17,7 +17,8 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "seed": "node seedsUsers.js"
+    "seed": "node seedsUsers.js",
+    "seedCategory": "node seedsCategory.js"
   },
   "sequelize": {
     "config": "server/config/config.js"

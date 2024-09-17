@@ -369,7 +369,7 @@
         "role": "restaurant_owner"
       }
   ];
-  console.log(db);
+ 
   db.User.bulkCreate(seedusers)
 .then(() => {
   console.log("Users inserted successfully.");
