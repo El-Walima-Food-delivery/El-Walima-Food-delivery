@@ -1,3 +1,5 @@
+ 
+ const db= require("./models/index");
  const seedusers = [
     // 10 customers
     {
@@ -5,9 +7,12 @@
       "name": "John Doe",
       "email": "john.doe@example.com",
       "password": "hashed_password_1",
-      "imagesUrl": "http://example.com/image1.jpg",
+      "imagesUrl": "https://media.istockphoto.com/id/1389348844/fr/photo/plan-de-studio-dune-belle-jeune-femme-souriante-debout-sur-un-fond-gris.jpg?s=612x612&w=0&k=20&c=VGipX3a8xrbYuXTNm_61pFuzpGdAO9lwt2xnVUd7Khs=",
       "balance": 123.45,
-      "location": "POINT(-73.935242 40.730610)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [10.16579, 36.80611] // Tunis
+      },
       "role": "customer"
     },
     {
@@ -15,9 +20,12 @@
       "name": "Jane Smith",
       "email": "jane.smith@example.com",
       "password": "hashed_password_2",
-      "imagesUrl": "http://example.com/image2.jpg",
+      "imagesUrl": "https://media.istockphoto.com/id/682897825/fr/photo/confident-businesswoman-over-gray-background.jpg?s=612x612&w=0&k=20&c=OcDGuIswfOhS21Fwg_uxb6O8MXEQK5IrjMqkguihdAk=",
       "balance": 234.56,
-      "location": "POINT(-118.243683 34.052235)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [10.102, 35.6781] // Sfax
+      },
       "role": "customer"
     },
     {
@@ -25,9 +33,12 @@
       "name": "Alice Johnson",
       "email": "alice.johnson@example.com",
       "password": "hashed_password_3",
-      "imagesUrl": "http://example.com/image3.jpg",
+      "imagesUrl": "https://media.istockphoto.com/id/1171169099/fr/photo/homme-avec-les-bras-crois%C3%A9s-disolement-sur-le-fond-gris.jpg?s=612x612&w=0&k=20&c=csQeB3utGtrGeb3WmdSxRYXaJvUy_xqlhbOIZxclcGA=",
       "balance": 345.67,
-      "location": "POINT(-87.629799 41.878113)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [10.6347, 35.8256] // Monastir
+      },
       "role": "customer"
     },
     {
@@ -35,9 +46,12 @@
       "name": "Bob Brown",
       "email": "bob.brown@example.com",
       "password": "hashed_password_4",
-      "imagesUrl": "http://example.com/image4.jpg",
+      "imagesUrl": "https://cdn.pixabay.com/photo/2016/11/29/13/14/attractive-1869761_1280.jpg",
       "balance": 456.78,
-      "location": "POINT(-122.419418 37.774929)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [10.6105, 34.7441] // Gabès
+      },
       "role": "customer"
     },
     {
@@ -45,9 +59,12 @@
       "name": "Charlie Davis",
       "email": "charlie.davis@example.com",
       "password": "hashed_password_5",
-      "imagesUrl": "http://example.com/image5.jpg",
+      "imagesUrl": "https://media.istockphoto.com/id/1386479313/fr/photo/heureuse-femme-daffaires-afro-am%C3%A9ricaine-mill%C3%A9naire-posant-isol%C3%A9e-sur-du-blanc.jpg?s=612x612&w=0&k=20&c=CS0xj40eNCorQyzN1ImeMKlvPDocPHSaMsXethQ-Q_g=",
       "balance": 567.89,
-      "location": "POINT(-80.843124 35.227085)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [8.7483, 36.4573] // Tabarka
+      },
       "role": "customer"
     },
     {
@@ -55,9 +72,12 @@
       "name": "Diana Evans",
       "email": "diana.evans@example.com",
       "password": "hashed_password_6",
-      "imagesUrl": "http://example.com/image6.jpg",
+      "imagesUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKdG3zlo6rsY1oNgUyNAvPLl96-OGHAswLvQ&s",
       "balance": 678.90,
-      "location": "POINT(-96.796856 32.776665)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [9.3708, 37.2783] // Bizerte
+      },
       "role": "customer"
     },
     {
@@ -65,9 +85,12 @@
       "name": "Emily Foster",
       "email": "emily.foster@example.com",
       "password": "hashed_password_7",
-      "imagesUrl": "http://example.com/image7.jpg",
+      "imagesUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Old_woman_in_Kyrgyzstan%2C_2010.jpg/800px-Old_woman_in_Kyrgyzstan%2C_2010.jpg",
       "balance": 789.01,
-      "location": "POINT(-90.199402 38.627003)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [9.5369, 35.6769] // Kairouan
+      },
       "role": "customer"
     },
     {
@@ -75,9 +98,12 @@
       "name": "Frank Garcia",
       "email": "frank.garcia@example.com",
       "password": "hashed_password_8",
-      "imagesUrl": "http://example.com/image8.jpg",
+      "imagesUrl": "https://www.le7.info/media/cache/article/uploads/photos/64101bd1e383a.jpeg",
       "balance": 890.12,
-      "location": "POINT(-104.990250 39.739236)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [9.4811, 35.5056] // Sbeitla
+      },
       "role": "customer"
     },
     {
@@ -85,9 +111,12 @@
       "name": "Grace Harris",
       "email": "grace.harris@example.com",
       "password": "hashed_password_9",
-      "imagesUrl": "http://example.com/image9.jpg",
+      "imagesUrl": "https://www.le7.info/media/cache/article/uploads/photos/64101bd1e383a.jpeg",
       "balance": 901.23,
-      "location": "POINT(-71.058884 42.360082)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [9.7489, 33.5031] // Gafsa
+      },
       "role": "customer"
     },
     {
@@ -95,21 +124,27 @@
       "name": "Hannah Ivers",
       "email": "hannah.ivers@example.com",
       "password": "hashed_password_10",
-      "imagesUrl": "http://example.com/image10.jpg",
+      "imagesUrl": "https://www.soladis.com/wp-content/uploads/2017/06/personne-1-1.png",
       "balance": 123.45,
-      "location": "POINT(-73.567256 45.501689)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [10.0971, 33.8815] // Djerba
+      },
       "role": "customer"
     },
-  
+    
     // 20 restaurant owners
     {
       "id": 11,
       "name": "Isabella Jones",
       "email": "isabella.jones@example.com",
       "password": "hashed_password_11",
-      "imagesUrl": "http://example.com/image11.jpg",
+      "imagesUrl": "https://www.restoconnection.fr/wp-content/uploads/2015/02/fa%C3%A7ade-restaurant-architecture-sake-manzo-bejing.jpg",
       "balance": 234.56,
-      "location": "POINT(-73.935242 40.730610)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [10.0971, 33.8815] // Djerba
+      },
       "role": "restaurant_owner"
     },
     {
@@ -117,9 +152,12 @@
       "name": "Jack King",
       "email": "jack.king@example.com",
       "password": "hashed_password_12",
-      "imagesUrl": "http://example.com/image12.jpg",
+      "imagesUrl": "https://www.createursdinterieur.com/static/4fc8ce556e777abdb2ba81b6a1f4d368/4b190/facade-restaurant-renove-architecte.jpg",
       "balance": 345.67,
-      "location": "POINT(-118.243683 34.052235)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [10.6347, 35.8256] // Monastir
+      },
       "role": "restaurant_owner"
     },
     {
@@ -127,9 +165,12 @@
       "name": "Katherine Lee",
       "email": "katherine.lee@example.com",
       "password": "hashed_password_13",
-      "imagesUrl": "http://example.com/image13.jpg",
+      "imagesUrl": "https://media-cdn.tripadvisor.com/media/photo-s/0b/22/45/43/facade-du-restaurant.jpg",
       "balance": 456.78,
-      "location": "POINT(-87.629799 41.878113)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [9.7489, 33.5031] // Gafsa
+      },
       "role": "restaurant_owner"
     },
     {
@@ -137,9 +178,12 @@
       "name": "Liam Martinez",
       "email": "liam.martinez@example.com",
       "password": "hashed_password_14",
-      "imagesUrl": "http://example.com/image14.jpg",
+      "imagesUrl": "https://i.pinimg.com/originals/ca/01/4d/ca014dfc3a8d3b6162d9066c2ab24e2d.jpg",
       "balance": 567.89,
-      "location": "POINT(-122.419418 37.774929)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [9.4811, 35.5056] // Sbeitla
+      },
       "role": "restaurant_owner"
     },
     {
@@ -147,163 +191,186 @@
       "name": "Mia Nelson",
       "email": "mia.nelson@example.com",
       "password": "hashed_password_15",
-      "imagesUrl": "http://example.com/image15.jpg",
+      "imagesUrl": "https://zupimages.net/up/15/25/pm7h.jpg",
       "balance": 678.90,
-      "location": "POINT(-80.843124 35.227085)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [10.16579, 36.80611] // Tunis
+      },
       "role": "restaurant_owner"
     },
     {
       "id": 16,
-      "name": "Noah Owens",
-      "email": "noah.owens@example.com",
+      "name": "Noah Ortiz",
+      "email": "noah.ortiz@example.com",
       "password": "hashed_password_16",
-      "imagesUrl": "http://example.com/image16.jpg",
+      "imagesUrl": "https://s6.gifyu.com/images/restaurantfaadepescaderia.jpg",
       "balance": 789.01,
-      "location": "POINT(-96.796856 32.776665)",
+      "location": {
+        "type": 'Point',
+        "coordinates": [9.5369, 35.6769] // Kairouan
+      },
       "role": "restaurant_owner"
     },
     {
-      "id": 17,
-      "name": "Olivia Perez",
-      "email": "olivia.perez@example.com",
-      "password": "hashed_password_17",
-      "imagesUrl": "http://example.com/image17.jpg",
-      "balance": 890.12,
-      "location": "POINT(-90.199402 38.627003)",
-      "role": "restaurant_owner"
-    },
-    {
-      "id": 18,
-      "name": "Paul Quinn",
-      "email": "paul.quinn@example.com",
-      "password": "hashed_password_18",
-      "imagesUrl": "http://example.com/image18.jpg",
-      "balance": 901.23,
-      "location": "POINT(-104.990250 39.739236)",
-      "role": "restaurant_owner"
-    },
-    {
-      "id": 19,
-      "name": "Quinn Robinson",
-      "email": "quinn.robinson@example.com",
-      "password": "hashed_password_19",
-      "imagesUrl": "http://example.com/image19.jpg",
-      "balance": 123.45,
-      "location": "POINT(-71.058884 42.360082)",
-      "role": "restaurant_owner"
-    },
-    {
-      "id": 20,
-      "name": "Rachel Smith",
-      "email": "rachel.smith@example.com",
-      "password": "hashed_password_20",
-      "imagesUrl": "http://example.com/image20.jpg",
-      "balance": 234.56,
-      "location": "POINT(-73.567256 45.501689)",
-      "role": "restaurant_owner"
-    },
-    {
-      "id": 21,
-      "name": "Samuel Taylor",
-      "email": "samuel.taylor@example.com",
-      "password": "hashed_password_21",
-      "imagesUrl": "http://example.com/image21.jpg",
-      "balance": 345.67,
-      "location": "POINT(-73.935242 40.730610)",
-      "role": "restaurant_owner"
-    },
-    {
-      "id": 22,
-      "name": "Tina Urban",
-      "email": "tina.urban@example.com",
-      "password": "hashed_password_22",
-      "imagesUrl": "http://example.com/image22.jpg",
-      "balance": 456.78,
-      "location": "POINT(-118.243683 34.052235)",
-      "role": "restaurant_owner"
-    },
-    {
-      "id": 23,
-      "name": "Ursula Vargas",
-      "email": "ursula.vargas@example.com",
-      "password": "hashed_password_23",
-      "imagesUrl": "http://example.com/image23.jpg",
-      "balance": 567.89,
-      "location": "POINT(-87.629799 41.878113)",
-      "role": "restaurant_owner"
-    },
-    {
-      "id": 24,
-      "name": "Victor Wilson",
-      "email": "victor.wilson@example.com",
-      "password": "hashed_password_24",
-      "imagesUrl": "http://example.com/image24.jpg",
-      "balance": 678.90,
-      "location": "POINT(-122.419418 37.774929)",
-      "role": "restaurant_owner"
-    },
-    {
-      "id": 25,
-      "name": "Wendy Xander",
-      "email": "wendy.xander@example.com",
-      "password": "hashed_password_25",
-      "imagesUrl": "http://example.com/image25.jpg",
-      "balance": 789.01,
-      "location": "POINT(-80.843124 35.227085)",
-      "role": "restaurant_owner"
-    },
-    {
-      "id": 26,
-      "name": "Xander Young",
-      "email": "xander.young@example.com",
-      "password": "hashed_password_26",
-      "imagesUrl": "http://example.com/image26.jpg",
-      "balance": 890.12,
-      "location": "POINT(-96.796856 32.776665)",
-      "role": "restaurant_owner"
-    },
-    {
-      "id": 27,
-      "name": "Yvonne Zimmerman",
-      "email": "yvonne.zimmerman@example.com",
-      "password": "hashed_password_27",
-      "imagesUrl": "http://example.com/image27.jpg",
-      "balance": 901.23,
-      "location": "POINT(-90.199402 38.627003)",
-      "role": "restaurant_owner"
-    },
-    {
-      "id": 28,
-      "name": "Zachary Adams",
-      "email": "zachary.adams@example.com",
-      "password": "hashed_password_28",
-      "imagesUrl": "http://example.com/image28.jpg",
-      "balance": 123.45,
-      "location": "POINT(-104.990250 39.739236)",
-      "role": "restaurant_owner"
-    },
-    {
-      "id": 29,
-      "name": "Ava Brooks",
-      "email": "ava.brooks@example.com",
-      "password": "hashed_password_29",
-      "imagesUrl": "http://example.com/image29.jpg",
-      "balance": 234.56,
-      "location": "POINT(-71.058884 42.360082)",
-      "role": "restaurant_owner"
-    },
-    {
-      "id": 30,
-      "name": "Ben Clark",
-      "email": "ben.clark@example.com",
-      "password": "hashed_password_30",
-      "imagesUrl": "http://example.com/image30.jpg",
-      "balance": 345.67,
-      "location": "POINT(-73.567256 45.501689)",
-      "role": "restaurant_owner"
-    }
+        "id": 17,
+        "name": "Olivia Parker",
+        "email": "olivia.parker@example.com",
+        "password": "hashed_password_17",
+        "imagesUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Restaurant_Gl%C3%B6ckle_Wirt%2C_M%C3%BCnchen_2019_01.jpg/800px-Restaurant_Gl%C3%B6ckle_Wirt%2C_M%C3%BCnchen_2019_01.jpg",
+        "balance": 890.12,
+        "location": {
+          "type": 'Point',
+          "coordinates": [10.102, 35.6781] // Sfax
+        },
+        "role": "restaurant_owner"
+      },
+      {
+        "id": 18,
+        "name": "Paul Quinn",
+        "email": "paul.quinn@example.com",
+        "password": "hashed_password_18",
+        "imagesUrl": "https://www.thefork.fr/news-content/767cdb62-f33a-4961-86fc-1fc2f7d0c464/m_f_depot_le-fork_web_1846x1040_facade_restaurant.jpg",
+        "balance": 901.23,
+        "location": {
+          "type": 'Point',
+          "coordinates": [10.6105, 34.7441] // Gabès
+        },
+        "role": "restaurant_owner"
+      },
+      {
+        "id": 19,
+        "name": "Quincy Robinson",
+        "email": "quincy.robinson@example.com",
+        "password": "hashed_password_19",
+        "imagesUrl": "https://www.le7.info/media/cache/article/uploads/photos/64101bd1e383a.jpeg",
+        "balance": 123.45,
+        "location": {
+          "type": 'Point',
+          "coordinates": [8.7483, 36.4573] // Tabarka
+        },
+        "role": "restaurant_owner"
+      },
+      {
+        "id": 20,
+        "name": "Rachel Scott",
+        "email": "rachel.scott@example.com",
+        "password": "hashed_password_20",
+        "imagesUrl": "https://d1hw6n3yxknhky.cloudfront.net/052155535_prevstill.jpeg",
+        "balance": 234.56,
+        "location": {
+          "type": 'Point',
+          "coordinates": [9.3708, 37.2783] // Bizerte
+        },
+        "role": "restaurant_owner"
+      },
+      {
+        "id": 21,
+        "name": "Sam Taylor",
+        "email": "sam.taylor@example.com",
+        "password": "hashed_password_21",
+        "imagesUrl": "https://www.thefork.fr/news-content/767cdb62-f33a-4961-86fc-1fc2f7d0c464/m_f_depot_le-fork_web_1846x1040_facade_restaurant.jpg",
+        "balance": 345.67,
+        "location": {
+          "type": 'Point',
+          "coordinates": [9.7489, 33.5031] // Gafsa
+        },
+        "role": "restaurant_owner"
+      },
+      {
+        "id": 22,
+        "name": "Tina Underwood",
+        "email": "tina.underwood@example.com",
+        "password": "hashed_password_22",
+        "imagesUrl": "https://www.createursdinterieur.com/static/4fc8ce556e777abdb2ba81b6a1f4d368/4b190/facade-restaurant-renove-architecte.jpg",
+        "balance": 456.78,
+        "location": {
+          "type": 'Point',
+          "coordinates": [9.4811, 35.5056] // Sbeitla
+        },
+        "role": "restaurant_owner"
+      },
+      {
+        "id": 23,
+        "name": "Uma Vaughn",
+        "email": "uma.vaughn@example.com",
+        "password": "hashed_password_23",
+        "imagesUrl": "https://media-cdn.tripadvisor.com/media/photo-s/0b/22/45/43/facade-du-restaurant.jpg",
+        "balance": 567.89,
+        "location": {
+          "type": 'Point',
+          "coordinates": [9.5369, 35.6769] // Kairouan
+        },
+        "role": "restaurant_owner"
+      },
+      {
+        "id": 24,
+        "name": "Victor White",
+        "email": "victor.white@example.com",
+        "password": "hashed_password_24",
+        "imagesUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Restaurant_Laubenwirt_in_Eppan.jpg/800px-Restaurant_Laubenwirt_in_Eppan.jpg",
+        "balance": 678.90,
+        "location": {
+          "type": 'Point',
+          "coordinates": [10.16579, 36.80611] // Tunis
+        },
+        "role": "restaurant_owner"
+      },
+      {
+        "id": 25,
+        "name": "Wendy Xavier",
+        "email": "wendy.xavier@example.com",
+        "password": "hashed_password_25",
+        "imagesUrl": "https://s6.gifyu.com/images/restaurantfaadepescaderia.jpg",
+        "balance": 789.01,
+        "location": {
+          "type": 'Point',
+          "coordinates": [10.102, 35.6781] // Sfax
+        },
+        "role": "restaurant_owner"
+      },
+      {
+        "id": 26,
+        "name": "Xander Young",
+        "email": "xander.young@example.com",
+        "password": "hashed_password_26",
+        "imagesUrl": "https://media.istockphoto.com/id/682897825/fr/photo/confident-businesswoman-over-gray-background.jpg?s=612x612&w=0&k=20&c=OcDGuIswfOhS21Fwg_uxb6O8MXEQK5IrjMqkguihdAk=",
+        "balance": 890.12,
+        "location": {
+          "type": 'Point',
+          "coordinates": [10.6105, 34.7441] // Gabès
+        },
+        "role": "restaurant_owner"
+      },
+      {
+        "id": 27,
+        "name": "Yasmine Zeller",
+        "email": "yasmine.zeller@example.com",
+        "password": "hashed_password_27",
+        "imagesUrl": "https://www.le7.info/media/cache/article/uploads/photos/64101bd1e383a.jpeg",
+        "balance": 901.23,
+        "location": {
+          "type": 'Point',
+          "coordinates": [8.7483, 36.4573] // Tabarka
+        },
+        "role": "restaurant_owner"
+      },
+      {
+        "id": 28,
+        "name": "Zachary Allen",
+        "email": "zachary.allen@example.com",
+        "password": "hashed_password_28",
+        "imagesUrl": "https://media.istockphoto.com/id/1386479313/fr/photo/heureuse-femme-daffaires-afro-am%C3%A9ricaine-mill%C3%A9naire-posant-isol%C3%A9e-sur-du-blanc.jpg?s=612x612&w=0&k=20&c=CS0xj40eNCorQyzN1ImeMKlvPDocPHSaMsXethQ-Q_g=",
+        "balance": 123.45,
+        "location": {
+          "type": 'Point',
+          "coordinates": [9.3708, 37.2783] // Bizerte
+        },
+        "role": "restaurant_owner"
+      }
   ];
-  db.User.bulkCreate(usersData)
+  console.log(db);
+  db.User.bulkCreate(seedusers)
 .then(() => {
   console.log("Users inserted successfully.");
 })
