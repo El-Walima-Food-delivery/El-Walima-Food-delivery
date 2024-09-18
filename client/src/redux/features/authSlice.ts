@@ -24,12 +24,18 @@ const initialState: UserState = {
 // Define the async thunk with proper typing
 export const loginUser = createAsyncThunk(
   'user/loginUser',
-  async (body:object,{ rejectWithValue }) => {
+  async (credentials: { email?: string; password?: string; token?: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post<User>(`https://api.example.com/users/`,body);
+      let response;
+      if (credentials.token) {
+        response = await axios.get<User>(`http://localhost:3000/api/auth/me`, {
+          headers: { Authorization: `Bearer ${credentials.token}` }
+        });
+      } else {
+        response = await axios.post<User>(`http://localhost:3000/api/auth/signin`, credentials);
+      }
       return response.data;
     } catch (error) {
-      // Use error.message or any specific error handling here
       return rejectWithValue((error as Error).message);
     }
   }
@@ -39,7 +45,7 @@ export const signUpUser = createAsyncThunk(
   'user/signUpUser',
   async (body:object,{ rejectWithValue }) => {
     try {
-      const response = await axios.post<User>(`https://api.example.com/users/`,body);
+      const response = await axios.post<User>(`http://localhost:3000/api/auth/signup`,body);
       return response.data;
     } catch (error) {
       // Use error.message or any specific error handling here

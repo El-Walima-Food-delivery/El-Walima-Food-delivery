@@ -7,7 +7,8 @@ import {AppDispatch} from '../redux/store'
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('user');
+  const [role, setRole] = useState('customer');
+  const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const dispatch:AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -16,10 +17,10 @@ const SignUp: React.FC = () => {
     e.preventDefault();
     try {
       // Dispatch the sign-up action
-       await dispatch(signUpUser( {email, password, role} ));
+       await dispatch(signUpUser( {email, password, role,name,location:{type:'Point',coordinates:[10.16579, 36.80611]}} ));
        navigate('/signin');
     } catch (error) {
-      console.error('Error signing in:', error);
+      console.log('Error signing in:', error);
       setError('Sign up failed',);
     }
   };
@@ -39,6 +40,13 @@ const SignUp: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <input
             type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            style={inputStyle}
+          />
+          <input
+            type="text"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -56,8 +64,9 @@ const SignUp: React.FC = () => {
             onChange={(e) => setRole(e.target.value)}
             style={inputStyle}
           >
-            <option value="user">Customer</option>
-            <option value="seller">Seller</option>
+            <option value="customer">Customer</option>
+            <option value="restaurant_owner">Restaurant Owner</option>
+            <option value="driver">Driver</option>
           </select>
           <button type="submit" style={buttonStyle}>Create Account</button>
         </form>
