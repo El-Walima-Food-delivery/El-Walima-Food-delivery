@@ -5,6 +5,8 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/authRoutes");
 const restaurantRoutes = require("./routes/restaurantRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const userRoutes = require('./routes/userRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
 require("./config/database");
 require("dotenv").config();
 
@@ -19,7 +21,8 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/orders", orderRoutes);
-
+app.use('/api', userRoutes);
+app.use('/api', categoryRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
