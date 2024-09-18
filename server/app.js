@@ -25,6 +25,9 @@ app.use("/api/orders", orderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/menu-items', menuItemRoutes);
+app.use('/api/signin', authRoutes);
+app.use('/api/signup', authRoutes);
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

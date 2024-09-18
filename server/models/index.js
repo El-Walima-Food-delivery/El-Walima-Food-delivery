@@ -21,6 +21,7 @@ db.Order = Order;
 db.Category = Category;
 db.Cart = Cart;
 db.RestaurantOwnerHasCustomer = RestaurantOwnerHasCustomer;
+
 // connection
 //   .sync({ force: true })
 //   .then(() => {
