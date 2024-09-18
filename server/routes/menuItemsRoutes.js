@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createMenuItem, getMenuItemById, updateMenuItem, deleteMenuItem, getMenuItemsByCategory, getMenuItemsByName, getMenuItemsByPrice, getAllMenuItems, getAllAvailableMenuItems, getAllUnavailableMenuItems } = require('../controllers/MenuIteamsController');
+const { createMenuItem, getMenuItemById, updateMenuItem, deleteMenuItem, getMenuItemsByCategory, getMenuItemsByName, getMenuItemsByPrice, getAllMenuItems, getAllAvailableMenuItems, getAllUnavailableMenuItems } = require('../controllers/MenuItemsController');
 
 // Create a new menu item
 router.post('/', createMenuItem);

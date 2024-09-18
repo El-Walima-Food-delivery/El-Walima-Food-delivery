@@ -7,7 +7,7 @@ const cartRoutes = require("./routes/cartsRouter");
 const orderRoutes = require("./routes/orderRoutes");
 const userRoutes = require('./routes/userRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
-const menuItemRoutes = require('./routes/menuIteamsRoutes');
+const menuItemRoutes = require('./routes/menuItemsRoutes');
 require("./config/database");
 require("dotenv").config();
 
