@@ -1,17 +1,26 @@
-const express = require('express');
-const router = express.Router();
+const express = require("express");
+const Router = express.Router();
 const userController = require('../controllers/userController');
-const authMiddleware = require('../middleware/authMiddleware');
 
+// Get all users
+Router.get('/users', userController.getAllUsers);
 
+// Get user by ID
+Router.get('/users/:id', userController.getUserById);
 
+// Create a new user
+Router.post('/users', userController.createUser);
 
-router.get("/get/profile", authMiddleware, userController.getProfile);
-router.put("/put/profile", authMiddleware, userController.updateProfile);
-router.get('/', userController.findAll);
-router.get('/:id', userController.findOne);
-router.put('/:id', userController.update);
-router.delete('/:id', userController.delete);
+// Update an existing user
+Router.put('/users/:id', userController.updateUser);
 
+// Delete a user by ID
+Router.delete('/users/:id', userController.deleteUser);
 
-module.exports = router;
+// Get all users with the role 'restaurant_owner'
+Router.get('/users/restaurants', userController.getAllUsersRestaurant);
+
+// Find nearby restaurants for a customer
+Router.post('/users/nearby-restaurants', userController.findNearbyRestaurants);
+
+module.exports = Router;
