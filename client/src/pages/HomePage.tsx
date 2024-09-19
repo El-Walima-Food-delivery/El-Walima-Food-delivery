@@ -9,6 +9,7 @@ const HomePage: React.FC = () => {
     <>
       <Banner />
       <Foods />
+     
       <AboutUs />
       <Footer />
     </>
