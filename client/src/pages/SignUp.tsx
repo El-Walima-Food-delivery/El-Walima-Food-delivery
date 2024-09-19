@@ -1,100 +1,129 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { signUpUser } from '../redux/features/authSlice';
-import {AppDispatch} from '../redux/store'
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
+import { signUpUser } from "../redux/features/authSlice";
+import { AppDispatch } from "../redux/store";
+import Brand from "../components/Form/Brand";
+import Button from "../components/Form/Button";
+import TextField from "../components/Form/TextField";
+
+interface UserInput {
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+}
+
+interface InputField {
+  id: number;
+  type: string;
+  placeholder: string;
+  value: string;
+  name: keyof UserInput;
+}
 
 const SignUp: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('customer');
-  const [name, setName] = useState('');
+  const [userInput, setUserInput] = useState<UserInput>({
+    name: "",
+    email: "",
+    password: "",
+    role: "customer",
+  });
   const [error, setError] = useState<string | null>(null);
-  const dispatch:AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { value, name } = e.target;
+    setUserInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      // Dispatch the sign-up action
-       await dispatch(signUpUser( {email, password, role,name,location:{type:'Point',coordinates:[10.16579, 36.80611]}} ));
-       navigate('/signin');
+      await dispatch(
+        signUpUser({
+          ...userInput,
+          location: { type: "Point", coordinates: [10.16579, 36.80611] },
+        })
+      );
+      navigate("/signin");
     } catch (error) {
-      console.log('Error signing in:', error);
-      setError('Sign up failed',);
+      console.log("Error signing up:", error);
+      setError("Sign up failed");
     }
   };
 
+  const Inputs: InputField[] = [
+    {
+      id: 1,
+      type: "text",
+      placeholder: "Name",
+      value: userInput.name,
+      name: "name",
+    },
+    {
+      id: 2,
+      type: "email",
+      placeholder: "Email",
+      value: userInput.email,
+      name: "email",
+    },
+    {
+      id: 3,
+      type: "password",
+      placeholder: "Password",
+      value: userInput.password,
+      name: "password",
+    },
+  ];
+
   return (
-    <div style={{ display: 'flex', height: '100vh' }}>
-      <div style={{ flex: 1, backgroundColor: '#e6f2f5' }}>
-        <img
-          src="https://www.evanik.com/wp-content/uploads/2021/10/New-Project-10.png"
-          alt="Shopping concept"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-      </div>
-      <div style={{ flex: 1, padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Create an account</h1>
-        <p style={{ marginBottom: '2rem', color: '#666' }}>Enter your details below</p>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={inputStyle}
-          />
-          <input
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={inputStyle}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={inputStyle}
-          />
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            style={inputStyle}
-          >
-            <option value="customer">Customer</option>
-            <option value="restaurant_owner">Restaurant Owner</option>
-            <option value="driver">Driver</option>
-          </select>
-          <button type="submit" style={buttonStyle}>Create Account</button>
+    <main className="h-screen w-full banner">
+      <div className="flex flex-col justify-center items-center h-screen">
+        <Brand />
+        <form
+          className="bg-white w-96 mt-6 p-4 rounded-lg shadow-lg"
+          onSubmit={handleSubmit}
+        >
+          <div className="flex flex-col space-y-6">
+            {Inputs.map((input) => (
+              <TextField
+                key={input.id}
+                type={input.type}
+                placeholder={input.placeholder}
+                value={input.value}
+                name={input.name}
+                onChange={handleChange}
+              />
+            ))}
+            <select
+              value={userInput.role}
+              name="role"
+              onChange={handleChange}
+              className="p-2 border rounded-md"
+            >
+              <option value="customer">Customer</option>
+              <option value="restaurant_owner">Restaurant Owner</option>
+              <option value="driver">Driver</option>
+            </select>
+          </div>
+          <Button text="Sign Up" />
+          <Link to="/signin">
+            <p className="text-base text-primary text-center my-6 hover:underline">
+              Already have an account?
+            </p>
+          </Link>
         </form>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <p style={{ marginTop: '1rem', textAlign: 'center' }}>
-          Already have an account? <a href="/signin" style={{ color: '#000', textDecoration: 'none' }}>Log in</a>
-        </p>
+        {error && <p className="text-red-500 mt-4">{error}</p>}
       </div>
-    </div>
+    </main>
   );
-};
-
-const inputStyle = {
-  padding: '0.5rem',
-  marginBottom: '1rem',
-  border: '1px solid #ccc',
-  borderRadius: '4px',
-  width: '100%',
-};
-
-const buttonStyle = {
-  padding: '0.75rem',
-  backgroundColor: '#000',
-  color: '#fff',
-  border: 'none',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  width: '100%',
 };
 
 export default SignUp;

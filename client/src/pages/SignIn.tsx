@@ -1,91 +1,111 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../redux/features/authSlice';
-import { RootState,AppDispatch } from '../redux/store';
-import { unwrapResult } from '@reduxjs/toolkit';
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
+import { loginUser } from "../redux/features/authSlice";
+import { RootState, AppDispatch } from "../redux/store";
+import { unwrapResult } from "@reduxjs/toolkit";
+import Brand from "../components/Form/Brand";
+import Button from "../components/Form/Button";
+import TextField from "../components/Form/TextField";
+import "../../styles/index.css";
+import "../../styles/tailwind.css";
 
-const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch:AppDispatch = useDispatch();
+interface UserInput {
+  email: string;
+  password: string;
+}
+
+interface InputField {
+  id: number;
+  type: string;
+  placeholder: string;
+  value: string;
+  name: keyof UserInput;
+}
+
+const SignIn: React.FC = () => {
+  const [userInput, setUserInput] = useState<UserInput>({
+    email: "",
+    password: "",
+  });
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { status, error } = useSelector((state: RootState) => state.users);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    setUserInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const resultAction = await dispatch(loginUser({ email, password }));
+      const resultAction = await dispatch(loginUser(userInput));
       const user = unwrapResult(resultAction);
-      localStorage.setItem('token', user.token);
-      if (user.role === 'seller') {
-        navigate('/seller/dashboard');
+      localStorage.setItem("token", user.token);
+      if (user.role === "seller") {
+        navigate("/seller/dashboard");
+      } else {
+        navigate("/");
       }
-      //  else if (user.role === 'admin'){
-      //   navigate('/admin');
-      // }
-       else {
-        navigate('/');
-      }
-    } catch (error){
-      console.log('Error signing in:', error);
+    } catch (error) {
+      console.log("Error signing in:", error);
     }
   };
 
+  const Inputs: InputField[] = [
+    {
+      id: 1,
+      type: "email",
+      placeholder: "Email",
+      value: userInput.email,
+      name: "email",
+    },
+    {
+      id: 2,
+      type: "password",
+      placeholder: "Password",
+      value: userInput.password,
+      name: "password",
+    },
+  ];
+
   return (
-    <div style={{ display: 'flex', height: '100vh' }}>
-      <div style={{ flex: 1, backgroundColor: '#e6f2f5' }}>
-        <img
-          src="https://www.evanik.com/wp-content/uploads/2021/10/New-Project-10.png"
-          alt="Shopping concept"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-      </div>
-      <div style={{ flex: 1, padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Sign In</h1>
-        <p style={{ marginBottom: '2rem', color: '#666' }}>Enter your details below</p>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={inputStyle}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={inputStyle}
-          />
-          <button type="submit" style={buttonStyle}>Sign In</button>
+    <main className="h-screen w-full banner">
+      <div className="flex flex-col justify-center items-center h-screen">
+        <Brand />
+        <form
+          className="bg-white w-96 mt-6 p-4 rounded-lg shadow-lg"
+          onSubmit={handleSubmit}
+        >
+          <div className="flex flex-col space-y-6">
+            {Inputs.map((input) => (
+              <TextField
+                key={input.id}
+                type={input.type}
+                placeholder={input.placeholder}
+                value={input.value}
+                name={input.name}
+                onChange={handleChange}
+              />
+            ))}
+          </div>
+          <Button text="Sign In" />
+          {status === "failed" && (
+            <p className="text-red-500 text-center mt-2">{error}</p>
+          )}
+          <Link to="/signup">
+            <p className="text-base text-primary text-center my-6 hover:underline">
+              Need an account?
+            </p>
+          </Link>
         </form>
-        {status === 'failed' && <p style={{ color: 'red' }}>{error}</p>}
-        <p style={{ marginTop: '1rem', textAlign: 'center' }}>
-          Don't have an account? <a href="/signup" style={{ color: '#000', textDecoration: 'none' }}>Create account</a>
-        </p>
       </div>
-    </div>
+    </main>
   );
-};
-
-const inputStyle = {
-  padding: '0.5rem',
-  marginBottom: '1rem',
-  border: '1px solid #ccc',
-  borderRadius: '4px',
-  width: '100%',
-};
-
-const buttonStyle = {
-  padding: '0.75rem',
-  backgroundColor: '#000',
-  color: '#fff',
-  border: 'none',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  width: '100%',
 };
 
 export default SignIn;
