@@ -38,16 +38,7 @@ const Foods: React.FC = () => {
   return (
     <section className="my-12 max-w-screen-xl mx-auto px-6">
       <div className="flex items-center justify-center space-x-6">
-        {[
-          "Pizza",
-          "Burger",
-          "Tunisian",
-          "Salad",
-          "Desserts",
-          "Pasta",
-          "Chicken",
-          "Sandwich",
-        ].map((meal) => (
+        {["Top Categories"].map((meal) => (
           <p
             key={meal}
             className={
