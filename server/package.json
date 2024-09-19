@@ -21,7 +21,8 @@
   "scripts": {
     "start": "nodemon app.js",
     "seed": "node seedsUsers.js",
-    "seedCategory": "node seedsCategory.js"
+    "seedCategory": "node seedsCategory.js",
+    "seedMenuItem": "node seedsMenuItem.js"
   },
   "sequelize": {
     "config": "server/config/config.js"
