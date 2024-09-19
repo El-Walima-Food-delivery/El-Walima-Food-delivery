@@ -1,5 +1,6 @@
 import React from "react";
 import Brand from "../../Form/Brand";
+import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 
 interface FooterLink {
   id: number;
@@ -24,22 +25,32 @@ const MainFooter: React.FC = () => {
   ];
 
   return (
-    <div className="flex pb-8">
+    <div className="bg-[#ced4da] text-gray-800 py-8 px-12">
       {/* logo  */}
-      <div className="flex flex-grow">
+      <div className="flex flex-grow mb-8">
         <Brand />
       </div>
-      {/* footer links  */}
+      {/* footer links */}
       <div className="flex space-x-12">
         {[0, 4, 8].map((startIndex) => (
-          <div key={startIndex} className="flex flex-col space-y-2">
+          <div key={startIndex} className="flex flex-col space-y-4">
             {FooterLinks.slice(startIndex, startIndex + 4).map((item) => (
-              <span className="text-white poppins" key={item.id}>
+              <span
+                className="poppins text-lg hover:text-gray-600 cursor-pointer"
+                key={item.id}
+              >
                 {item.text}
               </span>
             ))}
           </div>
         ))}
+      </div>
+      {/* social media icons */}
+      <div className="mt-8 flex space-x-6">
+        <FaFacebookF className="text-gray-600 cursor-pointer hover:text-gray-800" />
+        <FaInstagram className="text-gray-600 cursor-pointer hover:text-gray-800" />
+        <FaTwitter className="text-gray-600 cursor-pointer hover:text-gray-800" />
+        <FaYoutube className="text-gray-600 cursor-pointer hover:text-gray-800" />
       </div>
     </div>
   );

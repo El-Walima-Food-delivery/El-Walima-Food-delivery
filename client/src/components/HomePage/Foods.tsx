@@ -38,7 +38,16 @@ const Foods: React.FC = () => {
   return (
     <section className="my-12 max-w-screen-xl mx-auto px-6">
       <div className="flex items-center justify-center space-x-6">
-        {["Breakfast", "Lunch", "Dinner"].map((meal) => (
+        {[
+          "Pizza",
+          "Burger",
+          "Tunisian",
+          "Salad",
+          "Desserts",
+          "Pasta",
+          "Chicken",
+          "Sandwich",
+        ].map((meal) => (
           <p
             key={meal}
             className={
@@ -53,24 +62,26 @@ const Foods: React.FC = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
         {foods.map((item) => (
           <div
             key={item.id}
-            className="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-102"
+            className="bg-white shadow-sm rounded-md overflow-hidden transition-all duration-300 hover:shadow-md hover:scale-105"
           >
             <img
               src={item.imageUrl}
               alt={item.name}
-              className="w-full h-48 object-cover"
+              className="w-full h-32 object-cover"
             />
-            <div className="p-4">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            <div className="p-3">
+              <h3 className="text-sm font-semibold text-gray-800 mb-1 truncate">
                 {item.name}
               </h3>
-              <button className="mt-2 px-4 py-2 bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-full font-medium transition-all duration-300 hover:from-orange-500 hover:to-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50">
-                hello
-              </button>
+              <div className="relative">
+                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-500 overflow-x-scroll">
+                  <div className="w-[200%] h-full"></div>
+                </div>
+              </div>
             </div>
           </div>
         ))}
