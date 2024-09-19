@@ -29,6 +29,16 @@ exports.getMenuItemsByCategory = async (req, res) => {
   const menuItems = await MenuItem.findAll({ where: { categoryId } });
   res.status(200).json(menuItems);
 };      
+exports.getMenuItemsByCategory = async (req, res) => {
+  try {
+    const categoryId = req.params.category_id;
+    const menuItems = await MenuItem.findAll({ where: { category_id: categoryId } });
+    res.status(200).json(menuItems);
+  } catch (error) {
+    console.error('Error fetching menu items by category:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
 exports.getMenuItemsByName = async (req, res) => {
   const { name } = req.params;
   const menuItems = await MenuItem.findAll({ where: { name } });
