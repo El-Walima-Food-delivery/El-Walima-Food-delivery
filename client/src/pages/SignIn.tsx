@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../redux/features/authSlice";
@@ -10,68 +10,28 @@ import TextField from "../components/Form/TextField";
 import "../../styles/index.css";
 import "../../styles/tailwind.css";
 
-interface UserInput {
-  email: string;
-  password: string;
-}
-
-interface InputField {
-  id: number;
-  type: string;
-  placeholder: string;
-  value: string;
-  name: keyof UserInput;
-}
-
 const SignIn: React.FC = () => {
-  const [userInput, setUserInput] = useState<UserInput>({
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { status, error } = useSelector((state: RootState) => state.users);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-    setUserInput((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const resultAction = await dispatch(loginUser(userInput));
+      const resultAction = await dispatch(loginUser({ email, password }));
       const user = unwrapResult(resultAction);
-      localStorage.setItem("token", user.token);
-      if (user.role === "seller") {
-        navigate("/seller/dashboard");
+      localStorage.setItem('token', user.token);
+      if (user.role === 'seller') {
+        navigate('/seller/dashboard');
       } else {
-        navigate("/");
+        navigate('/');
       }
     } catch (error) {
-      console.log("Error signing in:", error);
+      console.error('Error signing in:', error);
     }
   };
-
-  const Inputs: InputField[] = [
-    {
-      id: 1,
-      type: "email",
-      placeholder: "Email",
-      value: userInput.email,
-      name: "email",
-    },
-    {
-      id: 2,
-      type: "password",
-      placeholder: "Password",
-      value: userInput.password,
-      name: "password",
-    },
-  ];
 
   return (
     <main className="h-screen w-full banner">
@@ -82,16 +42,20 @@ const SignIn: React.FC = () => {
           onSubmit={handleSubmit}
         >
           <div className="flex flex-col space-y-6">
-            {Inputs.map((input) => (
-              <TextField
-                key={input.id}
-                type={input.type}
-                placeholder={input.placeholder}
-                value={input.value}
-                name={input.name}
-                onChange={handleChange}
-              />
-            ))}
+            <TextField
+              type="email"
+              placeholder="Email"
+              value={email}
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              type="password"
+              placeholder="Password"
+              value={password}
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
           <Button text="Sign In" />
           {status === "failed" && (
