@@ -3,7 +3,7 @@ import { FaHeart } from "react-icons/fa";
 
 const BottomFooter: React.FC = () => {
   return (
-    <div className="bg-[#ced4da] text-gray-800 py-4 px-12 flex items-center justify-between">
+    <div className="bg-[#dee2e6] text-gray-800 py-4 px-12 flex items-center justify-between">
       {/* Developed by */}
       <div className="flex items-center">
         <span className="poppins text-gray-600 mr-2">Developed by</span>

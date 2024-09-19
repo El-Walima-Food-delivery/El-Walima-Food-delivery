@@ -25,7 +25,7 @@ const MainFooter: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#ced4da] text-gray-800 py-8 px-12">
+    <div className="bg-[#dee2e6] text-gray-800 py-8 px-12">
       {/* logo  */}
       <div className="flex flex-grow mb-8">
         <Brand />
