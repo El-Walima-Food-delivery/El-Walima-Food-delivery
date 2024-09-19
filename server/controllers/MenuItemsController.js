@@ -1,4 +1,5 @@
 const { MenuItem } = require("../models");
+const User = require("../models/User");
 
 exports.createMenuItem = async (req, res) => {
   const { name, description, imageUrl, availble, likes, price, categoryId } = req.body;
@@ -32,7 +33,14 @@ exports.getMenuItemsByCategory = async (req, res) => {
 exports.getMenuItemsByCategory = async (req, res) => {
   try {
     const categoryId = req.params.category_id;
-    const menuItems = await MenuItem.findAll({ where: { category_id: categoryId } });
+    const menuItems = await MenuItem.findAll({
+      where: { category_id: categoryId },
+      include: [{
+        model: User,
+        
+        
+      }]
+    });
     res.status(200).json(menuItems);
   } catch (error) {
     console.error('Error fetching menu items by category:', error);
