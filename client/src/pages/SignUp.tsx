@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, FormEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { signUpUser } from "../redux/features/authSlice";
@@ -7,81 +7,31 @@ import Brand from "../components/Form/Brand";
 import Button from "../components/Form/Button";
 import TextField from "../components/Form/TextField";
 
-interface UserInput {
-  name: string;
-  email: string;
-  password: string;
-  role: string;
-}
-
-interface InputField {
-  id: number;
-  type: string;
-  placeholder: string;
-  value: string;
-  name: keyof UserInput;
-}
-
 const SignUp: React.FC = () => {
-  const [userInput, setUserInput] = useState<UserInput>({
-    name: "",
-    email: "",
-    password: "",
-    role: "customer",
-  });
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('customer');
   const [error, setError] = useState<string | null>(null);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { value, name } = e.target;
-    setUserInput((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await dispatch(
-        signUpUser({
-          ...userInput,
-          location: { type: "Point", coordinates: [10.16579, 36.80611] },
-        })
-      );
-      navigate("/signin");
+      await dispatch(signUpUser({
+        name,
+        email,
+        password,
+        role,
+        location: { type: 'Point', coordinates: [10.16579, 36.80611] }
+      }));
+      navigate('/signin');
     } catch (error) {
-      console.log("Error signing up:", error);
-      setError("Sign up failed");
+      console.error('Error signing up:', error);
+      setError('Sign up failed');
     }
   };
-
-  const Inputs: InputField[] = [
-    {
-      id: 1,
-      type: "text",
-      placeholder: "Name",
-      value: userInput.name,
-      name: "name",
-    },
-    {
-      id: 2,
-      type: "email",
-      placeholder: "Email",
-      value: userInput.email,
-      name: "email",
-    },
-    {
-      id: 3,
-      type: "password",
-      placeholder: "Password",
-      value: userInput.password,
-      name: "password",
-    },
-  ];
 
   return (
     <main className="h-screen w-full banner">
@@ -92,20 +42,31 @@ const SignUp: React.FC = () => {
           onSubmit={handleSubmit}
         >
           <div className="flex flex-col space-y-6">
-            {Inputs.map((input) => (
-              <TextField
-                key={input.id}
-                type={input.type}
-                placeholder={input.placeholder}
-                value={input.value}
-                name={input.name}
-                onChange={handleChange}
-              />
-            ))}
+            <TextField
+              type="text"
+              placeholder="Name"
+              value={name}
+              name="name"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <TextField
+              type="email"
+              placeholder="Email"
+              value={email}
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              type="password"
+              placeholder="Password"
+              value={password}
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <select
-              value={userInput.role}
+              value={role}
               name="role"
-              onChange={handleChange}
+              onChange={(e) => setRole(e.target.value)}
               className="p-2 border rounded-md"
             >
               <option value="customer">Customer</option>
