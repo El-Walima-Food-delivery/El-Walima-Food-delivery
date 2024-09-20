@@ -1,20 +1,26 @@
 import React from "react";
+import { FaHeart } from "react-icons/fa";
 
 const BottomFooter: React.FC = () => {
   return (
-    <div className="flex items-center pt-8">
-      <div className="flex flex-grow">
-        <span className="poppins text-gray-500">
-          Developed by 💗 S.M.Abtahi Noor
-        </span>
+    <div className="bg-[#dee2e6] text-gray-800 py-4 px-12 flex items-center justify-between">
+      {/* Developed by */}
+      <div className="flex items-center">
+        <span className="poppins text-gray-600 mr-2">Developed by</span>
+        <FaHeart className="text-red-500" />
       </div>
 
-      <div className="flex justify-end items-center space-x-6">
-        <span className="poppins text-white cursor-pointer">
+      {/* Links */}
+      <div className="flex space-x-6">
+        <span className="poppins text-gray-600 hover:text-gray-800 cursor-pointer">
           Privacy Policy
         </span>
-        <span className="poppins text-white cursor-pointer">Terms of Use</span>
-        <span className="poppins text-white cursor-pointer">Pricing</span>
+        <span className="poppins text-gray-600 hover:text-gray-800 cursor-pointer">
+          Terms of Use
+        </span>
+        <span className="poppins text-gray-600 hover:text-gray-800 cursor-pointer">
+          Pricing
+        </span>
       </div>
     </div>
   );

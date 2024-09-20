@@ -1,16 +1,13 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 // import { useAuth } from "./hooks/useAuth";
-
 import ContactUs from "./components/ContactUs";
 import Navbar from "./components/Navbar";
 import OneItemdetail from "./pages/OneItemdetail";
 import HomePage from "./pages/HomePage";
+import SignIn from "./pages/SignIn.tsx";
+import SignUp from "./pages/SignUp.tsx";
 
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-
-function App() {
-  // const { user } = useAuth();
+const App = () => {
   return (
     <Router>
       <Navbar />
@@ -25,6 +22,6 @@ function App() {
     </Router>
 
   );
-}
+};
 
 export default App;
