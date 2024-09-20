@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 // import { BsCart2 } from "react-icons/bs";
 // import { FiLogOut } from "react-icons/fi";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../../src/assets/logo2.png";
-
 const Navbar: React.FC = () => {
   const [changeHeader, setChangeHeader] = useState<boolean>(false);
   const navigate = useNavigate();
