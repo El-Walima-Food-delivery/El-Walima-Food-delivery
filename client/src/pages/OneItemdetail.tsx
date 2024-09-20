@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { BsCart2 } from 'react-icons/bs';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 
 import Footer from '../components/HomePage/Footer/Footer';
@@ -16,6 +16,7 @@ interface Food {
 }
 
 const FoodDetailScreen: React.FC = () => {
+    const navigate = useNavigate();
     const [quantity, setQuantity] = useState(1);
     const [disabled, setDisabled] = useState(false);
     const [food, setFood] = useState<Food | null>(null);
@@ -44,14 +45,14 @@ const FoodDetailScreen: React.FC = () => {
 
     return (
         <div className="flex flex-col min-h-screen bg-gradient-to-br from-amber-100 to-orange-200">
-            <main className="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <main className="flex-grow flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8">
                 <div className="w-full max-w-4xl">
-                    <Link to="/" className="inline-flex items-center text-orange-600 hover:text-orange-800 font-medium mb-8">
+                    <button onClick={() => navigate('/')} className="inline-flex items-center text-orange-600 hover:text-orange-800 font-medium mb-8">
                         <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
                         </svg>
                         Back to Menu
-                    </Link>
+                    </button>
                     <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
                         <div className="md:flex">
                             <div className="md:flex-shrink-0 md:w-1/2">
