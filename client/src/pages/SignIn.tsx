@@ -22,6 +22,10 @@ const SignIn: React.FC = () => {
     try {
       const resultAction = await dispatch(loginUser({ email, password }));
       const user = unwrapResult(resultAction);
+      console.log(
+        user.token,
+        "==================================================="
+      );
       localStorage.setItem("token", user.token);
       if (user.role === "seller") {
         navigate("/seller/dashboard");

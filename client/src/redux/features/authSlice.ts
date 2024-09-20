@@ -28,7 +28,7 @@ export const loginUser = createAsyncThunk(
     try {
       let response;
       if (credentials.token) {
-        response = await axios.get<User>(`http://localhost:3000/api/auth/me`, {
+        response = await axios.get(`http://localhost:3000/api/auth/me`, {
           headers: { Authorization: `Bearer ${credentials.token}` },
         });
       } else {
@@ -98,11 +98,15 @@ const userSlice = createSlice({
         state.status = "loading";
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user = action.payload.user;
+        console.log(
+          action.payload,
+          "===================================================payloaaaaaaaaaaaaaaaaaaaaaaaaad"
+        );
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload as string; // Store error message
+        state.error = action.payload as string;
       })
       .addCase(signUpUser.pending, (state) => {
         state.status = "loading";

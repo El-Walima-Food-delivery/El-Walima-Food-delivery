@@ -367,6 +367,32 @@
           "coordinates": [9.3708, 37.2783] // Bizerte
         },
         "role": "restaurant_owner"
+      },
+      {
+        "id": 29,
+        "name": "Zachary Allen",
+        "email": "zachary.allekkkn@example.com",
+        "password": "hashed_password_28",
+        "imagesUrl": "https://media.istockphoto.com/id/1386479313/fr/photo/heureuse-femme-daffaires-afro-am%C3%A9ricaine-mill%C3%A9naire-posant-isol%C3%A9e-sur-du-blanc.jpg?s=612x612&w=0&k=20&c=CS0xj40eNCorQyzN1ImeMKlvPDocPHSaMsXethQ-Q_g=",
+        "balance": 123.45,
+        "location": {
+          "type": 'Point',
+          "coordinates": [9.3708, 37.2783] // Bizerte
+        },
+        "role": "restaurant_owner"
+      },
+      {
+        "id": 30,
+        "name": "Zachary Allen",
+        "email": "zachary.alggglen@example.com",
+        "password": "hashed_password_28",
+        "imagesUrl": "https://media.istockphoto.com/id/1386479313/fr/photo/heureuse-femme-daffaires-afro-am%C3%A9ricaine-mill%C3%A9naire-posant-isol%C3%A9e-sur-du-blanc.jpg?s=612x612&w=0&k=20&c=CS0xj40eNCorQyzN1ImeMKlvPDocPHSaMsXethQ-Q_g=",
+        "balance": 123.45,
+        "location": {
+          "type": 'Point',
+          "coordinates": [9.3708, 37.2783] // Bizerte
+        },
+        "role": "restaurant_owner"
       }
   ];
  
