@@ -2,8 +2,8 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 // import { useAuth } from "./hooks/useAuth";
 import ContactUs from "./components/ContactUs";
 import Navbar from "./components/Navbar";
+import HomePage from "./pages/HomePage.tsx";
 import OneItemdetail from "./pages/OneItemdetail";
-import HomePage from "./pages/HomePage";
 import SignIn from "./pages/SignIn.tsx";
 import SignUp from "./pages/SignUp.tsx";
 
@@ -20,7 +20,6 @@ const App = () => {
         <Route path="/OneItemdetail/:id" element={<OneItemdetail />} />
       </Routes>
     </Router>
-
   );
 };
 
