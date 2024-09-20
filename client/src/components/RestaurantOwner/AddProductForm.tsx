@@ -9,10 +9,14 @@ interface NewFood {
 
     name: string;
     
-    price: string;
-    image: string;
-    category: string;
+    price: number;
+    imageUrl: string;
+    category_Id: string;
 }
+
+
+
+
 
 
 const AddProductForm: React.FC = () => {
@@ -21,21 +25,62 @@ const AddProductForm: React.FC = () => {
     const [price, setPrice] = useState('')
 
 
-    const [image, setImage] = useState('')
-    const [category, setCategory] = useState('Breakfast')
+    const [imageUrl, setImageUrl] = useState('')
     
+    const [categoryId, setCategoryId] = useState("")
+
 
 
     const handleFoodType = (e: ChangeEvent<HTMLSelectElement>) => {
-        setCategory(e.target.value)
+        
+        if (e.target.value === "Pizza") {
+            setCategoryId("1")
+        }
+        if (e.target.value === "Burger") {
+
+
+
+
+            setCategoryId("2")
+        }
+        if (e.target.value === "Tunisian") {
+
+
+            setCategoryId("3")
+        }
+        if (e.target.value === "Salad") {
+            setCategoryId("4")
+        }
+        if (e.target.value === "Desserts") {
+            setCategoryId("5")
+        }
+        if (e.target.value === "Pasta") {
+            setCategoryId("6")
+        }
+        if (e.target.value === "Chicken") {
+            setCategoryId("7")
+        }
+        if (e.target.value === "Sandwich") {
+            setCategoryId("8")
+        }
     }
+
+
+
+
 
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const newFood: NewFood = { name, price, image, category }
+        const newFood: NewFood = { 
+            name, 
+            price: parseFloat(price), 
+            imageUrl:imageUrl, 
+            category_Id: categoryId 
+        }
 
         fetch("http://localhost:3000/api/menu-items/", {
+
 
             method: 'POST',
             headers: {
@@ -97,19 +142,21 @@ const AddProductForm: React.FC = () => {
                     <TextField
                         id="image"
                         type="text"
-                        value={image}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setImage(e.target.value)} required />
+                        value={imageUrl}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setImageUrl(e.target.value)} required />
                     {/* type  */}
+
                     <Label htmlFor="type" text="Select the type of food" />
 <select
     id="type"
     className="border border-gray-200 rounded-lg py-3 px-4 w-full focus:outline-none ring-red-200 transition duration-500 focus:ring-4"
-    value={category}
+    value={categoryId}
     onChange={handleFoodType}
     title="Select the type of food"
+
 >
 
-                        <option value="Pizza">Pizza</option>
+                        <option  value="Pizza">Pizza</option>
                         <option value="Burger">Burger</option>
                         <option value="Tunisian">Tunisian</option>
 
