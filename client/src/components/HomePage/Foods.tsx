@@ -42,6 +42,10 @@ const Foods: React.FC = () => {
       });
   };
 
+  const handleItemClick = (itemId: number) => {
+    navigate(`/OneItemdetail/${itemId}`);
+  };
+
   return (
     <section className="my-12 max-w-screen-xl mx-auto px-6">
       <h2 className="text-2xl font-semibold mb-6">Categories</h2>
@@ -95,6 +99,7 @@ const Foods: React.FC = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {menuItems.map((item) => (
               <div
+                onClick={() => handleItemClick(item.id)}
                 key={item.id}
                 className="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-102"
               >
