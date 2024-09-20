@@ -11,8 +11,8 @@ import "../../styles/index.css";
 import "../../styles/tailwind.css";
 
 const SignIn: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { status, error } = useSelector((state: RootState) => state.users);
@@ -22,14 +22,18 @@ const SignIn: React.FC = () => {
     try {
       const resultAction = await dispatch(loginUser({ email, password }));
       const user = unwrapResult(resultAction);
-      localStorage.setItem('token', user.token);
-      if (user.role === 'seller') {
-        navigate('/seller/dashboard');
+      console.log(
+        user.token,
+        "==================================================="
+      );
+      localStorage.setItem("token", user.token);
+      if (user.role === "seller") {
+        navigate("/seller/dashboard");
       } else {
-        navigate('/');
+        navigate("/");
       }
     } catch (error) {
-      console.error('Error signing in:', error);
+      console.error("Error signing in:", error);
     }
   };
 

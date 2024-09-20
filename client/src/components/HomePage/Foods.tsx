@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 interface FoodItem {
   id: number;
   name: string;
@@ -13,9 +13,8 @@ const Foods: React.FC = () => {
   const navigate = useNavigate();
   const handleFoodClick = (id: number) => {
     navigate(`/OneItemdetail/${id}`);
-
   };
-console.log(loading);
+  console.log(loading);
 
   const useFetch = (): FoodItem[] => {
     const [foods, setFoods] = useState<FoodItem[]>([]);
@@ -32,14 +31,12 @@ console.log(loading);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 99999999999);
+    }, 1000);
   }, []);
 
   const handleMenuTabs = (type: string): void => {
     setMenuTab(type);
   };
-
-  console.log(foods);
 
   return (
     <section className="my-12 max-w-screen-xl mx-auto px-6">
@@ -62,13 +59,9 @@ console.log(loading);
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
         {foods.map((item) => (
           <div
-<<<<<<< HEAD
-            key={item.id} onClick={() => handleFoodClick(item.id)}
-            className="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-102"
-=======
             key={item.id}
-            className="bg-white shadow-sm rounded-md overflow-hidden transition-all duration-300 hover:shadow-md hover:scale-105"
->>>>>>> origin/main
+            onClick={() => handleFoodClick(item.id)}
+            className="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-102"
           >
             <img
               src={item.imageUrl}
