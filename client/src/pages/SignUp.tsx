@@ -8,28 +8,51 @@ import Button from "../components/Form/Button";
 import TextField from "../components/Form/TextField";
 
 const SignUp: React.FC = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('customer');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("customer");
   const [error, setError] = useState<string | null>(null);
+  // const [location, setLocation] = useState<[number, number] | null>(null);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
+  // const getLocation = () => {
+  //   if ("geolocation" in navigator) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         console.log(position.coords);
+
+  //         setLocation([position.coords.longitude, position.coords.latitude]);
+  //       },
+  //       (error) => {
+  //         console.error("Error getting location:", error);
+  //         setError(
+  //           "Unable to get location. Please try again or enter manually."
+  //         );
+  //       }
+  //     );
+  //   } else {
+  //     setError("Geolocation is not supported by your browser.");
+  //   }
+  // };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
-      await dispatch(signUpUser({
-        name,
-        email,
-        password,
-        role,
-        location: { type: 'Point', coordinates: [10.16579, 36.80611] }
-      }));
-      navigate('/signin');
+      await dispatch(
+        signUpUser({
+          name,
+          email,
+          password,
+          role,
+        })
+      );
+      navigate("/signin");
     } catch (error) {
-      console.error('Error signing up:', error);
-      setError('Sign up failed');
+      console.error("Error signing up:", error);
+      setError("Sign up failed");
     }
   };
 

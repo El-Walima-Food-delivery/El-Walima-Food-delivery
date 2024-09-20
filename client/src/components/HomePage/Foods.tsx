@@ -26,14 +26,12 @@ const Foods: React.FC = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 99999999999);
+    }, 1000);
   }, []);
 
   const handleMenuTabs = (type: string): void => {
     setMenuTab(type);
   };
-
-  console.log(foods);
 
   return (
     <section className="my-12 max-w-screen-xl mx-auto px-6">
