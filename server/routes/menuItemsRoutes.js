@@ -15,7 +15,7 @@ router.put('/:id', updateMenuItem);
 router.delete('/:id', deleteMenuItem);
 
 // Get menu items by category ID
-router.get('/category/:categoryId', getMenuItemsByCategory);
+router.get('/cat/:category_id', getMenuItemsByCategory);
 
 // Get menu items by name
 router.get('/name/:name', getMenuItemsByName);

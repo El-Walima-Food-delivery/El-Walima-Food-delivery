@@ -513,7 +513,7 @@ const menuitems = [
     {
         id: 52,
         name: 'sandwish kabeb',
-        imageUrl: 'https://static.wikia.nocookie.net/wikebab/images/b/bd/T%C3%A9l%C3%A9chargement_%281%29.jpg/revision/latest?cb=20160116190900&path-prefix=fr',
+        imageUrl: 'https://elavegan.com/wp-content/uploads/2020/11/vegan-kebab-sandwiches-with-jackfruit-and-veggies.jpg',
         availble: true,
         likes: 4,
         price: 9.000,
@@ -1422,7 +1422,7 @@ const menuitems = [
     },
     {
         id: 143,
-        name: 'margherita',
+        name: 'pizza margherita',
         imageUrl: 'https://fr.ooni.com/cdn/shop/articles/Margherita-9920.jpg?crop=center&height=800&v=1644590066&width=800',
         availble: true,
         likes: 5,
@@ -1432,7 +1432,7 @@ const menuitems = [
     },
     {
         id: 144,
-        name: 'margherita',
+        name: 'pizza margherita',
         imageUrl: 'https://www.galbani.fr/wp-content/uploads/2017/10/margherita-800x600.jpg',
         availble: true,
         likes: 6,
@@ -1442,7 +1442,7 @@ const menuitems = [
     },
     {
         id: 145,
-        name: 'margherita',
+        name: 'pizza margherita',
         imageUrl: 'https://media.ouest-france.fr/v1/pictures/bf8eb1f7ab19a5e8b9d13cc1f0408439-10688421.jpg?width=1260&client_id=eds&sign=03c5940993b1261549f0c99e7566bc9e0476720c3c1593b5a4b67ad4b3363bd4',
         availble: true,
         likes: 4,
@@ -1452,7 +1452,7 @@ const menuitems = [
     },
     {
         id: 146,
-        name: 'margherita',
+        name: 'pizza margherita',
         imageUrl: 'https://media.istockphoto.com/id/1168754685/fr/photo/margarita-de-pizza-avec-la-vue-sup%C3%A9rieure-de-fromage-disolement-sur-le-fond-blanc.jpg?s=612x612&w=0&k=20&c=9RHfY1eek9drWa4dxJJEYdIiQ9fS2chxNdPQ9AUxJJg=',
         availble: true,
         likes: 8,
@@ -1462,7 +1462,7 @@ const menuitems = [
     },
     {
         id: 147,
-        name: 'margherita',
+        name: 'pizza margherita',
         imageUrl: 'https://www.flameoven.com/cdn/shop/articles/flameoven-recette-pizza-margherita-au-four-a-pizza.jpg?v=1710845631',
         availble: true,
         likes: 6,
@@ -1472,7 +1472,7 @@ const menuitems = [
     },
     {
         id: 148,
-        name: 'margherita',
+        name: 'pizza margherita',
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1j96PcBeCX3HZlF9BMRBFrhE5994SRqYqmQ&s',
         availble: true,
         likes: 2,
@@ -1482,8 +1482,8 @@ const menuitems = [
     },
     {
         id: 149,
-        name: 'margherita',
-        imageUrl: 'https://lelocalapizzas.fr/wp-content/uploads/2022/02/recette-pizza-margherita.jpghttps://www.foodandwine.com/thmb/7BpSJWDh1s-2M2ooRPHoy07apq4=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/mozzarella-pizza-margherita-FT-RECIPE0621-11fa41ceb1a5465d9036a23da87dd3d4.jpg',
+        name: 'pizza margherita',
+        imageUrl: 'https://media.istockphoto.com/id/1168754685/fr/photo/margarita-de-pizza-avec-la-vue-sup%C3%A9rieure-de-fromage-disolement-sur-le-fond-blanc.jpg?s=612x612&w=0&k=20&c=9RHfY1eek9drWa4dxJJEYdIiQ9fS2chxNdPQ9AUxJJg=',
         availble: true,
         likes: 5,
         price: 10.000,
@@ -1492,7 +1492,7 @@ const menuitems = [
     },
     {
         id: 150,
-        name: 'margherita',
+        name: 'pizza margherita',
         imageUrl: 'https://www.laurenceel.com/wp-content/uploads/2023/05/Pizza-Margherita.jpg',
         availble: true,
         likes: 4,
@@ -1502,7 +1502,7 @@ const menuitems = [
     },
     {
         id: 151,
-        name: 'margherita',
+        name: 'pizza margherita',
         imageUrl: 'https://static.750g.com/images/640-440/c1b1d4590bcd946cb8ffab3db4c7d543/snap-2016-06-08-at-16.34.39.jpg',
         availble: true,
         likes: 6,

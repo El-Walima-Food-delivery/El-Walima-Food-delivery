@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { useNavigate } from 'react-router-dom';
 interface FoodItem {
   id: number;
   name: string;
@@ -10,12 +10,18 @@ interface FoodItem {
 const Foods: React.FC = () => {
   const [menuTab, setMenuTab] = useState<string>("Breakfast");
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const handleFoodClick = (id: number) => {
+    navigate(`/OneItemdetail/${id}`);
+
+  };
+console.log(loading);
 
   const useFetch = (): FoodItem[] => {
     const [foods, setFoods] = useState<FoodItem[]>([]);
 
     useEffect(() => {
-      fetch("http://localhost:3000/api/categories/")
+      fetch("http://localhost:3000/api/menu-items/cat/8")
         .then((res) => res.json())
         .then((data) => setFoods(data));
     }, []);
@@ -56,8 +62,13 @@ const Foods: React.FC = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
         {foods.map((item) => (
           <div
+<<<<<<< HEAD
+            key={item.id} onClick={() => handleFoodClick(item.id)}
+            className="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-102"
+=======
             key={item.id}
             className="bg-white shadow-sm rounded-md overflow-hidden transition-all duration-300 hover:shadow-md hover:scale-105"
+>>>>>>> origin/main
           >
             <img
               src={item.imageUrl}
