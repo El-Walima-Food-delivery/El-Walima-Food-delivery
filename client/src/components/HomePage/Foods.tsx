@@ -45,27 +45,48 @@ const Foods: React.FC = () => {
   return (
     <section className="my-12 max-w-screen-xl mx-auto px-6">
       <h2 className="text-2xl font-semibold mb-6">Categories</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-        {categories.map((category) => (
-          <div
-            key={category.id}
-            onClick={() => handleCategoryClick(category.id)}
-            className={`bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-102 cursor-pointer ${
-              selectedCategory === category.id ? "ring-2 ring-primary" : ""
-            }`}
-          >
-            <img
-              src={category.imageUrl}
-              alt={category.name}
-              className="w-full h-32 object-cover"
-            />
-            <div className="p-3">
-              <h3 className="text-sm font-semibold text-gray-800 mb-1 truncate">
-                {category.name}
-              </h3>
+      <div className="relative">
+        <div className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory">
+          {categories.map((category) => (
+            <div
+              key={category.id}
+              onClick={() => handleCategoryClick(category.id)}
+              className={`bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-102 snap-start min-w-[150px] mx-2 cursor-pointer ${
+                selectedCategory === category.id ? "ring-2 ring-primary" : ""
+              }`}
+            >
+              <img
+                src={category.imageUrl}
+                alt={category.name}
+                className="w-full h-32 object-cover"
+              />
+              <div className="p-3">
+                <h3 className="text-sm font-semibold text-gray-800 mb-1 truncate">
+                  {category.name}
+                </h3>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        {/* Navigation Arrows */}
+        <button
+          onClick={() => {
+            const scrollContainer = document.querySelector(".flex");
+            scrollContainer?.scrollBy({ left: -200, behavior: "smooth" });
+          }}
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md"
+        >
+          &lt;
+        </button>
+        <button
+          onClick={() => {
+            const scrollContainer = document.querySelector(".flex");
+            scrollContainer?.scrollBy({ left: 200, behavior: "smooth" });
+          }}
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md"
+        >
+          &gt;
+        </button>
       </div>
 
       {selectedCategory && (
