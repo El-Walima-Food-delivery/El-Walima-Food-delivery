@@ -4,7 +4,7 @@ import ContactUs from "./components/ContactUs";
 import Navbar from "./components/Navbar";
 import OneItemdetail from "./pages/OneItemdetail";
 import HomePage from "./pages/HomePage";
-
+import Cart from "./pages/Cart";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { useAuth } from "./hooks/useAuth";
@@ -22,6 +22,7 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/OneItemdetail/:id" element={<OneItemdetail />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </Router>
   );
