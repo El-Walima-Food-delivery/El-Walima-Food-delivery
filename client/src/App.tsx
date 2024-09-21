@@ -2,15 +2,19 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 // import { useAuth } from "./hooks/useAuth";
 import ContactUs from "./components/ContactUs";
 import Navbar from "./components/Navbar";
+import { useAuth } from "./hooks/useAuth";
 import HomePage from "./pages/HomePage.tsx";
 import OneItemdetail from "./pages/OneItemdetail";
 import SignIn from "./pages/SignIn.tsx";
 import SignUp from "./pages/SignUp.tsx";
 
 const App = () => {
+  useAuth();
+
   return (
     <Router>
       <Navbar />
+
       <Routes>
         <Route path="/" element={<HomePage />} />
 
