@@ -67,32 +67,41 @@ exports.getAllUsersRestaurant = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+// exports.getRestaurants = async (req, res) => {
+//   try {
+//     const restaurants = await db.User.findAll({
+//       where: { role: "restaurant_owner" },
+//     });
+//     console.log("Fetched restaurants:", restaurants);
+//     res.status(200).json(restaurants);
+//   } catch (error) {
+//     console.error("Error in getRestaurants:", error);
+//     res
+//       .status(500)
+//       .json({ message: "Error fetching restaurants", error: error.message });
+//   }
+// };
 
 exports.findNearbyRestaurants = async (req, res) => {
-  const { userId, radius = 1000 } = req.body; // Radius in meters
+  const { userId, radius = 1000 } = req.body;
 
   try {
-    // 1. Retrieve the user's information
     const user = await db.User.findByPk(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found." });
     }
 
-    // Check if the user is a customer
     if (user.role !== "customer") {
       return res.status(403).json({ error: "The user is not a customer." });
     }
 
-    // Get the customer's location
     const customerLocation = user.location;
     if (!customerLocation) {
       return res.status(404).json({ error: "Customer location not found." });
     }
 
-    // Construct the POINT for the customer's location
     const customerPoint = `POINT(${customerLocation.coordinates[0]} ${customerLocation.coordinates[1]})`;
 
-    // 2. Find nearby restaurants
     const nearbyRestaurants = await db.User.findAll({
       attributes: [
         "id",
