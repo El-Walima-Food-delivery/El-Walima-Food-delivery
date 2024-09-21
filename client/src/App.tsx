@@ -2,12 +2,11 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 // import { useAuth } from "./hooks/useAuth";
 import ContactUs from "./components/ContactUs";
 import Navbar from "./components/Navbar";
-import OneItemdetail from "./pages/OneItemdetail";
-import HomePage from "./pages/HomePage";
-
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
 import { useAuth } from "./hooks/useAuth";
+import HomePage from "./pages/HomePage.tsx";
+import OneItemdetail from "./pages/OneItemdetail";
+import SignIn from "./pages/SignIn.tsx";
+import SignUp from "./pages/SignUp.tsx";
 
 const App = () => {
   useAuth();
@@ -18,6 +17,7 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
+
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/contactus" element={<ContactUs />} />
