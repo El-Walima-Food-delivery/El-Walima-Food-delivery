@@ -1,12 +1,16 @@
 const { DataTypes } = require("sequelize");
 const connection = require("../config/database");
-const MenuItem = require("./MenuItem");
 const User = require("./User");
 
 const Order = connection.define(
   "Order",
   {
-    customer_id: {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -14,42 +18,21 @@ const Order = connection.define(
         key: "id",
       },
     },
-    restaurant_owner_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: User,
-        key: "id",
-      },
+    status: {
+      type: DataTypes.ENUM("pending", "preparing", "on_the_way", "delivered"),
+      defaultValue: "pending",
     },
-    menuitems_id: {
-      type: DataTypes.INTEGER,
+    total_amount: {
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
-      references: {
-        model: MenuItem,
-        key: "id",
-      },
-    },
-    messeges: {
-      type: DataTypes.STRING(1000),
-      allowNull: true,
     },
   },
   {
     tableName: "orders",
-    timestamps: false,
-    indexes: [
-      { fields: ["menuitems_id"] },
-      { fields: ["customer_id", "restaurant_owner_id"] },
-    ],
+    timestamps: true,
   }
 );
 
-Order.belongsTo(User, { as: "customer", foreignKey: "customer_id" });
-Order.belongsTo(User, {
-  as: "restaurantOwner",
-  foreignKey: "restaurant_owner_id",
-});
-Order.belongsTo(MenuItem, { foreignKey: "menuitems_id" });
+Order.belongsTo(User, { foreignKey: "user_id" });
 
 module.exports = Order;

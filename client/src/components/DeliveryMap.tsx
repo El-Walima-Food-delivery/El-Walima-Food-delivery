@@ -16,6 +16,7 @@ const DeliveryMap: React.FC<DeliveryMapProps> = ({
   orderId,
   initialLocation,
 }) => {
+  console.log("DeliveryMap props:", { orderId, initialLocation });
   const [deliveryLocation, setDeliveryLocation] = useState(initialLocation);
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const DeliveryMap: React.FC<DeliveryMapProps> = ({
   }, [orderId]);
 
   return (
-    <LoadScript googleMapsApiKey="Api key ">
+    <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={deliveryLocation}

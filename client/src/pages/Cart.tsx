@@ -38,24 +38,31 @@ const Cart: React.FC = () => {
         "http://localhost:3000/api/orders/create",
         {
           items: cartItems,
-          // Add other necessary order details
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
-      const orderId = orderResponse.data.id;
-
-      // Assign a delivery (in a real scenario, this would be done on the server)
-      await axios.post("http://localhost:3000/api/orders/assign-delivery", {
-        orderId,
-        driverId: 1, // This should be dynamically assigned in a real scenario
-      });
+      const { order, delivery } = orderResponse.data;
 
       await dispatch(clearCartAsync());
-      swal(
-        "Congratulations!!!",
-        `Your order has been placed successfully. Order ID: ${orderId}`,
-        "success"
-      );
-      navigate(`/delivery-tracking/${orderId}`);
+      if (delivery) {
+        swal(
+          "Congratulations!!!",
+          `Your order has been placed successfully. Order ID: ${order.id}\nDriver: ${delivery.driver.name}\nDriver Phone: ${delivery.driver.phone}`,
+          "success"
+        );
+        navigate(`/delivery-tracking/${order.id}`);
+      } else {
+        swal(
+          "Order Placed",
+          `Your order has been placed successfully. Order ID: ${order.id}\nNo driver is currently available. Please check back later.`,
+          "success"
+        );
+        navigate("/orders"); // Assuming you have an orders page to view order history
+      }
     } catch (error) {
       console.error("Error placing order:", error);
       swal("Error", "Failed to place order. Please try again.", "error");

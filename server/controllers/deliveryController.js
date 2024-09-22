@@ -1,7 +1,6 @@
 const { Delivery, Order, User } = require("../models");
-const io = require("../app").io;
 
-module.exports.updateDeliveryLocation = async (req, res) => {
+exports.updateDeliveryLocation = async (req, res) => {
   const { deliveryId, latitude, longitude } = req.body;
 
   try {
@@ -14,7 +13,9 @@ module.exports.updateDeliveryLocation = async (req, res) => {
       current_location: { type: "Point", coordinates: [longitude, latitude] },
     });
 
-    io.emit(`deliveryUpdate-${delivery.order_id}`, { latitude, longitude });
+    req.app
+      .get("io")
+      .emit(`deliveryUpdate-${delivery.order_id}`, { latitude, longitude });
 
     res.status(200).json({ message: "Location updated successfully" });
   } catch (error) {
@@ -24,14 +25,14 @@ module.exports.updateDeliveryLocation = async (req, res) => {
   }
 };
 
-module.exports.getDeliveryStatus = async (req, res) => {
+exports.getDeliveryStatus = async (req, res) => {
   const { orderId } = req.params;
 
   try {
     const delivery = await Delivery.findOne({
       where: { order_id: orderId },
       include: [
-        { model: User, as: "driver", attributes: ["name", "phone"] },
+        { model: User, as: "driver", attributes: ["name", "email"] },
         { model: Order, attributes: ["id", "status"] },
       ],
     });
@@ -39,7 +40,6 @@ module.exports.getDeliveryStatus = async (req, res) => {
     if (!delivery) {
       return res.status(404).json({ message: "Delivery not found" });
     }
-
     res.status(200).json(delivery);
   } catch (error) {
     res.status(500).json({
@@ -49,7 +49,7 @@ module.exports.getDeliveryStatus = async (req, res) => {
   }
 };
 
-module.exports.assignDelivery = async (req, res) => {
+exports.assignDelivery = async (req, res) => {
   const { orderId, driverId } = req.body;
 
   try {

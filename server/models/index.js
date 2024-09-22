@@ -6,6 +6,7 @@ const Order = require("./Order");
 const Category = require("./category");
 const Cart = require("./carts");
 const Delivery = require("./Delivery");
+const OrderItem = require("./OrderItem");
 const db = {};
 
 db.connection = Sequelize;
@@ -19,6 +20,7 @@ db.Order = Order;
 db.Category = Category;
 db.Cart = Cart;
 db.Delivery = Delivery;
+db.OrderItem = OrderItem;
 // connection
 //   .sync({ force: true })
 //   .then(() => {

@@ -39,6 +39,8 @@ const io = new Server(server, {
   },
 });
 
+app.set("io", io);
+
 io.on("connection", (socket) => {
   console.log("A user connected");
 
@@ -52,5 +54,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

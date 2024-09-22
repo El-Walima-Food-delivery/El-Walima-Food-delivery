@@ -13,7 +13,10 @@ interface DeliveryStatus {
   };
   driver: {
     name: string;
-    phone: string;
+    email: string;
+  };
+  Order: {
+    status: string;
   };
 }
 
@@ -27,8 +30,14 @@ const DeliveryTracking: React.FC = () => {
     const fetchDeliveryStatus = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/orders/delivery-status/${orderId}`
+          `http://localhost:3000/api/orders/delivery-status/${orderId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
+        console.log(response.data, "delivery status");
         setDeliveryStatus(response.data);
       } catch (error) {
         console.error("Error fetching delivery status:", error);
@@ -54,6 +63,19 @@ const DeliveryTracking: React.FC = () => {
       }
     );
 
+    socket.on(`orderStatus-${orderId}`, (data: { status: string }) => {
+      setDeliveryStatus((prevStatus) => {
+        if (!prevStatus) return null;
+        return {
+          ...prevStatus,
+          Order: {
+            ...prevStatus.Order,
+            status: data.status,
+          },
+        };
+      });
+    });
+
     return () => {
       socket.disconnect();
     };
@@ -64,12 +86,15 @@ const DeliveryTracking: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>Delivery Tracking</h1>
-      <p>Order ID: {orderId}</p>
-      <p>Status: {deliveryStatus.status}</p>
-      <p>Driver: {deliveryStatus.driver.name}</p>
-      <p>Driver Phone: {deliveryStatus.driver.phone}</p>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-4">Delivery Tracking</h1>
+      <p className="mb-2">Order ID: {orderId}</p>
+      <p className="mb-2">Status: {deliveryStatus.Order.status}</p>
+      <p className="mb-2">Driver: {deliveryStatus.driver.name}</p>
+      <p className="mb-4">Driver Email: {deliveryStatus.driver.email}</p>
+      {/* {deliveryStatus.Order.status === "on_the_way" && (
+
+      )} */}
       <DeliveryMap
         orderId={orderId!}
         initialLocation={{
