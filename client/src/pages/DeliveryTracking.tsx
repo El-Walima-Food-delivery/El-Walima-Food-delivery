@@ -18,6 +18,10 @@ interface DeliveryStatus {
   Order: {
     status: string;
   };
+  client_location: {
+    type: string;
+    coordinates: [number, number];
+  };
 }
 
 const DeliveryTracking: React.FC = () => {
@@ -92,16 +96,19 @@ const DeliveryTracking: React.FC = () => {
       <p className="mb-2">Status: {deliveryStatus.Order.status}</p>
       <p className="mb-2">Driver: {deliveryStatus.driver.name}</p>
       <p className="mb-4">Driver Email: {deliveryStatus.driver.email}</p>
-      {/* {deliveryStatus.Order.status === "on_the_way" && (
-
-      )} */}
-      <DeliveryMap
-        orderId={orderId!}
-        initialLocation={{
-          lat: deliveryStatus.current_location.coordinates[1],
-          lng: deliveryStatus.current_location.coordinates[0],
-        }}
-      />
+      {deliveryStatus.Order.status === "on_the_way" && (
+        <DeliveryMap
+          orderId={orderId!}
+          initialDriverLocation={{
+            lat: deliveryStatus.current_location.coordinates[1],
+            lng: deliveryStatus.current_location.coordinates[0],
+          }}
+          clientLocation={{
+            lat: deliveryStatus.client_location.coordinates[1],
+            lng: deliveryStatus.client_location.coordinates[0],
+          }}
+        />
+      )}
     </div>
   );
 };

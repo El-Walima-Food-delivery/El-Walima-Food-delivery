@@ -5,6 +5,7 @@ const {
   updateDeliveryLocation,
   assignDelivery,
   getDeliveryStatus,
+  updateOrderStatus,
 } = require("../controllers/deliveryController");
 const {
   createOrder,
@@ -20,5 +21,6 @@ orderRoutes.delete("/:id", deleteOrder);
 orderRoutes.post("/update-location", updateDeliveryLocation);
 orderRoutes.post("/assign-delivery", assignDelivery);
 orderRoutes.get("/delivery-status/:orderId", getDeliveryStatus);
+orderRoutes.post("/delivery/update-status", updateOrderStatus);
 
 module.exports = orderRoutes;

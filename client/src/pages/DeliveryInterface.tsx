@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+
 import io from "socket.io-client";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 const DeliveryInterface: React.FC = () => {
   const [deliveryId, setDeliveryId] = useState<string>("");
@@ -64,7 +66,7 @@ const DeliveryInterface: React.FC = () => {
   const updateOrderStatus = async (newStatus: string) => {
     try {
       await axios.post(
-        "http://localhost:3000/api/orders/update-status",
+        "http://localhost:3000/api/orders/delivery/update-status",
         {
           orderId,
           status: newStatus,
@@ -119,15 +121,17 @@ const DeliveryInterface: React.FC = () => {
         </button>
       </div>
       {currentLocation && (
-        <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-          <GoogleMap
-            mapContainerStyle={{ width: "100%", height: "400px" }}
-            center={currentLocation}
-            zoom={15}
-          >
-            <Marker position={currentLocation} />
-          </GoogleMap>
-        </LoadScript>
+        <MapContainer
+          center={[currentLocation.lat, currentLocation.lng]}
+          zoom={15}
+          style={{ width: "100%", height: "400px" }}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <Marker position={[currentLocation.lat, currentLocation.lng]} />
+        </MapContainer>
       )}
     </div>
   );

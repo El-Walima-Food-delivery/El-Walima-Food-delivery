@@ -33,14 +33,39 @@ exports.getDeliveryStatus = async (req, res) => {
       where: { order_id: orderId },
       include: [
         { model: User, as: "driver", attributes: ["name", "email"] },
-        { model: Order, attributes: ["id", "status"] },
+        {
+          model: Order,
+          attributes: ["id", "status", "user_id"],
+          include: [
+            {
+              model: User,
+              attributes: ["id", "name", "email", "location"],
+            },
+          ],
+        },
       ],
     });
 
     if (!delivery) {
       return res.status(404).json({ message: "Delivery not found" });
     }
-    res.status(200).json(delivery);
+
+    const clientLocation = delivery.Order.User.location;
+
+    const responseData = {
+      ...delivery.toJSON(),
+      client_location: clientLocation
+        ? {
+            type: "Point",
+            coordinates: [
+              clientLocation.coordinates[0],
+              clientLocation.coordinates[1],
+            ],
+          }
+        : null,
+    };
+
+    res.status(200).json(responseData);
   } catch (error) {
     res.status(500).json({
       message: "Error fetching delivery status",
@@ -76,5 +101,26 @@ exports.assignDelivery = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error assigning delivery", error: error.message });
+  }
+};
+
+exports.updateOrderStatus = async (req, res) => {
+  console.log(req.body, "req.body");
+  const { orderId, status } = req.body;
+
+  try {
+    const order = await Order.findByPk(orderId);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    await order.update({ status });
+
+    res.status(200).json({ message: "Order status updated successfully" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error updating order status",
+      error: error.message,
+    });
   }
 };
