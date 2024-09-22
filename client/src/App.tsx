@@ -8,6 +8,8 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Cart from "./pages/Cart";
 import { useCart } from "./hooks/useCart";
+import DeliveryTracking from "./pages/DeliveryTracking";
+import DeliveryInterface from "./pages/DeliveryInterface";
 const App = () => {
   useAuth();
   useCart();
@@ -18,7 +20,11 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/cart" element={<Cart />} />
-
+        <Route
+          path="/delivery-tracking/:orderId"
+          element={<DeliveryTracking />}
+        />
+        <Route path="/delivery-interface" element={<DeliveryInterface />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/contactus" element={<ContactUs />} />

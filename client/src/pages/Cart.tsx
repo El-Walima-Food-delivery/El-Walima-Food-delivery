@@ -10,6 +10,7 @@ import {
 } from "../redux/features/cartSlice";
 import Back from "../pages/back";
 import { AiOutlineDelete } from "react-icons/ai";
+import axios from "axios";
 
 const Cart: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
@@ -32,13 +33,33 @@ const Cart: React.FC = () => {
   };
 
   const handlePlaceOrder = async () => {
-    await dispatch(clearCartAsync());
-    swal(
-      "Congratulations!!!",
-      `You have ordered ${cartItems.length} items successfully`,
-      "success"
-    );
-    navigate("/order-successful");
+    try {
+      const orderResponse = await axios.post(
+        "http://localhost:3000/api/orders/create",
+        {
+          items: cartItems,
+          // Add other necessary order details
+        }
+      );
+      const orderId = orderResponse.data.id;
+
+      // Assign a delivery (in a real scenario, this would be done on the server)
+      await axios.post("http://localhost:3000/api/orders/assign-delivery", {
+        orderId,
+        driverId: 1, // This should be dynamically assigned in a real scenario
+      });
+
+      await dispatch(clearCartAsync());
+      swal(
+        "Congratulations!!!",
+        `Your order has been placed successfully. Order ID: ${orderId}`,
+        "success"
+      );
+      navigate(`/delivery-tracking/${orderId}`);
+    } catch (error) {
+      console.error("Error placing order:", error);
+      swal("Error", "Failed to place order. Please try again.", "error");
+    }
   };
 
   const subTotal = parseFloat(totalPrice.toFixed(2));
