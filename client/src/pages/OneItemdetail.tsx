@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsCart2 } from "react-icons/bs";
 import { useParams, useNavigate } from "react-router-dom";
+import { AppDispatch } from "../redux/store";
 import { useDispatch } from "react-redux";
 import swal from "sweetalert";
 import Footer from "../components/HomePage/Footer/Footer";
-import { addToCart } from "../redux/features/cartSlice";
+import { addToCartAsync } from "../redux/features/cartSlice";
 
 interface Food {
   id: number;
@@ -13,11 +14,16 @@ interface Food {
   price: number;
   imageUrl: string;
   description?: string;
+  User: {
+    id: number;
+  };
+  availble: number;
+  likes: number;
 }
 
 const FoodDetailScreen: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const [food, setFood] = useState<Food | null>(null);
   const { id } = useParams<{ id: string }>();
@@ -47,11 +53,15 @@ const FoodDetailScreen: React.FC = () => {
   const handleAddToCart = () => {
     if (food) {
       dispatch(
-        addToCart({
+        addToCartAsync({
           id: food.id,
           name: food.name,
           price: food.price,
           quantity: quantity,
+          user_id: food.User.id,
+          imageUrl: food.imageUrl,
+          availble: food.availble,
+          likes: food.likes,
         })
       );
       swal(

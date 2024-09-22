@@ -2,17 +2,18 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import swal from "sweetalert";
-import { RootState } from "../redux/store";
+import { RootState, AppDispatch } from "../redux/store";
 import {
-  removeFromCart,
-  updateQuantity,
-  clearCart,
+  removeFromCartAsync,
+  updateQuantityAsync,
+  clearCartAsync,
 } from "../redux/features/cartSlice";
 import Back from "../pages/back";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const Cart: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const totalPrice = cartItems.reduce(
@@ -21,102 +22,158 @@ const Cart: React.FC = () => {
   );
 
   const handleRemoveItem = (id: number) => {
-    dispatch(removeFromCart(id));
+    dispatch(removeFromCartAsync(id));
   };
 
   const handleUpdateQuantity = (id: number, newQuantity: number) => {
     if (newQuantity > 0) {
-      dispatch(updateQuantity({ id, quantity: newQuantity }));
+      dispatch(updateQuantityAsync({ id, quantity: newQuantity }));
     }
   };
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
+    await dispatch(clearCartAsync());
     swal(
       "Congratulations!!!",
       `You have ordered ${cartItems.length} items successfully`,
       "success"
     );
     navigate("/order-successful");
-    dispatch(clearCart());
   };
 
+  const subTotal = parseFloat(totalPrice.toFixed(2));
+  const tax = parseFloat((totalPrice * 0.05).toFixed(2));
+  const deliveryFee = parseFloat((totalPrice * 0.1).toFixed(2));
+  const total = parseFloat((subTotal + tax + deliveryFee).toFixed(2));
+
   return (
-    <main className="h-screen banner">
+    <main className="min-h-screen banner">
       <div className="max-w-screen-xl py-20 mx-auto px-6">
-        <Back />
+        <div className="mb-12">
+          <Back />
+        </div>
+        <h2 className="text-2xl poppins pb-4 mb-8 inline-block border-b-2 border-gray-500 text-gray-700">
+          Your Cart
+        </h2>
         {cartItems.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+              {/* left side - cart items */}
               <div className="col-span-1">
-                <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
-                <div className="space-y-4">
+                <div className="flex flex-col space-y-4 h-96 overflow-y-auto pr-4">
                   {cartItems.map((item) => (
                     <div
                       key={item.id}
-                      className="flex items-center justify-between bg-white p-4 rounded-lg shadow"
+                      className="glass p-4 rounded-lg flex space-x-3"
                     >
-                      <div>
-                        <h3 className="font-semibold">{item.name}</h3>
-                        <p className="text-gray-600">
-                          {item.price.toFixed(2)} TND
-                        </p>
+                      <div className="flex">
+                        <img
+                          className="w-24 h-24 object-cover rounded-lg"
+                          src={item.imageUrl}
+                          alt={item.name}
+                        />
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <button
-                          onClick={() =>
-                            handleUpdateQuantity(item.id, item.quantity - 1)
-                          }
-                          className="px-2 py-1 bg-gray-200 rounded"
-                        >
-                          -
-                        </button>
-                        <span>{item.quantity}</span>
-                        <button
-                          onClick={() =>
-                            handleUpdateQuantity(item.id, item.quantity + 1)
-                          }
-                          className="px-2 py-1 bg-gray-200 rounded"
-                        >
-                          +
-                        </button>
-                        <button
+                      <div className="flex flex-col space-y-3 flex-grow">
+                        <h5 className="text-base poppins text-gray-700">
+                          {item.name}
+                        </h5>
+                        <h1 className="font-semibold text-lg text-primary poppins">
+                          {item.price.toFixed(2)} TND
+                        </h1>
+                        <div className="flex items-center">
+                          <button
+                            onClick={() =>
+                              handleUpdateQuantity(item.id, item.quantity - 1)
+                            }
+                            className="px-2 py-1 bg-gray-200 rounded-l"
+                          >
+                            -
+                          </button>
+                          <span className="poppins px-4 py-1 bg-gray-100">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() =>
+                              handleUpdateQuantity(item.id, item.quantity + 1)
+                            }
+                            className="px-2 py-1 bg-gray-200 rounded-r"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-center justify-center">
+                        <AiOutlineDelete
+                          className="w-6 h-6 text-gray-600 transform transition hover:scale-105 duration-500 cursor-pointer"
                           onClick={() => handleRemoveItem(item.id)}
-                          className="px-2 py-1 bg-red-500 text-white rounded"
-                        >
-                          Remove
-                        </button>
+                        />
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
+              {/* right side - order summary */}
               <div className="col-span-1">
-                <div className="bg-white p-6 rounded-lg shadow">
-                  <h2 className="text-2xl font-bold mb-4">Order Summary</h2>
-                  <div className="space-y-2">
-                    {cartItems.map((item) => (
-                      <div key={item.id} className="flex justify-between">
-                        <span>
-                          {item.name} x {item.quantity}
-                        </span>
-                        <span>
-                          {(item.price * item.quantity).toFixed(2)} TND
-                        </span>
-                      </div>
-                    ))}
+                <div className="glass p-6 box-border rounded-lg">
+                  <h2 className="text-2xl font-bold mb-4 poppins">
+                    Order Summary
+                  </h2>
+                  <div className="flex flex-col space-y-4 mb-3">
+                    <p className="poppins text-gray-700">
+                      Total Items:{" "}
+                      <span className="font-semibold text-black">
+                        {cartItems.length}
+                      </span>
+                    </p>
+                    <p className="poppins text-gray-700">
+                      Estimated Delivery Time:{" "}
+                      <span className="font-semibold text-black">
+                        20-30 min
+                      </span>
+                    </p>
                   </div>
-                  <div className="border-t mt-4 pt-4">
-                    <div className="flex justify-between font-bold">
-                      <span>Total:</span>
-                      <span>{totalPrice.toFixed(2)} TND</span>
+                  <div className="flex flex-col space-y-3 my-4">
+                    <div className="flex items-center">
+                      <span className="flex-grow poppins text-gray-700">
+                        Subtotal
+                      </span>
+                      <span className="poppins font-semibold text-black">
+                        ${subTotal}
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="flex-grow poppins text-gray-700">
+                        Tax
+                      </span>
+                      <span className="poppins font-semibold text-black">
+                        ${tax}
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="flex-grow poppins text-gray-700">
+                        Delivery Fee
+                      </span>
+                      <span className="poppins font-semibold text-black">
+                        ${deliveryFee}
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="flex-grow poppins text-gray-700 text-xl">
+                        Total
+                      </span>
+                      <span className="poppins font-semibold text-black text-xl">
+                        ${total}
+                      </span>
                     </div>
                   </div>
-                  <button
-                    onClick={handlePlaceOrder}
-                    className="w-full mt-6 px-6 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-primary-dark transition duration-300"
-                  >
-                    Place Order
-                  </button>
+                  <div className="mt-6">
+                    <button
+                      onClick={handlePlaceOrder}
+                      className="w-full px-6 py-3 rounded-lg bg-primary text-white poppins ring-red-300 focus:ring-4 transition duration-500"
+                    >
+                      Place Order
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
