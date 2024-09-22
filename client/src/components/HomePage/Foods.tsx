@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface FoodItem {
@@ -19,6 +19,7 @@ const Foods: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const navigate = useNavigate();
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch("http://localhost:3000/api/categories")
@@ -46,16 +47,39 @@ const Foods: React.FC = () => {
     navigate(`/OneItemdetail/${itemId}`);
   };
 
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const scrollTo =
+        direction === "left"
+          ? scrollLeft - clientWidth
+          : scrollLeft + clientWidth;
+      scrollRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="my-12 max-w-screen-xl mx-auto px-6">
       <h2 className="text-2xl font-semibold mb-6">Categories</h2>
       <div className="relative">
-        <div className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory">
+        {/* Left Arrow */}
+        <button
+          onClick={() => scroll("left")}
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-100 p-2 rounded-full shadow-md hover:bg-gray-200"
+        >
+          &larr;
+        </button>
+
+        {/* Scrollable Container */}
+        <div
+          ref={scrollRef}
+          className="flex overflow-x-scroll space-x-6 p-2 scroll-smooth"
+        >
           {categories.map((category) => (
             <div
               key={category.id}
               onClick={() => handleCategoryClick(category.id)}
-              className={`bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-102 snap-start min-w-[150px] mx-2 cursor-pointer ${
+              className={`bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-102 cursor-pointer min-w-[150px] flex-shrink-0 ${
                 selectedCategory === category.id ? "ring-2 ring-primary" : ""
               }`}
             >
@@ -72,24 +96,13 @@ const Foods: React.FC = () => {
             </div>
           ))}
         </div>
-        {/* Navigation Arrows */}
+
+        {/* Right Arrow */}
         <button
-          onClick={() => {
-            const scrollContainer = document.querySelector(".flex");
-            scrollContainer?.scrollBy({ left: -200, behavior: "smooth" });
-          }}
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md"
+          onClick={() => scroll("right")}
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-100 p-2 rounded-full shadow-md hover:bg-gray-200"
         >
-          &lt;
-        </button>
-        <button
-          onClick={() => {
-            const scrollContainer = document.querySelector(".flex");
-            scrollContainer?.scrollBy({ left: 200, behavior: "smooth" });
-          }}
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md"
-        >
-          &gt;
+          &rarr;
         </button>
       </div>
 
