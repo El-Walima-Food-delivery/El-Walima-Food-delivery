@@ -85,23 +85,22 @@ exports.createCart = async (req, res) => {
       res.status(200).json(existingCartItem);
     } else {
       // If the item doesn't exist, create a new cart item
-      const newCart = await db.Cart.create(
-        {
-          customer_id: id,
-          restaurant_owner_id,
-          menuitems_id,
-          quantity,
-        },
-        {
-          include: [
-            {
-              model: db.MenuItem,
-              attributes: ["id", "name", "price", "imageUrl"],
-            },
-          ],
-        }
-      );
-      res.status(201).json(newCart);
+      const newCart = await db.Cart.create({
+        customer_id: id,
+        restaurant_owner_id,
+        menuitems_id,
+        quantity,
+      });
+      const newCartWithMenuItem = await db.Cart.findOne({
+        where: { id: newCart.id },
+        include: [
+          {
+            model: db.MenuItem,
+            attributes: ["id", "name", "price", "imageUrl"],
+          },
+        ],
+      });
+      res.status(201).json(newCartWithMenuItem);
     }
   } catch (error) {
     console.error(error);

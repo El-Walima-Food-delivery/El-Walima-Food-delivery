@@ -5,6 +5,7 @@ const MenuItem = require("./MenuItem");
 const Order = require("./Order");
 const Category = require("./category");
 const Cart = require("./carts");
+const Delivery = require("./Delivery");
 const db = {};
 
 db.connection = Sequelize;
@@ -17,7 +18,7 @@ db.MenuItem = MenuItem;
 db.Order = Order;
 db.Category = Category;
 db.Cart = Cart;
-
+db.Delivery = Delivery;
 // connection
 //   .sync({ force: true })
 //   .then(() => {

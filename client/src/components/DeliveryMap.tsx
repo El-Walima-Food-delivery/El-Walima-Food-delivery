@@ -34,7 +34,7 @@ const DeliveryMap: React.FC<DeliveryMapProps> = ({
   }, [orderId]);
 
   return (
-    <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
+    <LoadScript googleMapsApiKey="Api key ">
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={deliveryLocation}

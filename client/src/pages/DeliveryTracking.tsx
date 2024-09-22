@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import DeliveryMap from "../components/DeliveryMap";
+import io from "socket.io-client";
 
 interface DeliveryStatus {
   id: number;
@@ -35,9 +36,27 @@ const DeliveryTracking: React.FC = () => {
     };
 
     fetchDeliveryStatus();
-    const intervalId = setInterval(fetchDeliveryStatus, 30000); // Update every 30 seconds
 
-    return () => clearInterval(intervalId);
+    const socket = io("http://localhost:3000");
+    socket.on(
+      `deliveryUpdate-${orderId}`,
+      (data: { latitude: number; longitude: number }) => {
+        setDeliveryStatus((prevStatus) => {
+          if (!prevStatus) return null;
+          return {
+            ...prevStatus,
+            current_location: {
+              type: "Point",
+              coordinates: [data.longitude, data.latitude],
+            },
+          };
+        });
+      }
+    );
+
+    return () => {
+      socket.disconnect();
+    };
   }, [orderId]);
 
   if (!deliveryStatus) {
