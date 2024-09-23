@@ -1,6 +1,12 @@
 const express = require("express");
 const orderRoutes = express.Router();
-const { Order } = require("../models");
+const authenticateToken = require("../middleware/authMiddleware");
+const {
+  updateDeliveryLocation,
+  assignDelivery,
+  getDeliveryStatus,
+  updateOrderStatus,
+} = require("../controllers/deliveryController");
 const {
   createOrder,
   getOrderById,
@@ -8,9 +14,13 @@ const {
   deleteOrder,
 } = require("../controllers/orderController");
 
-orderRoutes.post("/create", createOrder);
+orderRoutes.post("/create", authenticateToken, createOrder);
 orderRoutes.get("/:id", getOrderById);
 orderRoutes.put("/:id", updateOrder);
 orderRoutes.delete("/:id", deleteOrder);
+orderRoutes.post("/update-location", updateDeliveryLocation);
+orderRoutes.post("/assign-delivery", assignDelivery);
+orderRoutes.get("/delivery-status/:orderId", getDeliveryStatus);
+orderRoutes.post("/delivery/update-status", updateOrderStatus);
 
 module.exports = orderRoutes;

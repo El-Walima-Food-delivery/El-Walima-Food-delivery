@@ -35,11 +35,9 @@ exports.createMenuItem = async (req, res) => {
   } catch (error) {
     console.error("Error creating menu item:", error);
     if (error.name === "SequelizeForeignKeyConstraintError") {
-      return res
-        .status(400)
-        .json({
-          message: `Invalid ${error.fields[0]}. Make sure the ID exists in the referenced table.`,
-        });
+      return res.status(400).json({
+        message: `Invalid ${error.fields[0]}. Make sure the ID exists in the referenced table.`,
+      });
     }
     if (error.name === "SequelizeValidationError") {
       return res
@@ -52,7 +50,7 @@ exports.createMenuItem = async (req, res) => {
 
 exports.getMenuItemById = async (req, res) => {
   const { id } = req.params;
-  const menuItem = await MenuItem.findByPk(id);
+  const menuItem = await MenuItem.findByPk(id, { include: [User] });
   res.status(200).json(menuItem);
 };
 
