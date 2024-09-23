@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import io from "socket.io-client";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import DeliveryMap from "../components/DeliveryMap";
 
 const DeliveryInterface: React.FC = () => {
   const [deliveryId, setDeliveryId] = useState<string>("");
@@ -13,6 +13,10 @@ const DeliveryInterface: React.FC = () => {
     lng: number;
   } | null>(null);
   const [orderStatus, setOrderStatus] = useState<string>("pending");
+  const [clientLocation, setClientLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
 
   const socket = io("http://localhost:3000");
 
@@ -20,6 +24,7 @@ const DeliveryInterface: React.FC = () => {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(
         (position) => {
+          console.log(position, "position here ");
           setCurrentLocation({
             lat: position.coords.latitude,
             lng: position.coords.longitude,
@@ -38,6 +43,7 @@ const DeliveryInterface: React.FC = () => {
   }, [currentLocation, orderId]);
 
   const updateDeliveryLocation = async () => {
+    console.log("Updating delivery location", currentLocation);
     try {
       await axios.post(
         "http://localhost:3000/api/orders/update-location",
@@ -53,6 +59,8 @@ const DeliveryInterface: React.FC = () => {
           },
         }
       );
+
+      console.log("Location update sent to server:", currentLocation);
 
       socket.emit("updateDeliveryLocation", {
         orderId,
@@ -82,6 +90,38 @@ const DeliveryInterface: React.FC = () => {
       console.error("Error updating order status:", error);
     }
   };
+
+  const fetchOrderDetails = async () => {
+    try {
+      console.log("Fetching order details for orderId:", orderId); // Check if function is called
+      const response = await axios.get(
+        `http://localhost:3000/api/orders/delivery-status/${orderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response.data, "response.data wiiiiiiiiiiiiiiw"); // Check the API response
+      setOrderStatus(response.data.Order.status);
+      setClientLocation({
+        lat: response.data.client_location.coordinates[1],
+        lng: response.data.client_location.coordinates[0],
+      });
+    } catch (error) {
+      console.log(error, "error wiiiiiiiiiiiiiiw");
+      console.error("Error fetching order details:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (orderId) {
+      console.log("Order ID is set:", orderId); // Check if orderId is set
+      fetchOrderDetails();
+    }
+  }, [orderId]);
+  console.log(clientLocation, "clientLocation");
+  console.log(currentLocation, "currentLocation");
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -120,18 +160,12 @@ const DeliveryInterface: React.FC = () => {
           Mark as Delivered
         </button>
       </div>
-      {currentLocation && (
-        <MapContainer
-          center={[currentLocation.lat, currentLocation.lng]}
-          zoom={15}
-          style={{ width: "100%", height: "400px" }}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <Marker position={[currentLocation.lat, currentLocation.lng]} />
-        </MapContainer>
+      {currentLocation && clientLocation && (
+        <DeliveryMap
+          orderId={orderId}
+          initialDriverLocation={currentLocation}
+          clientLocation={clientLocation}
+        />
       )}
     </div>
   );

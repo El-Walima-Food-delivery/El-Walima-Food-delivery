@@ -43,6 +43,7 @@ function LocationMarker({
   const map = useMap();
   useEffect(() => {
     if (position && Array.isArray(position) && position.length === 2) {
+      7786;
       map.flyTo(position, map.getZoom());
     }
   }, [position, map]);
@@ -85,6 +86,7 @@ const DeliveryMap: React.FC<DeliveryMapProps> = ({
     socket.on(
       `deliveryUpdate-${orderId}`,
       (data: { latitude: number; longitude: number }) => {
+        console.log("Received delivery update:", data);
         if (data.latitude && data.longitude) {
           setDriverLocation([data.latitude, data.longitude]);
           fetchRoute(

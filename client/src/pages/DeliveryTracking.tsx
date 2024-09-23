@@ -88,6 +88,7 @@ const DeliveryTracking: React.FC = () => {
   if (!deliveryStatus) {
     return <div>Loading...</div>;
   }
+  console.log("ziiiiiiiiiiiiiiw", deliveryStatus);
 
   return (
     <div className="container mx-auto px-4 py-8">

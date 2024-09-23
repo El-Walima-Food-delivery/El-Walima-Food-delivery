@@ -45,6 +45,7 @@ io.on("connection", (socket) => {
   console.log("A user connected");
 
   socket.on("updateDeliveryLocation", (data) => {
+    console.log("Emitting delivery update:", data);
     io.emit(`deliveryUpdate-${data.orderId}`, data.location);
   });
 
