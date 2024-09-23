@@ -18,7 +18,10 @@ Router.put("/users/:id", userController.updateUser);
 Router.delete("/users/:id", userController.deleteUser);
 
 // Get all users with the role 'restaurant_owner'
-Router.get("/users/owner/restaurants", userController.getAllUsersRestaurant);
+Router.get("/owner/restaurants", userController.getAllUsersRestaurant);
+
+// Get all restaurants
+// Router.get("/restaurants", userController.getRestaurants);
 
 // Find nearby restaurants for a customer
 Router.post("/users/nearby-restaurants", userController.findNearbyRestaurants);

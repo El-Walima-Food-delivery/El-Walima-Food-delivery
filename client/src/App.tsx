@@ -4,12 +4,16 @@ import RestaurantOwner from './components/RestaurantOwner/RestaurantOwner';
 
 import ContactUs from "./components/ContactUs";
 import Navbar from "./components/Navbar";
+import { useAuth } from "./hooks/useAuth";
+import HomePage from "./pages/HomePage.tsx";
 import OneItemdetail from "./pages/OneItemdetail";
-import HomePage from "./pages/HomePage";
 import ManageProduct from "./components/RestaurantOwner/ManageProduct";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import { useAuth } from "./hooks/useAuth";
+import Cart from "./pages/Cart";
+import { useCart } from "./hooks/useCart";
+import DeliveryTracking from "./pages/DeliveryTracking";
+import DeliveryInterface from "./pages/DeliveryInterface";
 import Dashboard from "./pages/Dashboard";
 import AddProduct from "./components/RestaurantOwner/AddProduct";
 import ArchivedProductScreen from "./components/RestaurantOwner/ArchivedProductScreen";
@@ -17,18 +21,21 @@ import DashboardScreen from "./components/RestaurantOwner/dashboard/Dashboard1";
 import EditProductScreen from "./components/RestaurantOwner/EditProduct";
 const App = () => {
   useAuth();
-
-
-
+  useCart();
   return (
     <Router>
       <Navbar />
-
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route
+          path="/delivery-tracking/:orderId"
+          element={<DeliveryTracking />}
+        />
+        <Route path="/delivery-interface" element={<DeliveryInterface />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/contact" element={<ContactUs />} />
         <Route path="/OneItemdetail/:id" element={<OneItemdetail />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index path="restaurantowner" element={<RestaurantOwner />} />

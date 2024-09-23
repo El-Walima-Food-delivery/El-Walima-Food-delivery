@@ -4,21 +4,18 @@ import { User } from "../../types/userTypes";
 import { RootState } from "../store";
 // Define the type for user data
 
-// Define the state type
 interface AuthState {
   user: User | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
-// Initial state
 const initialState: AuthState = {
   user: null,
   status: "idle",
   error: null,
 };
 
-// Define the async thunk with proper typing
 export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (
@@ -56,8 +53,6 @@ export const signUpUser = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      // Use error.message or any specific error handling here
-
       return rejectWithValue((error as Error).message);
     }
   }
@@ -87,7 +82,6 @@ export const updateUserLocation = createAsyncThunk(
   }
 );
 
-// Create the slice
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -116,7 +110,7 @@ const userSlice = createSlice({
       })
       .addCase(signUpUser.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload as string; // Store error message
+        state.error = action.payload as string;
       })
       .addCase(updateUserLocation.fulfilled, (state, action) => {
         if (state.user) {

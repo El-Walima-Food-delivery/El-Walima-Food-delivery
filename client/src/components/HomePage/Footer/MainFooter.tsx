@@ -1,10 +1,12 @@
 import React from "react";
-import Brand from "../../Form/Brand";
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import Brand from "../../Form/Brand";
+import { Link } from "react-router-dom";
 
 interface FooterLink {
   id: number;
   text: string;
+  path?: string;
 }
 
 const MainFooter: React.FC = () => {
@@ -17,41 +19,48 @@ const MainFooter: React.FC = () => {
     { id: 5, text: "Get Help" },
     { id: 6, text: "Ask any question" },
     { id: 7, text: "Order Now" },
-    { id: 8, text: "Contact" },
-    { id: 9, text: "Facebook" },
-    { id: 10, text: "Instagram" },
-    { id: 11, text: "Twitter" },
-    { id: 12, text: "Youtube" },
+    { id: 8, text: "Contact", path: "/contact" },
   ];
 
   return (
-    <div className="bg-[#dee2e6] text-gray-800 py-8 px-12">
-      {/* logo  */}
-      <div className="flex flex-grow mb-8">
+    <div className="bg-[rgb(31_41_55_/var(--tw-bg-opacity))] text-white py-4 px-3 text-center">
+      {/* Branding */}
+      <div className="mb-3">
         <Brand />
       </div>
-      {/* footer links */}
-      <div className="flex space-x-12">
-        {[0, 4, 8].map((startIndex) => (
-          <div key={startIndex} className="flex flex-col space-y-4">
-            {FooterLinks.slice(startIndex, startIndex + 4).map((item) => (
-              <span
-                className="poppins text-lg hover:text-gray-600 cursor-pointer"
-                key={item.id}
-              >
-                {item.text}
-              </span>
-            ))}
-          </div>
-        ))}
+
+      {/* Footer links in two rows */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-center mb-4">
+        {FooterLinks.map((item) =>
+          item.path ? (
+            <Link
+              to={item.path}
+              key={item.id}
+              className="text-white text-xs hover:text-gray-400 transition-colors cursor-pointer"
+            >
+              {item.text}
+            </Link>
+          ) : (
+            <span
+              key={item.id}
+              className="text-white text-xs hover:text-gray-400 transition-colors cursor-pointer"
+            >
+              {item.text}
+            </span>
+          )
+        )}
       </div>
-      {/* social media icons */}
-      <div className="mt-8 flex space-x-6">
-        <FaFacebookF className="text-gray-600 cursor-pointer hover:text-gray-800" />
-        <FaInstagram className="text-gray-600 cursor-pointer hover:text-gray-800" />
-        <FaTwitter className="text-gray-600 cursor-pointer hover:text-gray-800" />
-        <FaYoutube className="text-gray-600 cursor-pointer hover:text-gray-800" />
+
+      {/* Social media icons */}
+      <div className="flex justify-center space-x-2 mt-1">
+        <FaFacebookF className="text-white text-xs hover:text-gray-400 transition-colors cursor-pointer" />
+        <FaInstagram className="text-white text-xs hover:text-gray-400 transition-colors cursor-pointer" />
+        <FaTwitter className="text-white text-xs hover:text-gray-400 transition-colors cursor-pointer" />
+        <FaYoutube className="text-white text-xs hover:text-gray-400 transition-colors cursor-pointer" />
       </div>
+
+      {/* Divider Line */}
+      <div className="mt-2 w-full h-px bg-gray-400"></div>
     </div>
   );
 };

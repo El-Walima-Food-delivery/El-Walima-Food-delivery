@@ -1,12 +1,12 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const connection = require("../config/database");
 const User = require("./User");
-const Restaurant = require("./RestaurantOwnerHasCustomer");
 const MenuItem = require("./MenuItem");
 const Order = require("./Order");
 const Category = require("./category");
 const Cart = require("./carts");
-const RestaurantOwnerHasCustomer = require("./RestaurantOwnerHasCustomer");
+const Delivery = require("./Delivery");
+const OrderItem = require("./OrderItem");
 const db = {};
 
 db.connection = Sequelize;
@@ -15,13 +15,12 @@ db.connection = Sequelize;
 
 // Initialize models
 db.User = User;
-db.Restaurant = Restaurant;
 db.MenuItem = MenuItem;
 db.Order = Order;
 db.Category = Category;
 db.Cart = Cart;
-db.RestaurantOwnerHasCustomer = RestaurantOwnerHasCustomer;
-
+db.Delivery = Delivery;
+db.OrderItem = OrderItem;
 // connection
 //   .sync({ force: true })
 //   .then(() => {
