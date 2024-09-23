@@ -1,10 +1,12 @@
 import React from "react";
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import Brand from "../../Form/Brand";
+import { Link } from "react-router-dom";
 
 interface FooterLink {
   id: number;
   text: string;
+  path?: string;
 }
 
 const MainFooter: React.FC = () => {
@@ -17,7 +19,7 @@ const MainFooter: React.FC = () => {
     { id: 5, text: "Get Help" },
     { id: 6, text: "Ask any question" },
     { id: 7, text: "Order Now" },
-    { id: 8, text: "Contact" },
+    { id: 8, text: "Contact", path: "/contact" },
   ];
 
   return (
@@ -29,14 +31,24 @@ const MainFooter: React.FC = () => {
 
       {/* Footer links in two rows */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-center mb-4">
-        {FooterLinks.map((item) => (
-          <span
-            key={item.id}
-            className="text-white text-xs hover:text-gray-400 transition-colors cursor-pointer"
-          >
-            {item.text}
-          </span>
-        ))}
+        {FooterLinks.map((item) =>
+          item.path ? (
+            <Link
+              to={item.path}
+              key={item.id}
+              className="text-white text-xs hover:text-gray-400 transition-colors cursor-pointer"
+            >
+              {item.text}
+            </Link>
+          ) : (
+            <span
+              key={item.id}
+              className="text-white text-xs hover:text-gray-400 transition-colors cursor-pointer"
+            >
+              {item.text}
+            </span>
+          )
+        )}
       </div>
 
       {/* Social media icons */}
