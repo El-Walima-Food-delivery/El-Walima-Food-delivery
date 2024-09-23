@@ -1,144 +1,174 @@
-import React, { useEffect, useState } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Polyline,
-  useMap,
-} from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import io from "socket.io-client";
-import L from "leaflet";
-import icon from "leaflet/dist/images/marker-icon.png";
-import iconShadow from "leaflet/dist/images/marker-shadow.png";
+import React, { useEffect, useRef, useState } from "react";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 import axios from "axios";
+import useSocket from "../hooks/useSocket";
+
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN as string;
+
+mapboxgl.setRTLTextPlugin(
+  "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.3.0/mapbox-gl-rtl-text.js",
+  null,
+  true
+);
+
+// Add this import at the top of your file
+import deliveryIcon from "../assets/delivery.png";
 
 interface DeliveryMapProps {
   orderId: string;
   initialDriverLocation: { lat: number; lng: number };
   clientLocation: { lat: number; lng: number };
-}
-
-const containerStyle = {
-  width: "100%",
-  height: "400px",
-};
-
-// Fix for default marker icon
-let DefaultIcon = L.icon({
-  iconUrl: icon,
-  shadowUrl: iconShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
-L.Marker.prototype.options.icon = DefaultIcon;
-
-function LocationMarker({
-  position,
-  isDriver,
-}: {
-  position: L.LatLngExpression;
   isDriver: boolean;
-}) {
-  const map = useMap();
-  useEffect(() => {
-    if (position && Array.isArray(position) && position.length === 2) {
-      7786;
-      map.flyTo(position, map.getZoom());
-    }
-  }, [position, map]);
-
-  const markerIcon = isDriver
-    ? new L.Icon({
-        iconUrl:
-          "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-      })
-    : new L.Icon({
-        iconUrl:
-          "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-      });
-
-  return position && Array.isArray(position) && position.length === 2 ? (
-    <Marker position={position} icon={markerIcon} />
-  ) : null;
 }
 
 const DeliveryMap: React.FC<DeliveryMapProps> = ({
   orderId,
   initialDriverLocation,
   clientLocation,
+  isDriver,
 }) => {
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<mapboxgl.Map | null>(null);
+  const driverMarker = useRef<mapboxgl.Marker | null>(null);
   const [driverLocation, setDriverLocation] = useState<[number, number]>([
-    initialDriverLocation.lat,
     initialDriverLocation.lng,
+    initialDriverLocation.lat,
   ]);
-  const [routeCoordinates, setRouteCoordinates] = useState<[number, number][]>(
-    []
-  );
+
+  const socket = useSocket("http://localhost:3000");
 
   useEffect(() => {
-    const socket = io("http://localhost:3000");
+    if (map.current) return;
 
-    socket.on(
-      `deliveryUpdate-${orderId}`,
-      (data: { latitude: number; longitude: number }) => {
-        console.log("Received delivery update:", data);
-        if (data.latitude && data.longitude) {
-          setDriverLocation([data.latitude, data.longitude]);
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current!,
+      style: "mapbox://styles/mapbox/streets-v12",
+      center: [initialDriverLocation.lng, initialDriverLocation.lat],
+      zoom: 12,
+    });
+
+    // Replace the existing addDeliveryGuy function with this updated version
+    const addDeliveryGuy = (map: mapboxgl.Map) => {
+      const el = document.createElement("div");
+      el.className = "delivery-guy-marker";
+
+      // Create an image element and set its source to the new icon
+      const img = document.createElement("img");
+      img.src = deliveryIcon;
+      img.style.width = "40px"; // Adjust size as needed
+      img.style.height = "40px"; // Adjust size as needed
+      el.appendChild(img);
+
+      new mapboxgl.Marker(el)
+        .setLngLat([initialDriverLocation.lng, initialDriverLocation.lat])
+        .addTo(map);
+    };
+
+    addDeliveryGuy(map.current!);
+
+    new mapboxgl.Marker({ color: "#F44336" })
+      .setLngLat([clientLocation.lng, clientLocation.lat])
+      .addTo(map.current);
+
+    const bounds = new mapboxgl.LngLatBounds()
+      .extend([initialDriverLocation.lng, initialDriverLocation.lat])
+      .extend([clientLocation.lng, clientLocation.lat]);
+
+    map.current.fitBounds(bounds, { padding: 50 });
+
+    const event = `deliveryUpdate-${orderId}`;
+    const handleLocationUpdate = (data: {
+      latitude: number;
+      longitude: number;
+    }) => {
+      if (data.latitude && data.longitude) {
+        setDriverLocation([data.longitude, data.latitude]);
+        if (!isDriver) {
           fetchRoute(
-            [data.latitude, data.longitude],
-            [clientLocation.lat, clientLocation.lng]
+            [data.longitude, data.latitude],
+            [clientLocation.lng, clientLocation.lat]
           );
         }
       }
+    };
+
+    socket?.on(event, handleLocationUpdate);
+
+    fetchRoute(
+      [initialDriverLocation.lng, initialDriverLocation.lat],
+      [clientLocation.lng, clientLocation.lat]
     );
 
     return () => {
-      socket.disconnect();
+      socket?.off(event, handleLocationUpdate);
+      socket?.disconnect();
     };
-  }, [orderId, clientLocation]);
+  }, [orderId, initialDriverLocation, clientLocation, isDriver, socket]);
+
+  useEffect(() => {
+    if (driverMarker.current) {
+      driverMarker.current.setLngLat(driverLocation);
+    }
+    if (map.current) {
+      map.current.panTo(driverLocation);
+    }
+  }, [driverLocation]);
 
   const fetchRoute = async (start: [number, number], end: [number, number]) => {
     try {
       const response = await axios.get(
-        `http://router.project-osrm.org/route/v1/driving/${start[1]},${start[0]};${end[1]},${end[0]}?overview=full&geometries=geojson`
+        `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${mapboxgl.accessToken}`
       );
-      const coordinates = response.data.routes[0].geometry.coordinates.map(
-        (coord: [number, number]) => [coord[1], coord[0]]
-      );
-      setRouteCoordinates(coordinates);
+      const route = response.data.routes[0].geometry.coordinates;
+
+      if (map.current) {
+        map.current.on("load", () => {
+          if (map.current!.getSource("route")) {
+            (map.current!.getSource("route") as mapboxgl.GeoJSONSource).setData(
+              {
+                type: "Feature",
+                properties: {},
+                geometry: {
+                  type: "LineString",
+                  coordinates: route,
+                },
+              }
+            );
+          } else {
+            map.current!.addLayer({
+              id: "route",
+              type: "line",
+              source: {
+                type: "geojson",
+                data: {
+                  type: "Feature",
+                  properties: {},
+                  geometry: {
+                    type: "LineString",
+                    coordinates: route,
+                  },
+                },
+              },
+              layout: {
+                "line-join": "round",
+                "line-cap": "round",
+              },
+              paint: {
+                "line-color": "#3887be",
+                "line-width": 5,
+                "line-opacity": 0.75,
+              },
+            });
+          }
+        });
+      }
     } catch (error) {
       console.error("Error fetching route:", error);
     }
   };
 
-  useEffect(() => {
-    fetchRoute(driverLocation, [clientLocation.lat, clientLocation.lng]);
-  }, []);
-
-  const bounds = L.latLngBounds([
-    driverLocation,
-    [clientLocation.lat, clientLocation.lng],
-  ]);
-
-  return (
-    <MapContainer bounds={bounds} style={containerStyle}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <LocationMarker position={driverLocation} isDriver={true} />
-      <LocationMarker
-        position={[clientLocation.lat, clientLocation.lng]}
-        isDriver={false}
-      />
-      <Polyline positions={routeCoordinates} color="blue" />
-    </MapContainer>
-  );
+  return <div ref={mapContainer} style={{ width: "100%", height: "400px" }} />;
 };
 
 export default DeliveryMap;

@@ -184,8 +184,6 @@ const cartSlice = createSlice({
         state.items = state.items.filter((item) => item.id !== action.payload);
       })
       .addCase(updateQuantityAsync.fulfilled, (state, action) => {
-        console.log(action.payload, "action.payload a333333333333");
-
         const item = state.items.find(
           (item) => item.id === action.payload.MenuItem.id
         );
