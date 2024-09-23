@@ -10,7 +10,6 @@ export const HomePage: React.FC = () => {
     <>
       <Banner />
       <Foods />
-
       <RestaurantList />
       <AboutUs />
       <Footer />

@@ -76,7 +76,6 @@ const RestaurantList: React.FC = () => {
           className="w-full lg:w-1/3 h-64 object-cover rounded-lg shadow-lg"
         />
       </div>
-
       {/* Restaurants List with Scrollable Feature */}
       <h2 className="text-2xl font-semibold mb-6">Our Partners</h2>
       <div className="relative">

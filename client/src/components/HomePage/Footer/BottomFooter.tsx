@@ -8,7 +8,7 @@ const BottomFooter: React.FC = () => {
       <div className="mb-1 text-xs">
         <span className="font-semibold">Developed with </span>
         <FaHeart className="inline-block text-red-400 mx-1" />
-        <span className="font-semibold"> by Your Team</span>
+        {/* <span className="font-semibold"> by Your Team</span> */}
       </div>
 
       {/* Links */}
