@@ -1,5 +1,6 @@
 import emailjs from "emailjs-com";
 import React, { useState } from "react";
+import swal from "sweetalert";
 
 const ContactUs: React.FC = () => {
   const [name, setName] = useState("");
@@ -19,10 +20,14 @@ const ContactUs: React.FC = () => {
 
     emailjs.send("hi", "22", templateParams, "HuPnGnBo04aiUOqAQ").then(
       () => {
-        console.log("SUCCESS!");
+        swal(
+          "Thank you for contacting us!",
+          "We'll get back to you soon.",
+          "success"
+        );
       },
       (error) => {
-        console.log("FAILED...", error.text);
+        swal("Oops!", "Something went wrong. Please try again.", "error");
       }
     );
   };
