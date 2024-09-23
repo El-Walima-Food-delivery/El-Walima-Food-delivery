@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 interface FoodItem {
   id: number;
-
   name: string;
   imageUrl: string;
   // Add other properties as needed
@@ -11,19 +10,17 @@ interface FoodItem {
 const Foods: React.FC = () => {
   const [menuTab, setMenuTab] = useState<string>("Breakfast");
   const [loading, setLoading] = useState<boolean>(false);
-  // const navigate = useNavigate();
-  // const handleFoodClick = (id: number) => {
-  //   navigate(`/OneItemdetail/${id}`);
-
-
-  // };
-console.log(loading);
+  const navigate = useNavigate();
+  const handleFoodClick = (id: number) => {
+    navigate(`/OneItemdetail/${id}`);
+  };
+  console.log(loading);
 
   const useFetch = (): FoodItem[] => {
     const [foods, setFoods] = useState<FoodItem[]>([]);
 
     useEffect(() => {
-      fetch("http://localhost:3000/api/categories")
+      fetch("http://localhost:3000/api/menu-items/cat/8")
         .then((res) => res.json())
         .then((data) => setFoods(data));
     }, []);
@@ -34,14 +31,12 @@ console.log(loading);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 99999999999);
+    }, 1000);
   }, []);
 
   const handleMenuTabs = (type: string): void => {
     setMenuTab(type);
   };
-
-  console.log(foods);
 
   return (
     <section className="my-12 max-w-screen-xl mx-auto px-6">
@@ -64,7 +59,8 @@ console.log(loading);
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
         {foods.map((item) => (
           <div
-            // key={item.id} onClick={() => handleFoodClick(item.id)}
+            key={item.id}
+            onClick={() => handleFoodClick(item.id)}
             className="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-102"
           >
             <img

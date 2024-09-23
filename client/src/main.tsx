@@ -1,13 +1,12 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-// import App from "./App.tsx";
+import App from "./App.tsx";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.ts";
-import RestaurantOwner from "./components/RestaurantOwner/RestaurantOwner.tsx";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-      <RestaurantOwner />
+      <App />
     </Provider>
   </StrictMode>
 );

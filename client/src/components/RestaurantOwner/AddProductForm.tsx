@@ -4,6 +4,8 @@ import swal from 'sweetalert';
 import Button from '../Form/Button';
 import Label from '../Form/Label';
 import TextField from '../Form/TextField';
+import Heading from './Heading';
+import logo2 from '../../assets/logo2.png'; // Import the logo
 
 interface NewFood {
 
@@ -13,11 +15,6 @@ interface NewFood {
     imageUrl: string;
     category_Id: string;
 }
-
-
-
-
-
 
 const AddProductForm: React.FC = () => {
     const [name, setName] = useState('')
@@ -99,9 +96,9 @@ const AddProductForm: React.FC = () => {
     }
 
     return (
-        <>
-            <form className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-10 mt-6" onSubmit={handleSubmit}>
-                {/* title and description  */}
+        <div className="w-3/4 ml-auto pr-8 mt-12 mr-12"> {/* Added mt-12 and mr-12 */}
+            <Heading text="Add New Product" />
+            <form className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-6" onSubmit={handleSubmit}>
                 <div className="flex flex-col space-y-4">
                     <Label htmlFor="title" text="Food Title" />
                     <TextField
@@ -109,27 +106,14 @@ const AddProductForm: React.FC = () => {
                         type="text"
                         value={name}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-                        required />
-
-
-                    {/* description  */}
-                    {/* <Label htmlFor="description" text="Food Description" />
-                    <textarea
-                        id="description"
-                        aria-labelledby="description-label"
-                        
-                        cols={30} rows={9}
-                        className="border border-gray-200 rounded-lg py-3 px-4 w-full focus:outline-none ring-red-200 transition duration-500 focus:ring-4 resize-none"
                         required
-                        value={description}
-                        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
-                    >
-                    </textarea> */}
+                    />
+                    <div className="flex justify-center items-center mt-16">
+                        <img src={logo2} alt="Logo" className="w-96 h-auto" />
+                    </div>
                 </div>
 
-                {/* price , image , type  */}
                 <div className="flex flex-col space-y-4">
-                    {/* price  */}
                     <Label htmlFor="price" text="Food Price" />
                     <TextField
                         id="price"
@@ -137,48 +121,36 @@ const AddProductForm: React.FC = () => {
                         value={price}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)}
                         required />
-                    {/* image url  */}
                     <Label htmlFor="image" text="Food Image URL" />
                     <TextField
                         id="image"
                         type="text"
                         value={imageUrl}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setImageUrl(e.target.value)} required />
-                    {/* type  */}
-
                     <Label htmlFor="type" text="Select the type of food" />
-<select
-    id="type"
-    className="border border-gray-200 rounded-lg py-3 px-4 w-full focus:outline-none ring-red-200 transition duration-500 focus:ring-4"
-    value={categoryId}
-    onChange={handleFoodType}
-    title="Select the type of food"
-
->
-
-                        <option  value="Pizza">Pizza</option>
+                    <select
+                        id="type"
+                        className="border border-gray-200 rounded-lg py-3 px-4 w-full focus:outline-none ring-red-200 transition duration-500 focus:ring-4"
+                        value={categoryId}
+                        onChange={handleFoodType}
+                        title="Select the type of food"
+                    >
+                        <option value="Pizza">Pizza</option>
                         <option value="Burger">Burger</option>
                         <option value="Tunisian">Tunisian</option>
-
                         <option value="Salad">Salad</option>
                         <option value="Desserts">Desserts</option>
                         <option value="Pasta">Pasta</option>
                         <option value="Chicken">Chicken</option>
-
-
                         <option value="Sandwich">Sandwich</option>
                     </select>
 
-
-                    {/* button  */}
-
                     <div className="mt-8">
-                        <Button text="Add" />
+                        <Button text="Add Product" />
                     </div>
                 </div>
-
             </form>
-        </>
+        </div>
     )
 }
 

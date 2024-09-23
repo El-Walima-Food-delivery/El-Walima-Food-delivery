@@ -1,8 +1,8 @@
 import React from 'react';
-import AddProductForm from './AddProductForm';
+import ArchivedProductForm from './ArchivedProductForm';
 import Heading from './Heading';
 import SideNav from './sideNav';
-const AddProductScreen: React.FC = () =>  {
+const ArchivedProductScreen: React.FC = () =>  {
     return (
         <section>
             {/* heading  */}
@@ -12,9 +12,9 @@ const AddProductScreen: React.FC = () =>  {
             </div>
             {/* form  */}
             <div>
-                <AddProductForm />
+                <ArchivedProductForm />
             </div>
         </section>
     );
 };
-export default AddProductScreen;
+export default ArchivedProductScreen;

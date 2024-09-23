@@ -1,26 +1,29 @@
 const express = require("express");
 const Router = express.Router();
-const userController = require('../controllers/userController');
-
+const userController = require("../controllers/userController");
+const authenticate = require("../middleware/authMiddleware");
 // Get all users
-Router.get('/users', userController.getAllUsers);
+Router.get("/users", userController.getAllUsers);
 
 // Get user by ID
-Router.get('/users/:id', userController.getUserById);
+Router.get("/users/:id", userController.getUserById);
 
 // Create a new user
-Router.post('/users', userController.createUser);
+Router.post("/users", userController.createUser);
 
 // Update an existing user
-Router.put('/users/:id', userController.updateUser);
+Router.put("/users/:id", userController.updateUser);
 
 // Delete a user by ID
-Router.delete('/users/:id', userController.deleteUser);
+Router.delete("/users/:id", userController.deleteUser);
 
 // Get all users with the role 'restaurant_owner'
-Router.get('/users/restaurants', userController.getAllUsersRestaurant);
+Router.get("/users/owner/restaurants", userController.getAllUsersRestaurant);
 
 // Find nearby restaurants for a customer
-Router.post('/users/nearby-restaurants', userController.findNearbyRestaurants);
+Router.post("/users/nearby-restaurants", userController.findNearbyRestaurants);
+
+// Update user location
+Router.put("/location", authenticate, userController.updateUserLocation);
 
 module.exports = Router;

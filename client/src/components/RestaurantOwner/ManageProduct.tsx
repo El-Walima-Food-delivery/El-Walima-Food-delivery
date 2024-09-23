@@ -1,69 +1,89 @@
 import React, { useEffect, useState } from 'react';
-import { AiOutlineDelete } from 'react-icons/ai';
-import { FiEdit } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { AiOutlineEdit, AiOutlineFileExclamation, AiOutlineFileDone } from 'react-icons/ai'; // Import des icônes
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+
 import swal from 'sweetalert';
 import Heading from './Heading';
+import axios from 'axios';
 
 interface Food {
-    _id: string;
+    id: string;
     name: string;
     price: number;
     category_Id: string;
     imageUrl: string;
+    available: boolean;
+}
+
+interface MenuItem {
+    id: string; 
 }
 
 const ManageProductScreen: React.FC = () => {
     const [foods, setFoods] = useState<Food[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+    const [dep,setDep]=useState(false) ;
 
     useEffect(() => {
         setLoading(true);
-        fetch('http://localhost:3000/api/menu-items')
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return res.json();
-            })
-            .then(data => {
-                setFoods(data);
+        axios.get(`http://localhost:3000/api/menu-items/owner/restaurant`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+            .then(response => {
+                setFoods(response.data);
                 setLoading(false);
             })
-            .catch(err => {
-                setError(err.message);
+            .catch(error => {
+                setError(error.response?.data?.message || 'An error occurred');
                 setLoading(false);
             });
-    }, []);
+    }, [dep]);
 
-    console.log('Foods:', foods); // Add this line to log the foods array
-
-    const handleDelete = (id: string) => {
-        fetch(`http://localhost:3000/api/menu-items/${id}`, {
-            method: 'DELETE'
-        }).then(res => res.json())
-            .then(data => {
-                if (data.acknowledged) {
-                    swal("Successful!", "Deleted successfully!", "success");
-                    setFoods(foods.filter(item => item._id !== id));
-                }
-            });
+    const handleUpdateAvailble = async (item: MenuItem) => { // Changement de l'orthographe
+        try {
+            const response = await axios.patch(`http://localhost:3000/api/menu-items/${item.id}/availability`);
+            
+            if (response.status === 200) {
+                swal("Succès !", "Disponibilité mise à jour avec succès !", "success");
+                setFoods(prevFoods => prevFoods.map(food => 
+                    food.id === item.id ? { ...food, available: response.data.newAvailability } : food
+                ));
+                setDep(!dep)
+            } else {
+                throw new Error('Réponse inattendue du serveur');
+            }
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour de la disponibilité:', error);
+            swal("Erreur", "Échec de la mise à jour de la disponibilité", "error");
+        }
     };
 
-  const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-        event.currentTarget.src = '/path/to/fallback/image.jpg'; // Replace with a valid fallback image path
+    const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+        event.currentTarget.src = '/path/to/fallback/image.jpg';
     };
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = foods.slice(indexOfFirstItem, indexOfLastItem);
+
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
     return (
-        <div>
+        <div className="w-11/12 pl-8 pr-4">
             <Heading text="Manage Products" />
-            <div className="flex flex-col my-8">
-                <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                        <div className="overflow-hidden sm:rounded-lg shadow-md">
+            
+            <div className="my-8">
+                <div className="overflow-x-auto">
+                    <div className="inline-block min-w-full">
+                        <div className="overflow-hidden rounded-lg shadow-md">
                             <table className="min-w-full">
                                 <thead className="bg-primary poppins">
                                     <tr>
@@ -75,29 +95,37 @@ const ManageProductScreen: React.FC = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {foods.map((item, index) => {
-                                        console.log(`Rendering item ${index}:`, item); // Add this line
-                                        const key = item._id ? `food-${item._id}` : `food-${index}`;
+                                    {currentItems.map((item, index) => {
+                                        const key = item.id ? `food-${item.id}` : `food-${index}`;
                                         return (
                                             <tr className="bg-white border-b poppins" key={key}>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        <img 
-                            className="w-16" 
-                            src={item.imageUrl} 
-                            alt={item.name} 
-                            onError={handleImageError}
-                        />
-                    </td>
+                                                    <img 
+                                                        className="w-16" 
+                                                        src={item.imageUrl} 
+                                                        alt={item.name} 
+                                                        onError={handleImageError}
+                                                    />
+                                                </td>
                                                 <td className="text-sm text-gray-500 px-6 py-4 whitespace-nowrap">{item.name}</td>
-                                                <td className="text-sm text-gray-500 px-6 py-4 whitespace-nowrap">$ {item.price}</td>
+                                                <td className="text-sm text-gray-500 px-6 py-4 whitespace-nowrap"> {item.price} TND</td>
                                                 <td className="text-sm text-gray-500 px-6 py-4 whitespace-nowrap">{item.category_Id}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap flex flex-col h-24 items-center justify-center">
-                                                    <div className="flex items-center justify-center space-x-3">
-                                                        <Link to={`/admin/edit/${item._id}`}>
-                                                            <FiEdit className="cursor-pointer text-2xl text-green-600" />
-                                                        </Link>
-                                                        <AiOutlineDelete className="cursor-pointer text-2xl text-red-600" onClick={() => handleDelete(item._id)} />
-                                                    </div>
+                                                <td className="px-6 py-4 whitespace-nowrap flex space-x-2">
+                                                    <button 
+                                                        onClick={() => {
+                                                            console.log(item); // Add this line to debug
+                                                            handleUpdateAvailble(item);
+                                                        }}
+                                                        className={`px-4 py-2 rounded ${item.available ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}`}
+                                                    >
+                                                        {item.available ? <AiOutlineFileExclamation /> : <AiOutlineFileDone />}
+                                                    </button>
+                                                    <Link 
+                                                        to={`/dashboard/updateProduct/${item.id}`} // Navigation vers le chemin avec l'ID
+                                                        className="px-4 py-2 rounded bg-blue-500 text-white flex items-center justify-center"
+                                                    >
+                                                        <AiOutlineEdit />
+                                                    </Link>
                                                 </td>
                                             </tr>
                                         );
@@ -106,6 +134,17 @@ const ManageProductScreen: React.FC = () => {
                             </table>
                         </div>
                     </div>
+                </div>
+                <div className="mt-4 flex justify-center">
+                    {Array.from({ length: Math.ceil(foods.length / itemsPerPage) }, (_, i) => (
+                        <button
+                            key={i}
+                            onClick={() => paginate(i + 1)}
+                            className={`mx-1 px-3 py-1 rounded ${currentPage === i + 1 ? 'bg-primary text-white' : 'bg-gray-200'}`}
+                        >
+                            {i + 1}
+                        </button>
+                    ))}
                 </div>
             </div>
         </div>

@@ -1,8 +1,11 @@
 export interface User {
-    id: string;
-    name: string;
-    email: string;
-    token:string;
-    role: 'admin' |'seller' | 'customer';
-    // Add other user fields as needed
-  }
+  name: string;
+  email: string;
+  role: string;
+
+  imageUrl: string;
+  location?: {
+    type: string;
+    coordinates: [number, number];
+  };
+}
