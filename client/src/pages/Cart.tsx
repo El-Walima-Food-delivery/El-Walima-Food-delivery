@@ -49,7 +49,12 @@ const Cart: React.FC = () => {
         "http://localhost:3000/api/payment/generatePayment",
         {
           amount: totalPrice,
-          developerTrackingId: orderResponse.data.id,
+          developerTrackingId: Math.random(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
       if (paymentResponse.data.result && paymentResponse.data.result.link) {
