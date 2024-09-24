@@ -51,7 +51,7 @@ const Cart: React.FC = () => {
       if (delivery) {
         swal(
           "Congratulations!!!",
-          `Your order has been placed successfully. Order ID: ${order.id}\nDriver: ${delivery.driver.name}\nDriver Phone: ${delivery.driver.phone}`,
+          `Your order has been placed successfully. Order ID: ${order.id}\nDriver: ${delivery.driver.name}\nDriver Phone: ${delivery.driver.email}`,
           "success"
         );
         navigate(`/delivery-tracking/${order.id}`);
@@ -73,6 +73,7 @@ const Cart: React.FC = () => {
   const tax = parseFloat((totalPrice * 0.05).toFixed(2));
   const deliveryFee = parseFloat((totalPrice * 0.1).toFixed(2));
   const total = parseFloat((subTotal + tax + deliveryFee).toFixed(2));
+  console.log(cartItems);
 
   return (
     <main className="min-h-screen banner">

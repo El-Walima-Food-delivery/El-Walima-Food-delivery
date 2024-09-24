@@ -1,16 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  user_id: number;
-  imageUrl: string;
-  availble: number;
-  likes: number;
-}
+import { CartItem } from "../../types/cartTypes";
 
 interface CartState {
   items: CartItem[];

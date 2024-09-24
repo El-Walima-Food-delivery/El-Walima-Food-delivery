@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
-// import { BsCart2 } from "react-icons/bs";
-// import { FiLogOut } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../redux/store";
+import { logoutUser } from "../redux/features/authSlice"; // Assuming you have this action
+import { BsCart2 } from "react-icons/bs";
+import { FiLogOut } from "react-icons/fi";
 import logo from "../../src/assets/logo2.png";
+
 const Navbar: React.FC = () => {
   const [changeHeader, setChangeHeader] = useState<boolean>(false);
   const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.users);
+  const { items } = useSelector((state: RootState) => state.cart);
 
   const onChangeHeader = () => {
     if (window.scrollY >= 50) {
@@ -20,6 +27,11 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", onChangeHeader);
   }, []);
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate("/signin");
+  };
+
   return (
     <header
       className={
@@ -28,8 +40,8 @@ const Navbar: React.FC = () => {
           : "bg-transparent fixed z-50 top-0 left-0 w-full transition duration-500"
       }
     >
-      <nav className="flex items-center max-w-screen-xl mx-auto px-6 py-3">
-        <div className="flex flex-grow">
+      <nav className="flex items-center justify-between max-w-screen-xl mx-auto px-6 py-3">
+        <div className="flex items-center">
           <img
             className="w-36 cursor-pointer"
             src={logo}
@@ -37,73 +49,42 @@ const Navbar: React.FC = () => {
             onClick={() => navigate("/")}
           />
         </div>
-        {/* <ul className="flex items-center space-x-4">
-          <li>
-            <Link to="/">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/food-order">Food Order</Link>
-          </li>
-          <li>
-            <Link to="/favorite">Favorite</Link>
-          </li>
-          <li>
-            <Link to="/message">Message</Link>
-          </li>
-          <li>
-            <Link to="/order-history">Order History</Link>
-          </li>
-          <li>
-            <Link to="/bills">Bills</Link>
-          </li>
-          <li>
-            <Link to="/setting">Setting</Link>
-          </li>
-          <li>
-            <Link to="/contactus">Contact Us</Link>
-          </li>
-        </ul> */}
-        {/* {user?.displayName ? (
-          <div className="flex items-center justify-end space-x-4 ml-4">
-            <NavLink to="/admin" className="text-gray-600">
-              Admin
-            </NavLink>
-            <div
-              className="relative flex cursor-pointer"
-              onClick={() => navigate("/orders")}
-            >
-              <span className="bg-primary w-6 h-6 rounded-full flex items-center justify-center text-white poppins absolute -right-2 -top-2">
-                {order.length}
-              </span>
-              <BsCart2 className="cursor-pointer w-6 h-6 text-gray-700" />
-            </div>
-            <img
-              src={user.photoURL || ""}
-              alt={user.displayName || ""}
-              className="w-10 h-10 rounded-full"
-            />
-            <p className="text-gray-700 poppins hidden md:block lg:block">
-              {user.displayName}
-            </p>
-            <FiLogOut
-              className="cursor-pointer w-6 h-6 text-gray-700"
-              onClick={signOutUser}
-            />
-          </div>
-        ) :  */}
-
-        <div className="flex items-center justify-end space-x-6 ml-4">
-          <button className="poppins" onClick={() => navigate("/signin")}>
-            Sign In
-          </button>
-          <button
-            className="bg-primary px-6 py-3 text-white poppins rounded-full ring-red-300 focus:outline-none focus:ring-4 transform transition duration-700 hover:scale-105"
-            onClick={() => navigate("/signup")}
-          >
-            Sign Up
-          </button>
+        <div className="flex items-center space-x-4">
+          {user ? (
+            <>
+              <Link to="/cart" className="relative">
+                <BsCart2 className="w-6 h-6 text-gray-700" />
+                {items.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {items.length}
+                  </span>
+                )}
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-2 text-gray-700 hover:text-primary transition duration-300"
+              >
+                <FiLogOut className="w-5 h-5" />
+                <span>Logout</span>
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="text-gray-700 hover:text-primary transition duration-300"
+                onClick={() => navigate("/signin")}
+              >
+                Sign In
+              </button>
+              <button
+                className="bg-primary px-6 py-2 text-white rounded-full ring-red-300 focus:outline-none focus:ring-4 transform transition duration-300 hover:scale-105"
+                onClick={() => navigate("/signup")}
+              >
+                Sign Up
+              </button>
+            </>
+          )}
         </div>
-        {/* } */}
       </nav>
     </header>
   );

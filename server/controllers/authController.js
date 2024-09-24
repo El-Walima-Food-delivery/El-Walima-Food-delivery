@@ -55,7 +55,6 @@ module.exports = {
   },
 
   signIn: async (req, res) => {
-    console.log("signIn");
     try {
       const { email, password } = req.body;
       if (!email || !password) {
