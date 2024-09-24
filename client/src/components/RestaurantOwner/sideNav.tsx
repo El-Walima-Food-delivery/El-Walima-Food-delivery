@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MdOutlineArrowForwardIos } from 'react-icons/md';
+import { MdDashboard, MdOutlineAddBox, MdArchive, MdOutlineArrowForwardIos, MdOutlineMenu } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
@@ -8,6 +8,7 @@ interface MenuItem {
     id: number;
     text: string;
     to: string;
+    icon: React.ReactNode;
 }
 
 const SideNav: React.FC = () => {
@@ -34,17 +35,17 @@ const SideNav: React.FC = () => {
     }, []);
 
     const menu: MenuItem[] = [
-        { id: 1, text: 'Dashboard', to: "/dashboard/restaurantowner/dashboard" },
-        { id: 2, text: 'Manage Products', to: "/dashboard/restaurantowner" },
-        { id: 3, text: 'Add Product', to: "/dashboard/add-product" },
-        { id: 4, text: 'Archive Products', to: "/dashboard/Archived-Product" },
+        { id: 1, text: 'Dashboard', to: "/dashboard/restaurantowner/dashboard", icon: <MdDashboard /> },
+        { id: 2, text: 'Manage Products', to: "/dashboard/restaurantowner", icon: <MdOutlineMenu /> },
+        { id: 3, text: 'Add Product', to: "/dashboard/add-product", icon: <MdOutlineAddBox /> },
+        { id: 4, text: 'Archive Products', to: "/dashboard/Archived-Product", icon: <MdArchive /> },
     ];
 
     return (
         <div>
             {sidenav && (
                 <>
-                    <nav className="flex fixed flex-col w-64 bg-gray-800 h-screen px-4">
+                    <nav className="flex fixed flex-col w-64 bg-gradient-to-b from-teal-400 to-cyan-500 h-screen px-4 shadow-lg">
                         <div className="flex flex-col items-center flex-wrap mt-8 pt-12">
                             <div className="">
                                 <img
@@ -54,7 +55,7 @@ const SideNav: React.FC = () => {
                                 />
                             </div>
                             <div className="pt-2">
-                                <span className="font-semibold text-lg text-gray-300">{user?.name}</span>
+                                <span className="font-semibold text-lg text-white">{user?.name}</span>
                             </div>
                         </div>
 
@@ -65,13 +66,11 @@ const SideNav: React.FC = () => {
                                         <NavLink
                                             to={item.to}
                                             className={({ isActive }) =>
-                                                `p-3 rounded-lg transition-colors duration-200 ${isActive ? 'bg-gray-700 text-blue-400' : 'text-gray-300 hover:bg-gray-700'}`
+                                                `p-2 rounded-md transition-colors duration-200 flex items-center space-x-2 ${isActive ? 'bg-purple-500 text-white' : 'text-white hover:bg-purple-300'}`
 
   }>
-
-                                            <div className="flex items-center space-x-3">
-                                                <span className="ml-2 poppins">{item.text}</span>
-                                            </div>
+                                            <span className="text-lg">{item.icon}</span>
+                                            <span className="ml-1 poppins text-sm">{item.text}</span>
                                         </NavLink>
                                     </li>
                                 ))}
@@ -82,8 +81,8 @@ const SideNav: React.FC = () => {
             )}
 
             {/* Menu icon */}
-            <div className="lg:hidden block fixed bottom-10 left-10 bg-gray-800 p-2 rounded-full cursor-pointer shadow-xl border border-gray-300" onClick={handlenav}>
-                <MdOutlineArrowForwardIos className="text-2xl text-gray-300" />
+            <div className="lg:hidden block fixed bottom-10 left-10 bg-purple-500 p-2 rounded-full cursor-pointer shadow-xl border border-gray-300" onClick={handlenav}>
+                <MdOutlineArrowForwardIos className="text-2xl text-white" />
             </div>
         </div>
     );

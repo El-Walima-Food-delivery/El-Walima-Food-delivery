@@ -92,7 +92,7 @@ const ArchivedProductForm: React.FC = () => {
                             <div className="inline-block min-w-full">
                                 <div className="overflow-hidden rounded-lg shadow-md">
                                     <table className="min-w-full">
-                                        <thead className="bg-primary poppins">
+                                        <thead className="bg-teal-500 poppins">
                                             <tr>
                                                 <th scope="col" className="text-xs font-medium text-white px-6 py-3 text-left uppercase tracking-wider">Image</th>
                                                 <th scope="col" className="text-xs font-medium text-white px-6 py-3 text-left uppercase tracking-wider">Name</th>
@@ -147,7 +147,7 @@ const ArchivedProductForm: React.FC = () => {
                                 <button
                                     key={i}
                                     onClick={() => paginate(i + 1)}
-                                    className={`mx-1 px-3 py-1 rounded ${currentPage === i + 1 ? 'bg-primary text-white' : 'bg-gray-200'}`}
+                                    className={`mx-1 px-3 py-1 rounded ${currentPage === i + 1 ? 'bg-teal-500 text-white' : 'bg-gray-200'}`}
                                 >
                                     {i + 1}
                                 </button>

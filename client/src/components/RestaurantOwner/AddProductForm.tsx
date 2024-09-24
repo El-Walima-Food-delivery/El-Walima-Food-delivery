@@ -30,36 +30,18 @@ const AddProductForm: React.FC = () => {
 
     const handleFoodType = (e: ChangeEvent<HTMLSelectElement>) => {
         
-        if (e.target.value === "Pizza") {
-            setCategoryId("1")
-        }
-        if (e.target.value === "Burger") {
-
-
-
-
-            setCategoryId("2")
-        }
-        if (e.target.value === "Tunisian") {
-
-
-            setCategoryId("3")
-        }
-        if (e.target.value === "Salad") {
-            setCategoryId("4")
-        }
-        if (e.target.value === "Desserts") {
-            setCategoryId("5")
-        }
-        if (e.target.value === "Pasta") {
-            setCategoryId("6")
-        }
-        if (e.target.value === "Chicken") {
-            setCategoryId("7")
-        }
-        if (e.target.value === "Sandwich") {
-            setCategoryId("8")
-        }
+        const value = e.target.value;
+        const categoryMap: { [key: string]: string } = {
+            Pizza: '1',
+            Burger: '2',
+            Tunisian: '3',
+            Salad: '4',
+            Desserts: '5',
+            Pasta: '6',
+            Chicken: '7',
+            Sandwich: '8',
+        };
+        setCategoryId(categoryMap[value]);
     }
 
 
@@ -96,10 +78,10 @@ const AddProductForm: React.FC = () => {
     }
 
     return (
-        <div className="w-3/4 ml-auto pr-8 mt-12 mr-12"> {/* Added mt-12 and mr-12 */}
+        <div className="container mx-auto p-4 bg-gray-100 rounded-lg shadow-md mt-10 w-3/4 mr-9  ">
             <Heading text="Add New Product" />
-            <form className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-6" onSubmit={handleSubmit}>
-                <div className="flex flex-col space-y-4">
+            <form className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4" onSubmit={handleSubmit}>
+                <div className="flex flex-col space-y-3">
                     <Label htmlFor="title" text="Food Title" />
                     <TextField
                         id="title"
@@ -107,30 +89,35 @@ const AddProductForm: React.FC = () => {
                         value={name}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                         required
+                        className="py-2 px-3"
                     />
-                    <div className="flex justify-center items-center mt-16">
-                        <img src={logo2} alt="Logo" className="w-96 h-auto" />
+                    <div className="flex justify-center items-center mt-8">
+                        <img src={logo2} alt="Logo" className="w-32 h-auto" />
                     </div>
                 </div>
 
-                <div className="flex flex-col space-y-4">
+                <div className="flex flex-col space-y-3">
                     <Label htmlFor="price" text="Food Price" />
                     <TextField
                         id="price"
                         type="number"
                         value={price}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)}
-                        required />
+                        required
+                        className="py-2 px-3"
+                    />
                     <Label htmlFor="image" text="Food Image URL" />
                     <TextField
                         id="image"
                         type="text"
                         value={imageUrl}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setImageUrl(e.target.value)} required />
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setImageUrl(e.target.value)} required
+                        className="py-2 px-3"
+                    />
                     <Label htmlFor="type" text="Select the type of food" />
                     <select
                         id="type"
-                        className="border border-gray-200 rounded-lg py-3 px-4 w-full focus:outline-none ring-red-200 transition duration-500 focus:ring-4"
+                        className="border border-gray-300 rounded-lg py-2 px-3 w-full focus:outline-none ring-teal-200 transition duration-500 focus:ring-4"
                         value={categoryId}
                         onChange={handleFoodType}
                         title="Select the type of food"
@@ -145,8 +132,8 @@ const AddProductForm: React.FC = () => {
                         <option value="Sandwich">Sandwich</option>
                     </select>
 
-                    <div className="mt-8">
-                        <Button text="Add Product" />
+                    <div className="mt-6">
+                        <Button text="Add Product"  />
                     </div>
                 </div>
             </form>

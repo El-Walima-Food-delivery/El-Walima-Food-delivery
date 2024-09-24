@@ -1,18 +1,25 @@
 import React from 'react';
 import Dashboard1 from './Dashboardform';
-import Heading from '../Heading';
 
-import RestaurantOwner from '../RestaurantOwner';
-const DashboardScreen: React.FC = () =>  {
+
+
+
+const DashboardScreen: React.FC = () => {
     return (
+      
         <section className="space-y-4">
-            {/* heading  */}
-            <Heading text="Add Product" />
-            <div className="flex flex-col gap-2">
+         
+        
+            <div className="flex flex-col gap-2 ml-80 mb-80">
+           
                 <Dashboard1 />
-                <RestaurantOwner />
+                {/* <ManageProductScreen />
+                <AddProductForm />
+                <ArchivedProductForm /> */}
             </div>
+            
         </section>
     );
 };
+
 export default DashboardScreen;

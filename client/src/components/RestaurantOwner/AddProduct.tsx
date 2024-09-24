@@ -1,20 +1,16 @@
 import React from 'react';
 import AddProductForm from './AddProductForm';
-import Heading from './Heading';
 import SideNav from './sideNav';
-const AddProductScreen: React.FC = () =>  {
+
+const AddProductScreen: React.FC = () => {
     return (
-        <section>
-            {/* heading  */}
-            <Heading text="Add Product" />
-            <div className="col-span-1">
-                <SideNav />
-            </div>
-            {/* form  */}
-            <div>
+        <section className="flex">
+            <SideNav />
+            <div className="flex-grow mt-10">
                 <AddProductForm />
             </div>
         </section>
     );
 };
+
 export default AddProductScreen;
