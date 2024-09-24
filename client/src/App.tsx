@@ -17,6 +17,9 @@ import Cart from "./pages/Cart";
 import { useCart } from "./hooks/useCart";
 import DeliveryTracking from "./pages/DeliveryTracking";
 import DeliveryInterface from "./pages/DeliveryInterface";
+import OrderSuccessfulScreen from "./pages/success";
+import PaymentFailedScreen from "./pages/Error.tsx";
+import ErrorScreen from "./pages/404.tsx";
 
 const ProtectedRoute: React.FC<{
   children: React.ReactNode;
@@ -25,7 +28,7 @@ const ProtectedRoute: React.FC<{
   const { user } = useSelector((state: RootState) => state.users);
 
   if (!user || !allowedRoles.includes(user.role)) {
-    return <Navigate to="/signin" />;
+    return <Navigate to="/" />;
   }
 
   return <>{children}</>;
@@ -67,6 +70,9 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/success" element={<OrderSuccessfulScreen />} />
+        <Route path="/failed" element={<PaymentFailedScreen />} />
+        <Route path="*" element={<ErrorScreen />} />
       </Routes>
     </Router>
   );

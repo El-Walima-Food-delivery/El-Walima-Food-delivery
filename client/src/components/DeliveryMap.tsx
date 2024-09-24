@@ -48,16 +48,14 @@ const DeliveryMap: React.FC<DeliveryMapProps> = ({
       zoom: 12,
     });
 
-    // Replace the existing addDeliveryGuy function with this updated version
     const addDeliveryGuy = (map: mapboxgl.Map) => {
       const el = document.createElement("div");
       el.className = "delivery-guy-marker";
 
-      // Create an image element and set its source to the new icon
       const img = document.createElement("img");
       img.src = deliveryIcon;
-      img.style.width = "40px"; // Adjust size as needed
-      img.style.height = "40px"; // Adjust size as needed
+      img.style.width = "40px";
+      img.style.height = "40px";
       el.appendChild(img);
 
       new mapboxgl.Marker(el)

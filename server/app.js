@@ -9,6 +9,7 @@ const userRoutes = require("./routes/userRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const menuItemRoutes = require("./routes/menuItemsRoutes");
 const searchRoutes = require("./routes/searchRoutes");
+const paymentRoutes = require("./routes/payment");
 require("./config/database");
 require("dotenv").config();
 
@@ -29,6 +30,8 @@ app.use("/api/menu-items", menuItemRoutes);
 app.use("/api/signin", authRoutes);
 app.use("/api/signup", authRoutes);
 app.use("/api/search", searchRoutes);
+app.use("/api/payment", paymentRoutes);
+
 const PORT = process.env.PORT || 5000;
 const http = require("http");
 const { Server } = require("socket.io");

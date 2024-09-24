@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../redux/store";
-import { logoutUser } from "../redux/features/authSlice"; // Assuming you have this action
+import { logoutUser } from "../redux/features/authSlice";
 import { BsCart2 } from "react-icons/bs";
 import { FiLogOut } from "react-icons/fi";
 import logo from "../../src/assets/logo2.png";
@@ -40,8 +40,9 @@ const Navbar: React.FC = () => {
           : "bg-transparent fixed z-50 top-0 left-0 w-full transition duration-500"
       }
     >
-      <nav className="flex items-center justify-between max-w-screen-xl mx-auto px-6 py-3">
-        <div className="flex items-center">
+      <nav className="flex items-center max-w-screen-xl mx-auto px-6 py-3">
+        {/* left */}
+        <div className="flex flex-grow">
           <img
             className="w-36 cursor-pointer"
             src={logo}
@@ -49,42 +50,49 @@ const Navbar: React.FC = () => {
             onClick={() => navigate("/")}
           />
         </div>
-        <div className="flex items-center space-x-4">
-          {user ? (
-            <>
-              <Link to="/cart" className="relative">
-                <BsCart2 className="w-6 h-6 text-gray-700" />
-                {items.length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {items.length}
-                  </span>
-                )}
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="flex items-center space-x-2 text-gray-700 hover:text-primary transition duration-300"
-              >
-                <FiLogOut className="w-5 h-5" />
-                <span>Logout</span>
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                className="text-gray-700 hover:text-primary transition duration-300"
-                onClick={() => navigate("/signin")}
-              >
-                Sign In
-              </button>
-              <button
-                className="bg-primary px-6 py-2 text-white rounded-full ring-red-300 focus:outline-none focus:ring-4 transform transition duration-300 hover:scale-105"
-                onClick={() => navigate("/signup")}
-              >
-                Sign Up
-              </button>
-            </>
-          )}
-        </div>
+        {/* right */}
+        {user ? (
+          <div className="flex items-center justify-end space-x-4">
+            {user.role === "driver" && (
+              <NavLink to="/delivery-interface" className="text-gray-600">
+                Delivery Interface
+              </NavLink>
+            )}
+            <div
+              className="relative flex cursor-pointer"
+              onClick={() => navigate("/cart")}
+            >
+              <span className="bg-primary w-6 h-6 rounded-full flex items-center justify-center text-white poppins absolute -right-2 -top-2">
+                {items.length}
+              </span>
+              <BsCart2 className="cursor-pointer w-6 h-6 text-gray-700" />
+            </div>
+            <img
+              src={user.photoURL}
+              alt={user.name}
+              className="w-10 h-10 rounded-full"
+            />
+            <p className="text-gray-700 poppins hidden md:block lg:block">
+              {user.name}
+            </p>
+            <FiLogOut
+              className="cursor-pointer w-6 h-6 text-gray-700"
+              onClick={handleLogout}
+            />
+          </div>
+        ) : (
+          <div className="flex items-center justify-end space-x-6">
+            <button className="poppins" onClick={() => navigate("/signin")}>
+              Sign In
+            </button>
+            <button
+              className="bg-primary px-6 py-3 text-white poppins rounded-full ring-red-300 focus:outline-none focus:ring-4 transform transition duration-700 hover:scale-105"
+              onClick={() => navigate("/signup")}
+            >
+              Sign Up
+            </button>
+          </div>
+        )}
       </nav>
     </header>
   );
