@@ -91,6 +91,7 @@ module.exports = {
         },
       });
     } catch (error) {
+      
       console.error("Error signing in user:", error);
       res
         .status(500)
@@ -110,6 +111,7 @@ module.exports = {
           email: user.email,
           role: user.role,
           location: user.location,
+          name: user.name,
           photoURL: user.imagesUrl,
         },
       });

@@ -110,4 +110,82 @@ exports.getAllAvailableMenuItems = async (req, res) => {
 exports.getAllUnavailableMenuItems = async (req, res) => {
   const menuItems = await MenuItem.findAll({ where: { availble: false } });
   res.status(200).json(menuItems);
+};  
+
+exports.gaga = async (req, res) => {
+  console.log(req.user, "id8888888888888888888888888888888888888888888888888888")
+
+
+
+
+  try {
+    const id = req.user.id;
+    const menuItems = await MenuItem.findAll({
+      where: {
+        users_id: id,
+       availble : true 
+      }
+    });
+    res.status(200).json(menuItems);
+
+console.log("hello world");
+
+  } catch (error) {
+    console.error('Error fetching menu items:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+exports.updateMenuItemAvailble = async (req, res) => { // Changement de l'orthographe
+  try {
+    const { id } = req.params;
+    console.log('Updating menu item with id:', id);
+
+    // Récupérer l'élément de menu
+    const menuItem = await MenuItem.findByPk(id);
+
+    if (!menuItem) {
+      console.log('Menu item not found');
+      return res.status(404).json({ message: 'Menu item not found' });
+    }
+
+    // Inverser la valeur de 'availble'
+    menuItem.availble = !menuItem.availble; // Changement de l'orthographe
+
+    // Sauvegarder les modifications
+    await menuItem.save();
+
+    console.log('Updated menu item:', menuItem);
+
+    res.status(200).json({ 
+      message: 'Menu item availability updated', 
+      menuItem: menuItem,
+      newAvailability: menuItem.availble // Changement de l'orthographe
+    });
+  } catch (error) {
+    console.error('Error updating menu item availability:', error);
+    res.status(500).json({ message: 'Internal server error', error: error.toString() });
+  }
+};
+exports.gagafalse = async (req, res) => {
+  console.log(req.user, "id8888888888888888888888888888888888888888888888888888")
+
+
+
+
+  try {
+    const id = req.user.id;
+    const menuItems = await MenuItem.findAll({
+      where: {
+        users_id: id,
+       availble : false 
+      }
+    });
+    res.status(200).json(menuItems);
+
+console.log("hello world");
+
+  } catch (error) {
+    console.error('Error fetching menu items:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
