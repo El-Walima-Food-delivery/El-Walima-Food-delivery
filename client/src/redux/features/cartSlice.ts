@@ -1,16 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  user_id: number;
-  imageUrl: string;
-  availble: number;
-  likes: number;
-}
+import { CartItem } from "../../types/cartTypes";
 
 interface CartState {
   items: CartItem[];
@@ -90,8 +80,6 @@ export const updateQuantityAsync = createAsyncThunk(
     { id, quantity }: { id: number; quantity: number },
     { rejectWithValue }
   ) => {
-    console.log(id, quantity, "id, quantity");
-
     try {
       const response = await axios.put(
         `http://localhost:3000/api/carts/update/${id}`,
@@ -184,8 +172,6 @@ const cartSlice = createSlice({
         state.items = state.items.filter((item) => item.id !== action.payload);
       })
       .addCase(updateQuantityAsync.fulfilled, (state, action) => {
-        console.log(action.payload, "action.payload a333333333333");
-
         const item = state.items.find(
           (item) => item.id === action.payload.MenuItem.id
         );

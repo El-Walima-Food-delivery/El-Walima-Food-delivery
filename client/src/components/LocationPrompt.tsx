@@ -3,7 +3,9 @@ import { useDispatch } from "react-redux";
 import { updateUserLocation } from "../redux/features/authSlice";
 import { AppDispatch } from "../redux/store";
 
-const LocationPrompt: React.FC = () => {
+const LocationPrompt: React.FC<{ onLocationSet: () => void }> = ({
+  onLocationSet,
+}) => {
   const [address, setAddress] = useState("");
   const dispatch = useDispatch<AppDispatch>();
 
@@ -17,6 +19,7 @@ const LocationPrompt: React.FC = () => {
         (position) => {
           const { latitude, longitude } = position.coords;
           dispatch(updateUserLocation([longitude, latitude]));
+          onLocationSet();
         },
         (error) => {
           console.error("Error getting location:", error);

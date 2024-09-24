@@ -82,6 +82,18 @@ export const updateUserLocation = createAsyncThunk(
   }
 );
 
+export const logoutUser = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      localStorage.removeItem("token");
+      return null;
+    } catch (error) {
+      return rejectWithValue((error as Error).message);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -116,6 +128,10 @@ const userSlice = createSlice({
         if (state.user) {
           state.user.location = action.payload.location;
         }
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user = null;
+        state.status = "idle";
       });
   },
 });

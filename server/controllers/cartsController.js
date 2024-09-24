@@ -11,17 +11,13 @@ exports.getAllCarts = async (req, res) => {
 };
 
 exports.getCartById = async (req, res) => {
-  console.log(
-    "888888888888888888888888888888888888888888888888888888888 ",
-    req.user.id
-  );
   try {
     const carts = await db.Cart.findAll({
       where: { customer_id: req.user.id },
       include: [
         {
           model: db.MenuItem,
-          attributes: ["id", "name", "price", "imageUrl"],
+          attributes: ["id", "name", "price", "imageUrl", "availble", "likes"],
         },
       ],
     });

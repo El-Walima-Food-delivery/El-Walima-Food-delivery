@@ -3,13 +3,6 @@ const { Delivery, Order, User } = require("../models");
 exports.updateDeliveryLocation = async (req, res) => {
   const { deliveryId, latitude, longitude } = req.body;
 
-  console.log(
-    deliveryId,
-    latitude,
-    longitude,
-    "deliveryId, latitude, longitude"
-  );
-
   try {
     const delivery = await Delivery.findByPk(deliveryId);
     if (!delivery) {
@@ -34,7 +27,6 @@ exports.updateDeliveryLocation = async (req, res) => {
 
 exports.getDeliveryStatus = async (req, res) => {
   const { orderId } = req.params;
-  console.log(orderId, "orderId called");
 
   try {
     const delivery = await Delivery.findOne({
@@ -113,7 +105,6 @@ exports.assignDelivery = async (req, res) => {
 };
 
 exports.updateOrderStatus = async (req, res) => {
-  console.log(req.body, "req.body");
   const { orderId, status } = req.body;
 
   try {
