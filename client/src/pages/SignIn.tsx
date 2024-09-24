@@ -26,9 +26,10 @@ const SignIn: React.FC = () => {
         user.token,
         "==================================================="
       );
+
       localStorage.setItem("token", user.token);
-      if (user.role === "seller") {
-        navigate("/seller/dashboard");
+      if (user.role === "restaurant_owner") {
+        navigate("/dashboard");
       } else {
         navigate("/");
       }

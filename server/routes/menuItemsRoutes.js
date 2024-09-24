@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { createMenuItem, getMenuItemById, updateMenuItem, deleteMenuItem, getMenuItemsByCategory, getMenuItemsByName, getMenuItemsByPrice, getAllMenuItems, getAllAvailableMenuItems, getAllUnavailableMenuItems } = require('../controllers/MenuItemsController');
-
+const { createMenuItem, getMenuItemById, updateMenuItem, deleteMenuItem, getMenuItemsByCategory, getMenuItemsByName, getMenuItemsByPrice, getAllMenuItems, getAllAvailableMenuItems, getAllUnavailableMenuItems, gaga, updateMenuItemAvailble, gagafalse } = require('../controllers/MenuItemsController');
+const authMiddleware = require('../middleware/authMiddleware');
 // Create a new menu item
 router.post('/', createMenuItem);
 
@@ -31,5 +31,15 @@ router.get('/available', getAllAvailableMenuItems);
 
 // Get all unavailable menu items
 router.get('/unavailable', getAllUnavailableMenuItems);
+
+// Get menu items by restaurant
+router.get('/owner/restaurant', authMiddleware, gaga);
+router.get('/owner/archive',authMiddleware,gagafalse)
+// Route to toggle menu item availability
+router.patch(
+  '/:id/availability', updateMenuItemAvailble
+  
+ 
+);
 
 module.exports = router;

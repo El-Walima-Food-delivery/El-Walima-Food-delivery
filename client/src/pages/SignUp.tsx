@@ -87,8 +87,10 @@ const SignUp: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <select
+              title="Role"
               value={role}
               name="role"
+
               onChange={(e) => setRole(e.target.value)}
               className="p-2 border rounded-md"
             >
