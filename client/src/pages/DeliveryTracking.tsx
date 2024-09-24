@@ -1,8 +1,8 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import DeliveryMap from "../components/DeliveryMap";
 import io from "socket.io-client";
+import DeliveryMap from "../components/DeliveryMap";
 
 interface DeliveryStatus {
   id: number;

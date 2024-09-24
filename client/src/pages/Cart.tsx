@@ -1,16 +1,16 @@
+import axios from "axios";
 import React from "react";
+import { AiOutlineDelete } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 import swal from "sweetalert";
-import { RootState, AppDispatch } from "../redux/store";
+import Back from "../pages/back";
 import {
+  clearCartAsync,
   removeFromCartAsync,
   updateQuantityAsync,
-  clearCartAsync,
 } from "../redux/features/cartSlice";
-import Back from "../pages/back";
-import { AiOutlineDelete } from "react-icons/ai";
-import axios from "axios";
+import { AppDispatch, RootState } from "../redux/store";
 
 const Cart: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
@@ -45,6 +45,22 @@ const Cart: React.FC = () => {
           },
         }
       );
+      const paymentResponse = await axios.post(
+        "http://localhost:3000/api/payment/generatePayment",
+        {
+          amount: totalPrice,
+          developerTrackingId: Math.random(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (paymentResponse.data.result && paymentResponse.data.result.link) {
+        window.open(paymentResponse.data.result.link, "_blank");
+      }
+
       const { order, delivery } = orderResponse.data;
 
       await dispatch(clearCartAsync());
