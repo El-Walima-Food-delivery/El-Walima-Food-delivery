@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MdVerified } from "react-icons/md";
 import { useNavigate, useLocation } from "react-router-dom";
-import GridLoader from "react-spinners/GridLoader";
+import Spinner from "../components/Spinner";
 import orderSuccessful from "../assets/ordersuccess.png";
 
 const OrderSuccessfulScreen = () => {
@@ -29,9 +29,7 @@ const OrderSuccessfulScreen = () => {
     <main className="h-screen banner">
       <div className="max-w-screen-xl py-20 mx-auto px-6">
         {loading ? (
-          <div className="flex flex-col items-center justify-center h-3/4 pt-24">
-            <GridLoader color="#ce193c" loading={loading} size={25} />
-          </div>
+          <Spinner loading={loading} />
         ) : (
           <>
             <div className="flex flex-col items-center justify-center h-3/4 pt-24">

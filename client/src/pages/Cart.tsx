@@ -71,7 +71,6 @@ const Cart: React.FC = () => {
           `Your order has been placed successfully. Order ID: ${order.id}\nDriver: ${delivery.driver.name}\nDriver Phone: ${delivery.driver.email}`,
           "success"
         );
-        navigate(`/delivery-tracking/${order.id}`);
       } else {
         swal(
           "Order Placed",

@@ -89,7 +89,7 @@ const DeliveryTracking: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
         <div className="bg-primary text-white px-6 py-4">
           <h1 className="text-3xl font-bold">Delivery Tracking</h1>
         </div>

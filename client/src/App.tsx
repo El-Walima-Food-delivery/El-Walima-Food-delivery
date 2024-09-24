@@ -9,7 +9,7 @@ import { RootState } from "./redux/store";
 import ContactUs from "./components/ContactUs";
 import Navbar from "./components/Navbar";
 import { useAuth } from "./hooks/useAuth";
-import HomePage from "./pages/HomePage.tsx";
+import HomePage from "./pages/HomePage";
 import OneItemdetail from "./pages/OneItemdetail";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -18,8 +18,9 @@ import { useCart } from "./hooks/useCart";
 import DeliveryTracking from "./pages/DeliveryTracking";
 import DeliveryInterface from "./pages/DeliveryInterface";
 import OrderSuccessfulScreen from "./pages/success";
-import PaymentFailedScreen from "./pages/Error.tsx";
-import ErrorScreen from "./pages/404.tsx";
+import PaymentFailedScreen from "./pages/Error";
+import ErrorScreen from "./pages/404";
+import Spinner from "./components/Spinner";
 
 const ProtectedRoute: React.FC<{
   children: React.ReactNode;
@@ -35,8 +36,14 @@ const ProtectedRoute: React.FC<{
 };
 
 const App = () => {
+  const { status } = useSelector((state: RootState) => state.users);
   useAuth();
   useCart();
+
+  if (status === "loading") {
+    return <Spinner loading={true} />;
+  }
+
   return (
     <Router>
       <Navbar />

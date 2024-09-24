@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MdError } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import GridLoader from "react-spinners/GridLoader";
+import Spinner from "../components/Spinner";
 import paymentFailed from "../assets/undraw_Not_found_re_bh2e.png";
 
 const PaymentFailedScreen = () => {
@@ -19,9 +19,7 @@ const PaymentFailedScreen = () => {
     <main className="h-screen banner">
       <div className="max-w-screen-xl py-20 mx-auto px-6">
         {loading ? (
-          <div className="flex flex-col items-center justify-center h-3/4 pt-24">
-            <GridLoader color="#ce193c" loading={loading} size={25} />
-          </div>
+          <Spinner loading={loading} />
         ) : (
           <div className="flex flex-col items-center justify-center h-3/4 pt-24">
             <h1 className="text-3xl text-center text-red-600 font-semibold poppins flex space-x-6 items-center">
