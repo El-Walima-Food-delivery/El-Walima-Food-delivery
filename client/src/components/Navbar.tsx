@@ -58,6 +58,11 @@ const Navbar: React.FC = () => {
                 Delivery Interface
               </NavLink>
             )}
+            {user.role === "restaurant_owner" && (
+              <NavLink to="/dashboard" className="text-gray-600">
+                Dashboard
+              </NavLink>
+            )}
             <div
               className="relative flex cursor-pointer"
               onClick={() => navigate("/cart")}
@@ -67,11 +72,7 @@ const Navbar: React.FC = () => {
               </span>
               <BsCart2 className="cursor-pointer w-6 h-6 text-gray-700" />
             </div>
-            <img
-              src={user.photoURL}
-              alt={user.name}
-              className="w-10 h-10 rounded-full"
-            />
+
             <p className="text-gray-700 poppins hidden md:block lg:block">
               {user.name}
             </p>

@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import Back from "../pages/back";
 import {
-  clearCartAsync,
   removeFromCartAsync,
   updateQuantityAsync,
 } from "../redux/features/cartSlice";
@@ -64,7 +63,6 @@ const Cart: React.FC = () => {
 
       const { order, delivery } = orderResponse.data;
 
-      await dispatch(clearCartAsync());
       if (delivery) {
         swal(
           "Congratulations!!!",
