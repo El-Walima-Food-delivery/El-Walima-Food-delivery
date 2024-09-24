@@ -104,6 +104,7 @@ const userSlice = createSlice({
         state.status = "loading";
       })
       .addCase(loginUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
         state.user = action.payload.user;
         console.log(
           action.payload,

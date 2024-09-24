@@ -1,47 +1,107 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from "react";
+import Heading from "../Heading";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
-interface DashboardData {
-  totalOrders: number;
-  pendingOrders: number;
-  completedOrders: number;
-  revenue: number;
-}
+const data = [
+  { name: "Jan", revenue: 4000, customers: 2400 },
+  { name: "Feb", revenue: 3000, customers: 1398 },
+  { name: "Mar", revenue: 2000, customers: 9800 },
+  { name: "Apr", revenue: 2780, customers: 3908 },
+  { name: "May", revenue: 1890, customers: 4800 },
+  { name: "Jun", revenue: 2390, customers: 3800 },
+  { name: "Jul", revenue: 3490, customers: 4300 },
+];
 
 const Dashboard1: React.FC = () => {
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    setLoading(true);
-    axios.get<DashboardData>('http://localhost:3000/api/orders/order/dashboard', {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-    })
-      .then(response => {
-        setDashboardData(response.data);
-        setLoading(false);
-      })
-      .catch(error => {
-        setError(error.response?.data?.message || 'An error occurred while fetching dashboard data');
-        setLoading(false);
-        console.error('Error fetching dashboard data:', error);
-      });
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!dashboardData) return <div>No data available</div>;
-
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <p>Total Orders: {dashboardData.totalOrders}</p>
-      <p>Pending Orders: {dashboardData.pendingOrders}</p>
-      <p>Completed Orders: {dashboardData.completedOrders}</p>
-      <p>Total Revenue: ${dashboardData.revenue.toFixed(2)}</p>
+    <div className="flex flex-col gap-6 p-8  min-h-screen mr-10">
+      <Heading text="Dashboard" />
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        <div className="xl:col-span-3">
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-600 to-blue-400 text-white p-6">
+              <h2 className="text-2xl font-semibold">Sales Statistics</h2>
+            </div>
+            <div className="p-6">
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={data}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke="#ff6384"
+                    activeDot={{ r: 8 }}
+                  />
+                  <Line type="monotone" dataKey="customers" stroke="#36a2eb" />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+        <div className="xl:col-span-1">
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-gradient-to-r from-green-600 to-green-400 text-white p-6">
+              <h2 className="text-2xl font-semibold">Performance</h2>
+            </div>
+            <div className="p-6">
+              <p>Performance metrics placeholder</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-6">
+        {[
+          {
+            color: "blue",
+            icon: "↗",
+            title: "Today's Revenue",
+            value: "$15,300",
+          },
+          {
+            color: "green",
+            icon: "👥",
+            title: "Total Customers",
+            value: "1,245",
+          },
+          { color: "red", icon: "🏪", title: "Open Orders", value: "32" },
+          {
+            color: "yellow",
+            icon: "📄",
+            title: "Pending Reviews",
+            value: "15",
+          },
+        ].map((item, index) => (
+          <div
+            key={index}
+            className="bg-white rounded-lg shadow-lg overflow-hidden"
+          >
+            <div
+              className={`bg-gradient-to-r from-${item.color}-600 to-${item.color}-400 p-6 flex justify-center items-center`}
+            >
+              <span className="text-white text-3xl">{item.icon}</span>
+            </div>
+            <div className="p-6">
+              <h4 className="font-medium text-gray-700">{item.title}</h4>
+              <h2 className="text-2xl font-semibold text-gray-700">
+                {item.value}
+              </h2>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

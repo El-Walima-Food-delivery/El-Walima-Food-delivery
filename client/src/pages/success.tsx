@@ -3,8 +3,11 @@ import { MdVerified } from "react-icons/md";
 import { useNavigate, useLocation } from "react-router-dom";
 import GridLoader from "react-spinners/GridLoader";
 import orderSuccessful from "../assets/ordersuccess.png";
-
+import { clearCartAsync } from "../redux/features/cartSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../redux/store";
 const OrderSuccessfulScreen = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -12,6 +15,7 @@ const OrderSuccessfulScreen = () => {
 
   useEffect(() => {
     setLoading(true);
+    dispatch(clearCartAsync());
     setTimeout(() => {
       setLoading(false);
     }, 3000);

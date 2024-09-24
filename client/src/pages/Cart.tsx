@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import Back from "../pages/back";
 import {
-  clearCartAsync,
   removeFromCartAsync,
   updateQuantityAsync,
 } from "../redux/features/cartSlice";
@@ -64,14 +63,12 @@ const Cart: React.FC = () => {
 
       const { order, delivery } = orderResponse.data;
 
-      await dispatch(clearCartAsync());
       if (delivery) {
         swal(
           "Congratulations!!!",
           `Your order has been placed successfully. Order ID: ${order.id}\nDriver: ${delivery.driver.name}\nDriver Phone: ${delivery.driver.email}`,
           "success"
         );
-        navigate(`/delivery-tracking/${order.id}`);
       } else {
         swal(
           "Order Placed",

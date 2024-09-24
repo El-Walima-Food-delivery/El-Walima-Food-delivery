@@ -15,7 +15,7 @@ module.exports = {
           accept_card: "true",
           session_timeout_secs: 1200,
           success_link: `http://localhost:5173/success?orderId=${orderId}`,
-          fail_link: `http://localhost:5173/failure`,
+          fail_link: `http://localhost:5173/failed`,
           developer_tracking_id: developerTrackingId,
         },
         {
