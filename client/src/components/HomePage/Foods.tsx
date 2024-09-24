@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 interface FoodItem {
   id: number;
@@ -59,27 +60,27 @@ const Foods: React.FC = () => {
   };
 
   return (
-    <section className="my-12 max-w-screen-xl mx-auto px-6">
-      <h2 className="text-2xl font-semibold mb-6">Categories</h2>
+    <section className="my-16 max-w-screen-xl mx-auto px-6">
+      <h2 className="text-3xl font-bold mb-8 text-gray-800">
+        Explore Our Menu
+      </h2>
       <div className="relative">
-        {/* Left Arrow */}
         <button
           onClick={() => scroll("left")}
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-100 p-2 rounded-full shadow-md hover:bg-gray-200"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition duration-300"
         >
-          &larr;
+          <FaChevronLeft className="text-gray-600" />
         </button>
 
-        {/* Scrollable Container */}
         <div
           ref={scrollRef}
-          className="flex overflow-x-scroll space-x-6 p-2 scroll-smooth"
+          className="flex overflow-x-scroll space-x-6 p-4 scroll-smooth hide-scrollbar"
         >
           {categories.map((category) => (
             <div
               key={category.id}
               onClick={() => handleCategoryClick(category.id)}
-              className={`bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-102 cursor-pointer min-w-[150px] flex-shrink-0 ${
+              className={`bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer min-w-[180px] flex-shrink-0 ${
                 selectedCategory === category.id ? "ring-2 ring-primary" : ""
               }`}
             >
@@ -88,8 +89,8 @@ const Foods: React.FC = () => {
                 alt={category.name}
                 className="w-full h-32 object-cover"
               />
-              <div className="p-3">
-                <h3 className="text-sm font-semibold text-gray-800 mb-1 truncate">
+              <div className="p-4">
+                <h3 className="text-lg font-semibold text-gray-800 mb-1 truncate">
                   {category.name}
                 </h3>
               </div>
@@ -97,45 +98,43 @@ const Foods: React.FC = () => {
           ))}
         </div>
 
-        {/* Right Arrow */}
         <button
           onClick={() => scroll("right")}
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-100 p-2 rounded-full shadow-md hover:bg-gray-200"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition duration-300"
         >
-          &rarr;
+          <FaChevronRight className="text-gray-600" />
         </button>
       </div>
 
       {selectedCategory && (
-        <>
-          <h2 className="text-2xl font-semibold mb-6">Menu Items</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="mt-16">
+          <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+            Menu Items
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {menuItems.map((item) => (
               <div
-                onClick={() => handleItemClick(item.id)}
                 key={item.id}
-                className="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-102"
+                onClick={() => handleItemClick(item.id)}
+                className="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer"
               >
                 <img
                   src={item.imageUrl}
                   alt={item.name}
-                  className="w-full h-32 object-cover"
+                  className="w-full h-48 object-cover"
                 />
-                <div className="p-3">
-                  <h3 className="text-sm font-semibold text-gray-800 mb-1 truncate">
+                <div className="p-4">
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2 truncate">
                     {item.name}
                   </h3>
-                  <p className="text-sm text-gray-600">
-                    $
-                    {typeof item.price === "number"
-                      ? item.price.toFixed(2)
-                      : "N/A"}
+                  <p className="text-lg font-bold text-primary">
+                    ${item.price.toFixed(2)}
                   </p>
                 </div>
               </div>
             ))}
           </div>
-        </>
+        </div>
       )}
     </section>
   );

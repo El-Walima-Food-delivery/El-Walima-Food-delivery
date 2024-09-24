@@ -55,7 +55,6 @@ module.exports = {
   },
 
   signIn: async (req, res) => {
-    console.log("signIn");
     try {
       const { email, password } = req.body;
       if (!email || !password) {
@@ -84,7 +83,12 @@ module.exports = {
       res.status(200).json({
         message: "User signed in successfully",
         token,
-        user: { id: user.id, email: user.email, role: user.role },
+        user: {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+          photoURL: user.imagesUrl,
+        },
       });
     } catch (error) {
       console.error("Error signing in user:", error);
@@ -106,6 +110,7 @@ module.exports = {
           email: user.email,
           role: user.role,
           location: user.location,
+          photoURL: user.imagesUrl,
         },
       });
     } catch (error) {

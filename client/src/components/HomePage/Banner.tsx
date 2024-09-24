@@ -1,42 +1,57 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import LocationPrompt from "../LocationPrompt";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../redux/store";
 
+import LocationPrompt from "../LocationPrompt";
+import { FaSearch } from "react-icons/fa";
+import { searchProductsAndRestaurants } from "../../redux/features/searchSlice";
 const Banner: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [showSearch, setShowSearch] = useState<boolean>(false);
   const user = useSelector((state: RootState) => state.users.user);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (user && user.location) {
+      setShowSearch(true);
+    }
+  }, [user]);
 
   const handleSearch = () => {
-    console.log("Searching for:", searchTerm);
+    if (searchTerm.trim()) {
+      dispatch(searchProductsAndRestaurants(searchTerm));
+    }
   };
 
   return (
-    <section className="header-banner h-96 w-full bg-yellow-50">
-      <div className="flex flex-col items-center justify-center h-full">
-        <h1 className="text-center text-3xl md:text-4xl lg:text-5xl poppins font-semibold text-gray-700">
-          Best food waiting for your belly
+    <section className="header-banner h-screen w-full bg-cover bg-center flex items-center justify-center">
+      <div className="container mx-auto px-4 text-center">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 shadow-text">
+          Delicious Food, Delivered to You
         </h1>
-
-        <div className="w-96 mt-8">
-          {user && user.location ? (
-            <div className="rounded-full p-1 box-border bg-white overflow-hidden ring-red-300 focus-within:ring-4 w-full flex items-center">
+        <p className="text-xl md:text-2xl text-white mb-8 shadow-text">
+          Discover the best restaurants in your area
+        </p>
+        <div className="max-w-xl mx-auto">
+          {showSearch ? (
+            <div className="bg-white rounded-full p-1 flex items-center">
               <input
                 type="text"
-                className="rounded-full px-4 py-2 focus:outline-none w-full bg-transparent"
-                placeholder="Search here ......."
+                className="flex-grow px-6 py-3 rounded-full focus:outline-none"
+                placeholder="Search for food or restaurants..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyPress={(e) => e.key === "Enter" && handleSearch()}
               />
               <button
-                className="text-sm bg-primary py-2 px-4 rounded-full text-white poppins ring-red-300 focus:ring-4 transition duration-300 hover:scale-105 transform"
+                className="bg-primary text-white p-3 rounded-full hover:bg-primary-dark transition duration-300"
                 onClick={handleSearch}
               >
-                Search
+                <FaSearch className="text-xl" />
               </button>
             </div>
           ) : (
-            <LocationPrompt />
+            <LocationPrompt onLocationSet={() => setShowSearch(true)} />
           )}
         </div>
       </div>

@@ -18,7 +18,7 @@ const Cart: React.FC = () => {
   const navigate = useNavigate();
 
   const totalPrice = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + Number(item.price) * Number(item.quantity),
     0
   );
 
@@ -48,8 +48,9 @@ const Cart: React.FC = () => {
       const paymentResponse = await axios.post(
         "http://localhost:3000/api/payment/generatePayment",
         {
-          amount: totalPrice,
-          developerTrackingId: Math.random(),
+          amount: Math.round(totalPrice),
+          developerTrackingId: `order_${Math.random()}`,
+          orderId: orderResponse.data.order.id,
         },
         {
           headers: {
@@ -67,7 +68,7 @@ const Cart: React.FC = () => {
       if (delivery) {
         swal(
           "Congratulations!!!",
-          `Your order has been placed successfully. Order ID: ${order.id}\nDriver: ${delivery.driver.name}\nDriver Phone: ${delivery.driver.phone}`,
+          `Your order has been placed successfully. Order ID: ${order.id}\nDriver: ${delivery.driver.name}\nDriver Phone: ${delivery.driver.email}`,
           "success"
         );
         navigate(`/delivery-tracking/${order.id}`);
@@ -89,6 +90,7 @@ const Cart: React.FC = () => {
   const tax = parseFloat((totalPrice * 0.05).toFixed(2));
   const deliveryFee = parseFloat((totalPrice * 0.1).toFixed(2));
   const total = parseFloat((subTotal + tax + deliveryFee).toFixed(2));
+  console.log(cartItems);
 
   return (
     <main className="min-h-screen banner">
@@ -122,7 +124,7 @@ const Cart: React.FC = () => {
                           {item.name}
                         </h5>
                         <h1 className="font-semibold text-lg text-primary poppins">
-                          {item.price.toFixed(2)} TND
+                          {Number(item.price).toFixed(2)} TND
                         </h1>
                         <div className="flex items-center">
                           <button
