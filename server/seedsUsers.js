@@ -191,7 +191,7 @@ const seedusers = [
     email: "liam.martinez@example.com",
     password: "hashed_password_14",
     imagesUrl:
-      "https://i.pinimg.com/originals/ca/01/4d/ca014dfc3a8d3b6162d9066c2ab24e2d.jpg",
+      "https://i0.wp.com/www.designlike.com/wp-content/uploads/2018/03/restaurant-1948732_1920.jpg",
     balance: 567.89,
     location: {
       type: "Point",
@@ -205,7 +205,7 @@ const seedusers = [
     email: "mia.nelson@example.com",
     password: "hashed_password_15",
     imagesUrl:
-      "https://th.bing.com/th/id/OIP.64vdVCN6KYVutR1pmeC_PAHaEo?rs=1&pid=ImgDetMain",
+      "https://s3-media0.fl.yelpcdn.com/bphoto/8V8nuyIYxb8yY_hsaXFdpA/348s.jpg",
     balance: 678.9,
     location: {
       type: "Point",
@@ -233,7 +233,7 @@ const seedusers = [
     email: "olivia.parker@example.com",
     password: "hashed_password_17",
     imagesUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Restaurant_Gl%C3%B6ckle_Wirt%2C_M%C3%BCnchen_2019_01.jpg/800px-Restaurant_Gl%C3%B6ckle_Wirt%2C_M%C3%BCnchen_2019_01.jpg",
+      "https://www.dining-out.co.za/ftp/gallery/thumbs/10407--39049.jpg",
     balance: 890.12,
     location: {
       type: "Point",
@@ -247,7 +247,7 @@ const seedusers = [
     email: "paul.quinn@example.com",
     password: "hashed_password_18",
     imagesUrl:
-      "https://www.thefork.fr/news-content/767cdb62-f33a-4961-86fc-1fc2f7d0c464/m_f_depot_le-fork_web_1846x1040_facade_restaurant.jpg",
+      "https://whatsyourgusto.com/wp-content/uploads/2023/07/Group-92.jpg",
     balance: 901.23,
     location: {
       type: "Point",
@@ -261,7 +261,7 @@ const seedusers = [
     email: "quincy.robinson@example.com",
     password: "hashed_password_19",
     imagesUrl:
-      "https://www.le7.info/media/cache/article/uploads/photos/64101bd1e383a.jpeg",
+      "https://www.themds.com/files/global%20brands/global-brands-frye-store-948.jpg",
     balance: 123.45,
     location: {
       type: "Point",
@@ -274,7 +274,8 @@ const seedusers = [
     name: "Rachel Scott",
     email: "rachel.scott@example.com",
     password: "hashed_password_20",
-    imagesUrl: "https://d1hw6n3yxknhky.cloudfront.net/052155535_prevstill.jpeg",
+    imagesUrl:
+      "https://static.wixstatic.com/media/908874_b01c804ba8f742a6a63f2e3b46127b16~mv2.jpg/v1/fill/w_849,h_477,q_90/908874_b01c804ba8f742a6a63f2e3b46127b16~mv2.jpg",
     balance: 234.56,
     location: {
       type: "Point",
@@ -288,7 +289,7 @@ const seedusers = [
     email: "sam.taylor@example.com",
     password: "hashed_password_21",
     imagesUrl:
-      "https://www.thefork.fr/news-content/767cdb62-f33a-4961-86fc-1fc2f7d0c464/m_f_depot_le-fork_web_1846x1040_facade_restaurant.jpg",
+      "https://cdn.australia247.info/assets/uploads/6fc7e2b8df02ccb1ca7d9b9557ac0041_-queensland-moreton-bay-region-redcliffe-the-oasis-cafe-07-3283-1677html.jpg",
     balance: 345.67,
     location: {
       type: "Point",
@@ -302,7 +303,7 @@ const seedusers = [
     email: "tina.underwood@example.com",
     password: "hashed_password_22",
     imagesUrl:
-      "https://www.createursdinterieur.com/static/4fc8ce556e777abdb2ba81b6a1f4d368/4b190/facade-restaurant-renove-architecte.jpg",
+      "https://i.pinimg.com/originals/14/d9/8c/14d98c9abca9667bf51cc571160598d0.jpg",
     balance: 456.78,
     location: {
       type: "Point",
@@ -330,7 +331,7 @@ const seedusers = [
     email: "victor.white@example.com",
     password: "hashed_password_24",
     imagesUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Restaurant_Laubenwirt_in_Eppan.jpg/800px-Restaurant_Laubenwirt_in_Eppan.jpg",
+      "https://cdn.almostlanding-bali.com/wp-content/uploads/2019/12/clay-craft-pottery-class.jpg",
     balance: 678.9,
     location: {
       type: "Point",
@@ -343,7 +344,7 @@ const seedusers = [
     name: "Wendy Xavier",
     email: "wendy.xavier@example.com",
     password: "hashed_password_25",
-    imagesUrl: "https://s6.gifyu.com/images/restaurantfaadepescaderia.jpg",
+    imagesUrl: "https://dbbullseye.com/wp-content/uploads/2022/11/download.jpg",
     balance: 789.01,
     location: {
       type: "Point",
@@ -357,7 +358,7 @@ const seedusers = [
     email: "xander.young@example.com",
     password: "hashed_password_26",
     imagesUrl:
-      "https://media.istockphoto.com/id/682897825/fr/photo/confident-businesswoman-over-gray-background.jpg?s=612x612&w=0&k=20&c=OcDGuIswfOhS21Fwg_uxb6O8MXEQK5IrjMqkguihdAk=",
+      "https://i0.wp.com/www.designlike.com/wp-content/uploads/2018/03/restaurant-1948732_1920.jpg",
     balance: 890.12,
     location: {
       type: "Point",
@@ -371,7 +372,7 @@ const seedusers = [
     email: "yasmine.zeller@example.com",
     password: "hashed_password_27",
     imagesUrl:
-      "https://www.le7.info/media/cache/article/uploads/photos/64101bd1e383a.jpeg",
+      "https://i.pinimg.com/736x/3b/4a/d4/3b4ad4374c3d1dd626abdc29cd5c4077--room-photo-tasting-room.jpg",
     balance: 901.23,
     location: {
       type: "Point",
@@ -385,7 +386,7 @@ const seedusers = [
     email: "zachary.allen@example.com",
     password: "hashed_password_28",
     imagesUrl:
-      "https://media.istockphoto.com/id/1386479313/fr/photo/heureuse-femme-daffaires-afro-am%C3%A9ricaine-mill%C3%A9naire-posant-isol%C3%A9e-sur-du-blanc.jpg?s=612x612&w=0&k=20&c=CS0xj40eNCorQyzN1ImeMKlvPDocPHSaMsXethQ-Q_g=",
+      "https://cdn.squaremeal.co.uk/article/8681/images/best-outdoor-restaurants-in-london-darbys_21032022120733.jpg",
     balance: 123.45,
     location: {
       type: "Point",
@@ -399,7 +400,7 @@ const seedusers = [
     email: "zachary.allekkkn@example.com",
     password: "hashed_password_28",
     imagesUrl:
-      "https://media.istockphoto.com/id/1386479313/fr/photo/heureuse-femme-daffaires-afro-am%C3%A9ricaine-mill%C3%A9naire-posant-isol%C3%A9e-sur-du-blanc.jpg?s=612x612&w=0&k=20&c=CS0xj40eNCorQyzN1ImeMKlvPDocPHSaMsXethQ-Q_g=",
+      "https://www.westsiderag.com/wp-content/uploads/2018/11/atlas1.jpeg",
     balance: 123.45,
     location: {
       type: "Point",
